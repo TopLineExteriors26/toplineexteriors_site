@@ -13,7 +13,7 @@ type ReviewCarouselProps = {
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <div className="h-full rounded-card border border-line bg-paper p-8 shadow-card">
+    <div className="h-full rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-8">
       <div className="mb-3.5 font-head text-lg font-bold text-accent">
         {review.stars}
       </div>

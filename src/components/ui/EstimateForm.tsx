@@ -65,7 +65,7 @@ export function EstimateForm({
     "w-full rounded-input border border-line bg-paper px-4 py-3.5 font-body text-sm text-text placeholder:text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
 
   return (
-    <div className="rounded-card border border-line p-6 shadow-card sm:p-10">
+    <div className="rounded-card border border-line border-l-[3px] border-l-accent p-6 sm:p-10">
       {showServiceChips && (
         <>
           <div className="mb-3 font-body text-[13px] font-semibold text-muted">

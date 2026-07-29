@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;-webkit-font-smoothing:antialiased}
+* {box-sizing:border-box}
+@keyframes tl-shine{0%{transform:translateX(-140%) skewX(-12deg);}100%{transform:translateX(260%) skewX(-12deg);}}
+@keyframes tl-growline{from{width:0;}to{width:100%;}}
+</style>
+</helmet>
+
+<div style="{{ rootStyle }}">
+
+  <!-- NAVBAR -->
+  <div style="position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line);">
+    <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;">
+      <div style="display:flex;align-items:baseline;gap:9px;">
+        <span style="font:700 24px var(--headFont);letter-spacing:.01em;color:var(--text);text-transform:uppercase;">TopLine</span>
+        <span style="font:600 12px var(--bodyFont);letter-spacing:.2em;color:var(--accent);text-transform:uppercase;">Exteriors</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:22px;">
+        <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="6">
+          <a href="{{ link.href }}" style="font:600 14px var(--bodyFont);letter-spacing:.01em;color:var(--text);text-decoration:none;white-space:nowrap;">{{ link.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;flex:none;">
+        <a href="tel:{{ phoneDigits }}" style="font:700 15px var(--bodyFont);color:var(--text);text-decoration:none;white-space:nowrap;">{{ phone }}</a>
+        <a href="#estimate" style="background:var(--accent);color:#fff;font:700 13px var(--bodyFont);letter-spacing:.02em;padding:11px 20px;text-decoration:none;white-space:nowrap;border-radius:var(--pill);">Free Estimate</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="background:var(--paper);">
+    <div style="max-width:1240px;margin:0 auto;padding:64px 32px 0;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;">
+      <div>
+        <div style="font:700 13px var(--bodyFont);letter-spacing:.12em;color:var(--accent);margin-bottom:18px;">BUCKS COUNTY, PA · SOUTH JERSEY · GREATER PHILADELPHIA</div>
+        <h1 style="font:700 52px/1.12 var(--headFont);letter-spacing:.005em;margin:0 0 22px;color:var(--text);">Roofing, Decks &amp; Siding trusted by homeowners across Bucks County.</h1>
+        <p style="font:400 18px/1.6 var(--bodyFont);color:var(--muted);margin:0 0 34px;max-width:500px;">Licensed, insured, and on the job year-round. Roof replacements, custom decks, and siding installed by our own crews — no subcontractors, no surprises on the invoice.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <a href="#estimate" style="background:var(--accent);color:#fff;font:700 15px var(--bodyFont);padding:16px 28px;text-decoration:none;border-radius:var(--pill);box-shadow:0 10px 22px rgba(226,102,27,.28);">Get a Free Roof Estimate</a>
+          <a href="#projects" style="background:transparent;color:var(--text);border:1px solid var(--line);font:700 15px var(--bodyFont);padding:16px 28px;text-decoration:none;border-radius:var(--pill);">View Our Work</a>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <div style="width:100%;aspect-ratio:4/3;background:var(--paper2);border:1px solid var(--line);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);">
+          <span style="font:600 13px/1.4 ui-monospace,monospace;color:var(--muted);text-align:center;padding:0 24px;">hero photo — finished roof + home exterior</span>
+        </div>
+        <div style="position:absolute;left:-20px;bottom:-20px;background:#fff;color:var(--text);padding:18px 22px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);border-radius:var(--radius);border:1px solid var(--line);">
+          <div style="font:700 28px var(--headFont);color:var(--accent);">4.9★</div>
+          <div style="font:500 13px/1.3 var(--bodyFont);color:var(--muted);">180+ Google<br/>Reviews</div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:0 auto;padding:56px 32px 64px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        <sc-for list="{{ trustBadges }}" as="tb" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:16px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--accent);flex:none;display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 10.5 L8 14.5 L16 5.5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div style="font:700 16px var(--headFont);color:var(--text);">{{ tb.value }}</div>
+              <div style="font:500 12px var(--bodyFont);color:var(--muted);">{{ tb.label }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY TOPLINE -->
+  <div style="max-width:1240px;margin:0 auto;padding:96px 32px;">
+    <div style="text-align:center;max-width:640px;margin:0 auto 48px;">
+      <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:10px;">WHY TOPLINE EXTERIORS</div>
+      <div style="font:700 32px/1.3 var(--headFont);color:var(--text);">Licensed &amp; insured across PA and NJ, with 15+ years building and protecting homes in this region.</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+      <sc-for list="{{ whyItems }}" as="w" hint-placeholder-count="4">
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow);text-align:center;">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);margin:0 auto 18px;display:flex;align-items:center;justify-content:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:var(--accent);"></div>
+          </div>
+          <div style="font:700 16px var(--bodyFont);margin-bottom:8px;color:var(--text);">{{ w.title }}</div>
+          <div style="font:400 13px/1.6 var(--bodyFont);color:var(--muted);">{{ w.desc }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div id="services" style="max-width:1240px;margin:0 auto;padding:0 32px 96px;">
+    <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;">OUR SERVICES</div>
+    <div style="font:700 34px var(--headFont);text-transform:uppercase;margin-bottom:44px;max-width:640px;">Three trades. One crew you can trust with all of them.</div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="3">
+        <div style="border:1px solid var(--line);display:flex;flex-direction:column;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);">
+          <div style="height:4px;background:var(--accent);"></div>
+          <div style="aspect-ratio:16/10;background:repeating-linear-gradient(135deg, rgba(0,0,0,.05) 0 10px, rgba(0,0,0,.02) 10px 20px);display:flex;align-items:center;justify-content:center;">
+            <span style="font:500 11px ui-monospace,monospace;color:var(--muted);">{{ s.imgLabel }}</span>
+          </div>
+          <div style="padding:28px;flex:1;display:flex;flex-direction:column;">
+            <div style="font:700 13px var(--bodyFont);color:var(--accent);margin-bottom:6px;">{{ s.num }}</div>
+            <div style="font:700 22px var(--headFont);text-transform:uppercase;margin-bottom:10px;">{{ s.title }}</div>
+            <div style="font:400 14px/1.6 var(--bodyFont);color:var(--muted);margin-bottom:16px;">{{ s.desc }}</div>
+            <sc-for list="{{ s.bullets }}" as="b" hint-placeholder-count="3">
+              <div style="font:500 13px var(--bodyFont);color:var(--text);padding:6px 0;border-top:1px solid var(--line);">— {{ b }}</div>
+            </sc-for>
+            <a href="{{ s.href }}" style="margin-top:20px;font:700 13px var(--bodyFont);color:var(--accent);text-decoration:none;">Explore {{ s.title }} →</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div style="background:var(--altBg);padding:96px 0;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;">HOW IT WORKS</div>
+      <div style="font:700 34px var(--headFont);text-transform:uppercase;margin-bottom:56px;">From estimate to warranty, in four steps.</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+        <sc-for list="{{ processSteps }}" as="p" hint-placeholder-count="4">
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow);">
+            <div style="font:700 13px var(--bodyFont);color:var(--accent);margin-bottom:10px;">{{ p.num }}</div>
+            <div style="font:700 18px var(--bodyFont);margin-bottom:8px;color:var(--text);">{{ p.title }}</div>
+            <div style="font:400 14px/1.6 var(--bodyFont);color:var(--muted);">{{ p.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div style="background:var(--ink);color:#fff;">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;">
+      <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+        <div>
+          <div style="font:700 40px var(--headFont);color:var(--accent);">{{ st.value }}</div>
+          <div style="font:500 13px var(--bodyFont);color:rgba(255,255,255,.65);margin-top:6px;">{{ st.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- RECENT PROJECTS -->
+  <div id="projects" style="max-width:1240px;margin:0 auto;padding:96px 32px;">
+    <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;">RECENT PROJECTS</div>
+    <div style="font:700 34px var(--headFont);text-transform:uppercase;margin-bottom:44px;">A few from around the region.</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:160px;gap:12px;">
+      <sc-for list="{{ projects }}" as="pr" hint-placeholder-count="6">
+        <div style="grid-column:span {{ pr.colSpan }};grid-row:span {{ pr.rowSpan }};background:repeating-linear-gradient(135deg, rgba(0,0,0,.06) 0 10px, rgba(0,0,0,.02) 10px 20px);border:1px solid var(--line);display:flex;align-items:flex-end;padding:14px;border-radius:var(--radius);">
+          <span style="font:500 11px ui-monospace,monospace;color:var(--muted);background:var(--paper);padding:4px 8px;border-radius:calc(var(--radius) / 2);">{{ pr.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div style="background:var(--altBg);padding:96px 0;overflow:hidden;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;">WHAT HOMEOWNERS SAY</div>
+      <div style="font:700 34px var(--headFont);text-transform:uppercase;margin-bottom:44px;">Placeholder reviews — swap in real ones before launch.</div>
+      <div style="position:relative;">
+        <div style="overflow:hidden;">
+          <div style="{{ reviewTrackStyle }}">
+            <sc-for list="{{ reviews }}" as="rv" hint-placeholder-count="3">
+              <div style="width:33.333%;flex:none;padding:0 14px;box-sizing:border-box;">
+                <div style="background:var(--paper);border:1px solid var(--line);padding:32px;height:100%;border-radius:var(--radius);box-shadow:var(--shadow);">
+                  <div style="font:700 18px var(--headFont);color:var(--accent);margin-bottom:14px;">{{ rv.stars }}</div>
+                  <div style="font:400 15px/1.6 var(--bodyFont);color:var(--text);margin-bottom:20px;">&ldquo;{{ rv.text }}&rdquo;</div>
+                  <div style="font:700 14px var(--bodyFont);">{{ rv.name }}</div>
+                  <div style="font:500 13px var(--bodyFont);color:var(--muted);">{{ rv.meta }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <button onclick="{{ onReviewPrev }}" style="position:absolute;top:50%;left:-22px;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--text);font:700 16px var(--bodyFont);cursor:pointer;box-shadow:0 8px 20px rgba(27,42,69,.1);">‹</button>
+        <button onclick="{{ onReviewNext }}" style="position:absolute;top:50%;right:-22px;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--text);font:700 16px var(--bodyFont);cursor:pointer;box-shadow:0 8px 20px rgba(27,42,69,.1);">›</button>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:28px;">
+        <sc-for list="{{ reviewDots }}" as="d" hint-placeholder-count="3">
+          <button onclick="{{ d.onClick }}" style="{{ d.style }}"></button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICE AREA -->
+  <div style="max-width:1240px;margin:0 auto;padding:96px 32px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+    <div>
+      <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;">SERVICE AREA</div>
+      <div style="font:700 34px var(--headFont);text-transform:uppercase;margin-bottom:20px;">Proudly serving Bucks County &amp; the greater region.</div>
+      <p style="font:400 15px/1.7 var(--bodyFont);color:var(--muted);margin-bottom:26px;max-width:440px;">From Levittown out through Bucks County, into Philadelphia, and across the river into South Jersey — if it's on this list, we're already working nearby.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <sc-for list="{{ cities }}" as="c" hint-placeholder-count="10">
+          <div style="font:600 13px var(--bodyFont);border:1px solid var(--line);padding:8px 16px;color:var(--text);border-radius:var(--pill);">{{ c }}</div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="aspect-ratio:4/3;background:repeating-linear-gradient(135deg, rgba(0,0,0,.05) 0 12px, rgba(0,0,0,.02) 12px 24px);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;border-radius:var(--radius);">
+      <span style="font:500 12px ui-monospace,monospace;color:var(--muted);">service-area map</span>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div style="background:var(--altBg);padding:96px 0;">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;text-align:center;">FAQ</div>
+      <div style="font:700 34px var(--headFont);text-transform:uppercase;margin-bottom:48px;text-align:center;">Questions homeowners ask us.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+          <div style="grid-column:{{ f.span }};background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;">
+            <div onclick="{{ f.onToggle }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 24px;cursor:pointer;">
+              <span style="font:700 16px var(--bodyFont);color:var(--text);">{{ f.q }}</span>
+              <span style="{{ f.iconStyle }}">{{ f.icon }}</span>
+            </div>
+            <sc-if value="{{ f.isOpen }}">
+              <div style="padding:0 24px 24px;font:400 14px/1.7 var(--bodyFont);color:var(--muted);border-top:1px solid var(--line);padding-top:18px;">{{ f.a }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTIMATE FORM -->
+  <div id="estimate" style="max-width:900px;margin:0 auto;padding:96px 32px;">
+    <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;text-align:center;">GET STARTED</div>
+    <div style="font:700 34px var(--headFont);text-transform:uppercase;margin-bottom:36px;text-align:center;">Request your free estimate.</div>
+    <div style="border:1px solid var(--line);padding:40px;border-radius:var(--radius);box-shadow:var(--shadow);">
+      <div style="font:600 13px var(--bodyFont);color:var(--muted);margin-bottom:12px;">WHICH SERVICE DO YOU NEED?</div>
+      <div style="display:flex;gap:10px;margin-bottom:28px;">
+        <sc-for list="{{ serviceChips }}" as="chip" hint-placeholder-count="3">
+          <button onclick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+        <input placeholder="Full name" style="font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:calc(var(--radius) / 2);" />
+        <input placeholder="Phone number" style="font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:calc(var(--radius) / 2);" />
+        <input placeholder="Email address" style="font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:calc(var(--radius) / 2);" />
+        <input placeholder="Property address" style="font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:calc(var(--radius) / 2);" />
+      </div>
+      <textarea placeholder="Tell us about your project…" rows="4" style="width:100%;font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);margin-bottom:22px;resize:vertical;border-radius:calc(var(--radius) / 2);"></textarea>
+      <button style="width:100%;background:var(--accent);color:#fff;font:700 15px var(--bodyFont);padding:18px;border:none;cursor:pointer;border-radius:var(--pill);">Request My Free Estimate</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:var(--ink);color:#fff;">
+    <div style="max-width:1240px;margin:0 auto;padding:72px 32px 32px;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;">
+      <div>
+        <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:18px;">
+          <span style="font:700 24px var(--headFont);letter-spacing:.01em;color:#fff;text-transform:uppercase;">TopLine</span>
+          <span style="font:600 12px var(--bodyFont);letter-spacing:.2em;color:var(--accent);text-transform:uppercase;">Exteriors</span>
+        </div>
+        <div style="font:400 14px/1.8 var(--bodyFont);color:rgba(255,255,255,.65);">
+          {{ phone }}<br/>
+          {{ email }}<br/>
+          Serving Bucks County, PA &amp; South Jersey
+        </div>
+      </div>
+      <div>
+        <div style="font:700 13px var(--bodyFont);letter-spacing:.06em;margin-bottom:16px;color:rgba(255,255,255,.9);">SERVICES</div>
+        <sc-for list="{{ footerServices }}" as="fs" hint-placeholder-count="3">
+          <div style="font:400 14px var(--bodyFont);color:rgba(255,255,255,.65);padding:6px 0;">{{ fs }}</div>
+        </sc-for>
+      </div>
+      <div>
+        <div style="font:700 13px var(--bodyFont);letter-spacing:.06em;margin-bottom:16px;color:rgba(255,255,255,.9);">SERVICE AREA</div>
+        <sc-for list="{{ footerCities }}" as="fc" hint-placeholder-count="5">
+          <div style="font:400 14px var(--bodyFont);color:rgba(255,255,255,.65);padding:6px 0;">{{ fc }}</div>
+        </sc-for>
+      </div>
+      <div>
+        <div style="font:700 13px var(--bodyFont);letter-spacing:.06em;margin-bottom:16px;color:rgba(255,255,255,.9);">COMPANY</div>
+        <div style="font:400 14px var(--bodyFont);color:rgba(255,255,255,.65);padding:6px 0;">About</div>
+        <div style="font:400 14px var(--bodyFont);color:rgba(255,255,255,.65);padding:6px 0;">Contact</div>
+        <div style="font:400 14px var(--bodyFont);color:rgba(255,255,255,.65);padding:6px 0;">Privacy Policy</div>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:0 auto;padding:24px 32px;border-top:1px solid rgba(255,255,255,.14);font:400 12px var(--bodyFont);color:rgba(255,255,255,.45);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <span>© 2026 TopLine Exteriors LLC. PA HIC #PA000000 (placeholder). Licensed &amp; insured.</span>
+      <span>Draft — Stage 1</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440}}">
+const PALETTE = {
+  ink: '#1B2A45', text: '#1B2A45', accent: '#E2661B', paper: '#FFFFFF', paper2: '#F7F4EF',
+  altBg: 'linear-gradient(180deg, rgba(226,102,27,.07), rgba(226,102,27,.03))',
+  line: 'rgba(27,42,69,.13)', muted: 'rgba(27,42,69,.6)',
+  headFont: "'Barlow Condensed', sans-serif", bodyFont: "'Barlow', sans-serif",
+  radius: '14px', pill: '999px', shadow: '0 10px 28px rgba(27,42,69,.09)'
+};
+
+class Component extends DCLogic {
+  state = {
+    activeFaq: 0,
+    activeReview: 0,
+    activeService: 'roofing'
+  };
+
+  renderVals() {
+    const p = PALETTE;
+
+    const rootStyle = {
+      '--ink': p.ink, '--accent': p.accent, '--paper': p.paper, '--paper2': p.paper2,
+      '--line': p.line, '--muted': p.muted, '--headFont': p.headFont, '--bodyFont': p.bodyFont,
+      '--radius': p.radius, '--pill': p.pill, '--shadow': p.shadow, '--text': p.text, '--altBg': p.altBg,
+      background: p.paper, color: p.text, fontFamily: p.bodyFont, minHeight: '100vh'
+    };
+
+    const navLinks = [
+      { label: 'Home', href: '#' },
+      { label: 'Roofing', href: 'TopLine Roofing Hub.dc.html' },
+      { label: 'Decks', href: '#services' },
+      { label: 'Siding', href: '#services' },
+      { label: 'About', href: '#' },
+      { label: 'Contact', href: '#estimate' }
+    ];
+
+    const whyItems = [
+      { title: 'Licensed & Insured', desc: 'Fully licensed and insured in Pennsylvania and New Jersey — verified before any crew steps on your property.' },
+      { title: 'Workmanship Warranty', desc: 'Every install is backed by our own workmanship warranty, on top of manufacturer coverage.' },
+      { title: 'Trusted Brand Materials', desc: 'GAF and CertainTeed roofing systems, James Hardie fiber-cement siding.' },
+      { title: 'Honest, Fixed-Price Estimates', desc: 'One clear quote before work starts — no change orders, no surprise line items.' }
+    ];
+
+    const services = [
+      { num: '01', title: 'Roofing', href: 'TopLine Roofing Hub.dc.html', imgLabel: 'roof replacement — in progress', desc: 'Roof replacement, repair, and inspections built around real Pennsylvania winters.', bullets: ['GAF & CertainTeed certified systems', 'Storm damage & insurance claims', 'Lifetime workmanship warranty'] },
+      { num: '02', title: 'Decks', href: '#', imgLabel: 'composite deck build', desc: 'Composite and wood decks designed to hold up outdoors, all season.', bullets: ['Custom design & permits handled', 'Composite, railing & lighting', 'Staining, sealing & repair'] },
+      { num: '03', title: 'Siding', href: '#', imgLabel: 'fiber-cement siding install', desc: 'Vinyl, insulated, and fiber-cement siding that locks out weather for good.', bullets: ['James Hardie fiber-cement', 'Seamless gutters & trim', 'Full tear-off & repair'] }
+    ];
+
+    const processSteps = [
+      { num: '01', title: 'Free Estimate', desc: 'A walkthrough and a written quote, usually within 48 hours.' },
+      { num: '02', title: 'Design & Permits', desc: 'Materials selected, permits pulled — we handle the paperwork.' },
+      { num: '03', title: 'Installation', desc: 'Our own crew on-site start to finish. No subcontractors.' },
+      { num: '04', title: 'Walkthrough & Warranty', desc: 'Final inspection with you, then your warranty paperwork.' }
+    ];
+
+    const stats = [
+      { value: '15+', label: 'Years serving the region' },
+      { value: '500+', label: 'Roofs, decks & siding jobs' },
+      { value: '4.9★', label: 'Average client rating' },
+      { value: '10+', label: 'Communities served' }
+    ];
+
+    const projects = [
+      { label: 'Roof replacement — Yardley, PA', colSpan: 2, rowSpan: 2 },
+      { label: 'Composite deck — Newtown, PA', colSpan: 2, rowSpan: 1 },
+      { label: 'Siding replacement — Cherry Hill, NJ', colSpan: 2, rowSpan: 1 },
+      { label: 'Storm damage repair — Bristol, PA', colSpan: 1, rowSpan: 1 },
+      { label: 'Deck staining — Levittown, PA', colSpan: 1, rowSpan: 1 },
+      { label: 'Fiber-cement siding — Doylestown, PA', colSpan: 2, rowSpan: 1 }
+    ];
+
+    const reviewsData = [
+      { name: 'Mike R.', meta: 'Roof Replacement — Levittown, PA', stars: '★★★★★', text: "Crew showed up on time, replaced our roof in a day and a half, and cleaned up every nail. Exactly what they quoted, no surprises." },
+      { name: 'Dana T.', meta: 'Deck Build — Newtown, PA', stars: '★★★★★', text: "They handled the permit paperwork and built a composite deck that's held up through two winters without a single issue." },
+      { name: 'Carlos M.', meta: 'Siding Replacement — Cherry Hill, NJ', stars: '★★★★★', text: "Our old vinyl was falling apart. TopLine tore it off and put up James Hardie siding — the house looks brand new." }
+    ];
+    const reviewTrackStyle = {
+      display: 'flex', transform: `translateX(-${this.state.activeReview * 33.333}%)`,
+      transition: 'transform .4s ease', margin: '0 -14px'
+    };
+    const onReviewPrev = () => this.setState(s => ({ activeReview: (s.activeReview + reviewsData.length - 1) % reviewsData.length }));
+    const onReviewNext = () => this.setState(s => ({ activeReview: (s.activeReview + 1) % reviewsData.length }));
+    const reviewDots = reviewsData.map((_, i) => ({
+      onClick: () => this.setState({ activeReview: i }),
+      style: {
+        width: '9px', height: '9px', borderRadius: '50%', border: 'none', padding: 0, cursor: 'pointer',
+        background: i === this.state.activeReview ? p.accent : p.line
+      }
+    }));
+
+    const cities = ['Levittown, PA', 'Bristol, PA', 'Newtown, PA', 'Yardley, PA', 'Doylestown, PA', 'Langhorne, PA', 'Philadelphia, PA', 'Cherry Hill, NJ', 'Trenton, NJ', 'Camden, NJ'];
+
+    const faqData = [
+      { q: 'Do you handle permits and insurance claims?', a: 'Yes — we pull all required permits ourselves and can work directly with your insurance adjuster on storm-damage roof claims from inspection through final sign-off.' },
+      { q: 'What brands of materials do you install?', a: 'GAF and CertainTeed for roofing systems, and James Hardie for fiber-cement siding. All are manufacturer-certified installs, which keeps their warranties intact.' },
+      { q: 'How long does a typical roof replacement take?', a: 'Most single-family roof replacements are completed in one to three days, weather permitting, with cleanup the same day.' },
+      { q: 'Do you offer financing?', a: 'We offer financing options for larger projects — ask about current plans when you request your estimate.' },
+      { q: 'What areas do you serve?', a: 'Bucks County and the greater Philadelphia area, plus South Jersey communities including Cherry Hill, Trenton, and Camden.' }
+    ];
+    const faqs = faqData.map((f, i) => {
+      const isOpen = this.state.activeFaq === i;
+      return {
+        ...f,
+        isOpen,
+        icon: isOpen ? '–' : '+',
+        span: i === faqData.length - 1 && faqData.length % 2 === 1 ? '1 / -1' : 'auto',
+        iconStyle: {
+          width: '28px', height: '28px', borderRadius: '50%', flex: 'none',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          font: `700 15px ${p.bodyFont}`,
+          background: isOpen ? p.accent : 'transparent',
+          color: isOpen ? '#fff' : p.accent,
+          border: isOpen ? 'none' : `1.5px solid ${p.accent}`
+        },
+        onToggle: () => this.setState({ activeFaq: isOpen ? -1 : i })
+      };
+    });
+
+    const serviceOptions = [
+      { key: 'roofing', label: 'Roofing' },
+      { key: 'decks', label: 'Decks' },
+      { key: 'siding', label: 'Siding' }
+    ];
+    const serviceChips = serviceOptions.map(o => ({
+      label: o.label,
+      onClick: () => this.setState({ activeService: o.key }),
+      style: {
+        font: '600 13px ' + p.bodyFont, padding: '10px 20px', cursor: 'pointer', borderRadius: p.pill,
+        border: `1px solid ${this.state.activeService === o.key ? p.accent : p.line}`,
+        background: this.state.activeService === o.key ? p.accent : 'transparent',
+        color: this.state.activeService === o.key ? '#fff' : p.text
+      }
+    }));
+
+    const trustBadges = [
+      { value: '4.9★ / 180+ Reviews', label: 'Average Google rating' },
+      { value: '15+ Years', label: 'Serving Bucks County & South Jersey' },
+      { value: 'Licensed & Insured', label: 'PA & NJ compliant, every job' }
+    ];
+
+    return {
+      rootStyle, trustBadges,
+      navLinks, phone: '(267) 555-0198', phoneDigits: '2675550198',
+      email: 'info@toplineexteriorsllc.com',
+      whyItems, services, processSteps, stats, projects,
+      reviews: reviewsData, reviewTrackStyle, reviewDots, onReviewPrev, onReviewNext,
+      cities, faqs, serviceChips,
+      footerServices: ['Roofing', 'Decks', 'Siding'],
+      footerCities: cities.slice(0, 5)
+    };
+  }
+}
+</script>
+</body>
+</html>

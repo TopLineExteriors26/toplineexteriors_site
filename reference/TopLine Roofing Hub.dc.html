@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;-webkit-font-smoothing:antialiased}
+* {box-sizing:border-box}
+@keyframes tl-shine{0%{transform:translateX(-140%) skewX(-12deg);}100%{transform:translateX(260%) skewX(-12deg);}}
+@keyframes tl-growline{from{width:0;}to{width:100%;}}
+</style>
+</helmet>
+
+<div style="{{ rootStyle }}">
+
+  <!-- NAVBAR -->
+  <div style="position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line);">
+    <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;">
+      <a href="TopLine Landing.dc.html" style="display:flex;align-items:baseline;gap:9px;text-decoration:none;">
+        <span style="font:700 24px var(--headFont);letter-spacing:.01em;color:var(--text);text-transform:uppercase;">TopLine</span>
+        <span style="font:600 12px var(--bodyFont);letter-spacing:.2em;color:var(--accent);text-transform:uppercase;">Exteriors</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:22px;">
+        <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="6">
+          <a href="{{ link.href }}" style="font:600 14px var(--bodyFont);letter-spacing:.01em;color:{{ link.color }};text-decoration:none;white-space:nowrap;">{{ link.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;flex:none;">
+        <a href="tel:{{ phoneDigits }}" style="font:700 15px var(--bodyFont);color:var(--text);text-decoration:none;white-space:nowrap;">{{ phone }}</a>
+        <a href="#estimate" style="background:var(--accent);color:#fff;font:700 13px var(--bodyFont);letter-spacing:.02em;padding:11px 20px;text-decoration:none;white-space:nowrap;border-radius:var(--pill);">Free Estimate</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div style="max-width:1240px;margin:0 auto;padding:16px 32px 0;">
+    <div style="font:500 13px var(--bodyFont);color:var(--muted);">
+      <a href="TopLine Landing.dc.html" style="color:var(--muted);text-decoration:none;">Home</a> / <span style="color:var(--text);">Roofing</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="max-width:1240px;margin:0 auto;padding:44px 32px 88px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;">
+    <div>
+      <div style="font:700 13px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:18px;">ROOFING</div>
+      <h1 style="font:700 52px/1.08 var(--headFont);letter-spacing:.01em;margin:0 0 20px;color:var(--text);">Roofs built to outlast the seasons in Bucks County &amp; South Jersey.</h1>
+      <p style="font:400 17px/1.6 var(--bodyFont);color:var(--muted);margin:0 0 30px;max-width:500px;">GAF and CertainTeed certified replacement, repair, and storm response — installed by our own crews, backed by a lifetime workmanship warranty.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <a href="#estimate" style="background:var(--accent);color:#fff;font:700 15px var(--bodyFont);padding:16px 28px;text-decoration:none;border-radius:var(--pill);box-shadow:0 10px 22px rgba(226,102,27,.28);">Get a Free Roof Estimate</a>
+        <a href="#subservices" style="background:transparent;color:var(--text);border:1px solid var(--line);font:700 15px var(--bodyFont);padding:16px 28px;text-decoration:none;border-radius:var(--pill);">See Roofing Services</a>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div style="width:100%;aspect-ratio:4/3;background:repeating-linear-gradient(135deg, rgba(0,0,0,.05) 0 12px, rgba(0,0,0,.02) 12px 24px);border:1px solid var(--line);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);">
+        <span style="font:600 13px/1.4 ui-monospace,monospace;color:var(--muted);text-align:center;padding:0 24px;">hero photo — finished roof replacement</span>
+      </div>
+      <div style="position:absolute;left:-20px;bottom:-20px;background:#fff;color:var(--text);padding:18px 22px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);border-radius:var(--radius);border:1px solid var(--line);">
+        <div style="font:700 28px var(--headFont);color:var(--accent);">4.9★</div>
+        <div style="font:500 13px/1.3 var(--bodyFont);color:var(--muted);">180+ Google<br/>Reviews</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <div style="max-width:1240px;margin:0 auto;padding:0 32px 96px;">
+    <div style="text-align:center;max-width:640px;margin:0 auto 48px;">
+      <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:10px;">WHY TOPLINE FOR ROOFING</div>
+      <div style="font:700 32px/1.3 var(--headFont);color:var(--text);">Certified installs, our own crews, and a warranty that covers the labor too.</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+      <sc-for list="{{ whyItems }}" as="w" hint-placeholder-count="4">
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow);text-align:center;">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);margin:0 auto 18px;display:flex;align-items:center;justify-content:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:var(--accent);"></div>
+          </div>
+          <div style="font:700 16px var(--bodyFont);margin-bottom:8px;color:var(--text);">{{ w.title }}</div>
+          <div style="font:400 13px/1.6 var(--bodyFont);color:var(--muted);">{{ w.desc }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- SUB-SERVICES -->
+  <div id="subservices" style="max-width:1240px;margin:0 auto;padding:0 32px 96px;">
+    <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;">ROOFING SERVICES</div>
+    <div style="font:700 32px var(--headFont);text-transform:uppercase;margin-bottom:44px;max-width:680px;color:var(--text);">Every roofing job we take on, done by one crew.</div>
+
+    <div style="display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;">
+      <sc-for list="{{ subServices }}" as="sub" hint-placeholder-count="7">
+        <div style="background:var(--paper);padding:24px 28px;display:flex;align-items:center;gap:24px;">
+          <div style="font:700 32px var(--headFont);color:var(--accent);opacity:.3;flex:none;width:60px;">{{ sub.num }}</div>
+          <div style="flex:1;">
+            <div style="font:700 17px var(--headFont);text-transform:uppercase;margin-bottom:6px;color:var(--text);">{{ sub.title }}</div>
+            <div style="font:400 14px/1.5 var(--bodyFont);color:var(--muted);">{{ sub.desc }}</div>
+          </div>
+          <a href="#" style="font:700 13px var(--bodyFont);color:var(--accent);text-decoration:none;white-space:nowrap;">Learn more →</a>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div style="background:var(--altBg);padding:88px 0;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+      <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;">HOW IT WORKS</div>
+      <div style="font:700 32px var(--headFont);text-transform:uppercase;margin-bottom:52px;color:var(--text);">From estimate to warranty, in four steps.</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+        <sc-for list="{{ processSteps }}" as="p" hint-placeholder-count="4">
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow);">
+            <div style="font:700 13px var(--bodyFont);color:var(--accent);margin-bottom:10px;">{{ p.num }}</div>
+            <div style="font:700 18px var(--bodyFont);margin-bottom:8px;color:var(--text);">{{ p.title }}</div>
+            <div style="font:400 14px/1.6 var(--bodyFont);color:var(--muted);">{{ p.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div style="background:var(--ink);color:#fff;">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;">
+      <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+        <div>
+          <div style="font:700 40px var(--headFont);color:var(--accent);">{{ st.value }}</div>
+          <div style="font:500 13px var(--bodyFont);color:rgba(255,255,255,.65);margin-top:6px;">{{ st.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div style="background:var(--paper);padding:96px 0;">
+  <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+    <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;">WHAT HOMEOWNERS SAY</div>
+    <div style="font:700 34px var(--headFont);text-transform:uppercase;margin-bottom:44px;">Roofing reviews — placeholder, swap before launch.</div>
+    <div style="position:relative;">
+      <div style="overflow:hidden;">
+        <div style="{{ reviewTrackStyle }}">
+          <sc-for list="{{ reviewPages }}" as="page" hint-placeholder-count="2">
+            <div style="width:100%;flex:none;box-sizing:border-box;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+              <sc-for list="{{ page }}" as="rv" hint-placeholder-count="3">
+                <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);">
+                  <div style="font:700 16px var(--headFont);color:var(--accent);margin-bottom:12px;">{{ rv.stars }}</div>
+                  <div style="font:400 14px/1.6 var(--bodyFont);color:var(--text);margin-bottom:18px;">&ldquo;{{ rv.text }}&rdquo;</div>
+                  <div style="font:700 13px var(--bodyFont);color:var(--text);">{{ rv.name }}</div>
+                  <div style="font:500 12px var(--bodyFont);color:var(--muted);">{{ rv.meta }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <button onclick="{{ onReviewPrev }}" style="position:absolute;top:50%;left:-22px;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--text);font:700 16px var(--bodyFont);cursor:pointer;box-shadow:0 8px 20px rgba(27,42,69,.1);">‹</button>
+      <button onclick="{{ onReviewNext }}" style="position:absolute;top:50%;right:-22px;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--text);font:700 16px var(--bodyFont);cursor:pointer;box-shadow:0 8px 20px rgba(27,42,69,.1);">›</button>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:28px;">
+      <sc-for list="{{ reviewDots }}" as="d" hint-placeholder-count="2">
+        <button onclick="{{ d.onClick }}" style="{{ d.style }}"></button>
+      </sc-for>
+    </div>
+  </div>
+  </div>
+
+  <!-- FAQ -->
+  <div style="background:var(--altBg);padding:88px 0;">
+    <div style="max-width:1000px;margin:0 auto;padding:0 32px;">
+      <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;text-align:center;">ROOFING FAQ</div>
+      <div style="font:700 32px var(--headFont);text-transform:uppercase;margin-bottom:48px;text-align:center;color:var(--text);">Questions we hear most.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+          <div style="grid-column:{{ f.span }};background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;">
+            <div onclick="{{ f.onToggle }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 24px;cursor:pointer;">
+              <span style="font:700 16px var(--bodyFont);color:var(--text);">{{ f.q }}</span>
+              <span style="{{ f.iconStyle }}">{{ f.icon }}</span>
+            </div>
+            <sc-if value="{{ f.isOpen }}">
+              <div style="padding:0 24px 24px;font:400 14px/1.7 var(--bodyFont);color:var(--muted);border-top:1px solid var(--line);padding-top:18px;">{{ f.a }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTIMATE FORM -->
+  <div id="estimate" style="max-width:800px;margin:0 auto;padding:88px 32px;">
+    <div style="font:700 12px var(--bodyFont);letter-spacing:.14em;color:var(--accent);margin-bottom:12px;text-align:center;">GET STARTED</div>
+    <div style="font:700 32px var(--headFont);text-transform:uppercase;margin-bottom:32px;text-align:center;color:var(--text);">Request your free roofing estimate.</div>
+    <div style="border:1px solid var(--line);padding:40px;border-radius:var(--radius);box-shadow:var(--shadow);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <input placeholder="Full name" style="font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:calc(var(--radius) / 2);" />
+        <input placeholder="Phone number" style="font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:calc(var(--radius) / 2);" />
+        <input placeholder="Email address" style="font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:calc(var(--radius) / 2);" />
+        <input placeholder="Property address" style="font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);border-radius:calc(var(--radius) / 2);" />
+      </div>
+      <textarea placeholder="Describe the roofing issue or project…" rows="4" style="width:100%;font:400 14px var(--bodyFont);padding:14px 16px;border:1px solid var(--line);background:var(--paper);color:var(--text);margin-bottom:20px;resize:vertical;border-radius:calc(var(--radius) / 2);"></textarea>
+      <button style="width:100%;background:var(--accent);color:#fff;font:700 15px var(--bodyFont);padding:18px;border:none;cursor:pointer;border-radius:var(--pill);">Request My Free Roof Estimate</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:var(--ink);color:#fff;">
+    <div style="max-width:1240px;margin:0 auto;padding:64px 32px 28px;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;">
+      <div>
+        <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:18px;">
+          <span style="font:700 24px var(--headFont);letter-spacing:.01em;color:#fff;text-transform:uppercase;">TopLine</span>
+          <span style="font:600 12px var(--bodyFont);letter-spacing:.2em;color:var(--accent);text-transform:uppercase;">Exteriors</span>
+        </div>
+        <div style="font:400 14px/1.8 var(--bodyFont);color:rgba(255,255,255,.65);">
+          {{ phone }}<br/>
+          {{ email }}<br/>
+          Serving Bucks County, PA &amp; South Jersey
+        </div>
+      </div>
+      <div>
+        <div style="font:700 13px var(--bodyFont);letter-spacing:.06em;margin-bottom:14px;color:rgba(255,255,255,.9);">ROOFING SERVICES</div>
+        <sc-for list="{{ subServices }}" as="fs" hint-placeholder-count="7">
+          <div style="font:400 13px var(--bodyFont);color:rgba(255,255,255,.6);padding:4px 0;">{{ fs.title }}</div>
+        </sc-for>
+      </div>
+      <div>
+        <div style="font:700 13px var(--bodyFont);letter-spacing:.06em;margin-bottom:14px;color:rgba(255,255,255,.9);">COMPANY</div>
+        <a href="TopLine Landing.dc.html" style="display:block;font:400 14px var(--bodyFont);color:rgba(255,255,255,.65);padding:5px 0;text-decoration:none;">Home</a>
+        <div style="font:400 14px var(--bodyFont);color:rgba(255,255,255,.65);padding:5px 0;">About</div>
+        <div style="font:400 14px var(--bodyFont);color:rgba(255,255,255,.65);padding:5px 0;">Contact</div>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:0 auto;padding:24px 32px;border-top:1px solid rgba(255,255,255,.14);font:400 12px var(--bodyFont);color:rgba(255,255,255,.45);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <span>© 2026 TopLine Exteriors LLC. PA HIC #PA000000 (placeholder). Licensed &amp; insured.</span>
+      <span>Draft — Stage 1</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440}}">
+const PALETTE = {
+  ink: '#1B2A45', text: '#1B2A45', accent: '#E2661B', paper: '#FFFFFF', paper2: '#F7F4EF',
+  altBg: 'linear-gradient(180deg, rgba(226,102,27,.07), rgba(226,102,27,.03))',
+  line: 'rgba(27,42,69,.13)', muted: 'rgba(27,42,69,.6)',
+  headFont: "'Barlow Condensed', sans-serif", bodyFont: "'Barlow', sans-serif",
+  monoBodyFont: "'Barlow', sans-serif", radius: '14px', pill: '999px', shadow: '0 10px 28px rgba(27,42,69,.09)'
+};
+
+class Component extends DCLogic {
+  state = { activeFaq: 0, activeReview: 0 };
+
+  componentDidMount() {
+    this._reviewTimer = setInterval(() => {
+      this.setState(s => ({ activeReview: (s.activeReview + 1) % 2 }));
+    }, 6000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._reviewTimer);
+  }
+
+  renderVals() {
+    const p = PALETTE;
+
+    const rootStyle = {
+      '--ink': p.ink, '--text': p.text, '--accent': p.accent, '--paper': p.paper, '--paper2': p.paper2,
+      '--line': p.line, '--muted': p.muted, '--headFont': p.headFont, '--bodyFont': p.bodyFont,
+      '--monoBodyFont': p.monoBodyFont, '--radius': p.radius, '--pill': p.pill, '--altBg': p.altBg, '--shadow': p.shadow,
+      background: p.paper, color: p.text, fontFamily: p.bodyFont, minHeight: '100vh'
+    };
+
+    const navLinks = [
+      { label: 'Home', href: 'TopLine Landing.dc.html', color: p.muted },
+      { label: 'Roofing', href: '#', color: p.accent },
+      { label: 'Decks', href: 'TopLine Landing.dc.html#services', color: p.muted },
+      { label: 'Siding', href: 'TopLine Landing.dc.html#services', color: p.muted },
+      { label: 'About', href: 'TopLine Landing.dc.html', color: p.muted },
+      { label: 'Contact', href: '#estimate', color: p.muted }
+    ];
+
+    const whyItems = [
+      { title: 'Licensed & Insured', desc: 'Fully licensed and insured across PA and NJ.' },
+      { title: 'GAF & CertainTeed Certified', desc: 'Manufacturer-certified installs that keep warranties intact.' },
+      { title: 'Lifetime Workmanship Warranty', desc: 'Our own crews, backed by a warranty on the labor itself.' },
+      { title: 'Storm & Insurance Claims', desc: 'We work directly with your adjuster from inspection to sign-off.' }
+    ];
+
+    const subServicesRaw = [
+      { title: 'Roof Replacement', desc: 'Full tear-off and replacement with GAF or CertainTeed systems, built for PA & NJ winters.' },
+      { title: 'Roof Repair', desc: 'Leaks, flashing, and damaged shingles fixed fast, with a clear written scope.' },
+      { title: 'Asphalt Shingle Roofing', desc: 'GAF and CertainTeed shingle systems, installed to manufacturer spec.' },
+      { title: 'Metal Roofing', desc: 'Standing-seam and metal shingle roofing for long-term durability.' },
+      { title: 'Flat / Low-Slope Roofing', desc: 'Membrane roofing systems for additions, porches, and low-slope sections.' },
+      { title: 'Roof Inspections & Storm Damage', desc: 'Full inspection reports and insurance-ready storm damage documentation.' },
+      { title: 'Gutters & Gutter Guards', desc: 'Seamless gutters and guards installed alongside your roofing project.' }
+    ];
+    const subServices = subServicesRaw.map((s, i) => ({ ...s, num: String(i + 1).padStart(2, '0') }));
+
+    const processSteps = [
+      { num: '01', title: 'Free Estimate', desc: 'A walkthrough and a written quote, usually within 48 hours.' },
+      { num: '02', title: 'Design & Permits', desc: 'Materials selected, permits pulled — we handle the paperwork.' },
+      { num: '03', title: 'Installation', desc: 'Our own crew on-site start to finish. No subcontractors.' },
+      { num: '04', title: 'Walkthrough & Warranty', desc: 'Final inspection with you, then your warranty paperwork.' }
+    ];
+
+    const stats = [
+      { value: '15+', label: 'Years serving the region' },
+      { value: '500+', label: 'Roofs completed' },
+      { value: '4.9★', label: 'Average client rating' },
+      { value: '10+', label: 'Communities served' }
+    ];
+
+    const reviewsData = [
+      { name: 'Mike R.', meta: 'Roof Replacement — Levittown, PA', stars: '★★★★★', text: "Crew showed up on time, replaced our roof in a day and a half, and cleaned up every nail. Exactly what they quoted, no surprises." },
+      { name: 'Sandra K.', meta: 'Storm Damage — Bristol, PA', stars: '★★★★★', text: "Hail damage claim handled start to finish — they dealt with the adjuster directly and the new roof looks great." },
+      { name: 'Tom P.', meta: 'Roof Repair — Doylestown, PA', stars: '★★★★★', text: "Found and fixed a leak two other companies missed. Fair price, clear explanation of what was actually wrong." },
+      { name: 'Karen W.', meta: 'Roof Replacement — Trenton, NJ', stars: '★★★★★', text: "On budget and ahead of schedule. They walked us through every material choice before ordering anything." },
+      { name: 'Rob D.', meta: 'Gutter Install — Newtown, PA', stars: '★★★★★', text: "Added gutter guards after our roof job — seamless coordination, one crew, one invoice." },
+      { name: 'Lisa M.', meta: 'Storm Damage — Cherry Hill, NJ', stars: '★★★★★', text: "Insurance claim was a breeze once TopLine got involved. Roof looks better than before the storm." }
+    ];
+    const reviewPages = [reviewsData.slice(0, 3), reviewsData.slice(3, 6)];
+    const reviewTrackStyle = {
+      display: 'flex', transform: `translateX(-${this.state.activeReview * 100}%)`,
+      transition: 'transform .5s cubic-bezier(.65,0,.35,1)'
+    };
+    const onReviewPrev = () => this.setState(s => ({ activeReview: (s.activeReview + 1) % 2 }));
+    const onReviewNext = () => this.setState(s => ({ activeReview: (s.activeReview + 1) % 2 }));
+    const reviewDots = reviewPages.map((_, i) => ({
+      onClick: () => this.setState({ activeReview: i }),
+      style: {
+        width: '9px', height: '9px', borderRadius: '50%', border: 'none', padding: 0, cursor: 'pointer',
+        background: i === this.state.activeReview ? p.accent : p.line
+      }
+    }));
+
+    const faqData = [
+      { q: 'Do you handle permits and insurance claims?', a: 'Yes — we pull all required permits ourselves and can work directly with your insurance adjuster on storm-damage roof claims from inspection through final sign-off.' },
+      { q: 'What brands of materials do you install?', a: 'GAF and CertainTeed for roofing systems. Both are manufacturer-certified installs, which keeps their warranties intact.' },
+      { q: 'How long does a typical roof replacement take?', a: 'Most single-family roof replacements are completed in one to three days, weather permitting, with cleanup the same day.' },
+      { q: 'Do you offer financing?', a: 'We offer financing options for larger roofing projects — ask about current plans when you request your estimate.' },
+      { q: 'What areas do you serve?', a: 'Bucks County and the greater Philadelphia area, plus South Jersey communities including Cherry Hill, Trenton, and Camden.' }
+    ];
+    const faqs = faqData.map((f, i) => {
+      const isOpen = this.state.activeFaq === i;
+      return {
+        ...f,
+        isOpen,
+        icon: isOpen ? '–' : '+',
+        span: i === faqData.length - 1 && faqData.length % 2 === 1 ? '1 / -1' : 'auto',
+        iconStyle: {
+          width: '28px', height: '28px', borderRadius: '50%', flex: 'none',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          font: `700 15px ${p.bodyFont}`,
+          background: isOpen ? p.accent : 'transparent',
+          color: isOpen ? '#fff' : p.accent,
+          border: isOpen ? 'none' : `1.5px solid ${p.accent}`
+        },
+        onToggle: () => this.setState({ activeFaq: isOpen ? -1 : i })
+      };
+    });
+
+    return {
+      rootStyle,
+      navLinks, phone: '(267) 555-0198', phoneDigits: '2675550198',
+      email: 'info@toplineexteriorsllc.com',
+      whyItems, subServices, processSteps, stats, reviewPages, reviewTrackStyle, reviewDots, onReviewPrev, onReviewNext, faqs
+    };
+  }
+}
+</script>
+</body>
+</html>

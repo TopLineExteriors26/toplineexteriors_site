@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #1b2a45;
+  --color-text: #1b2a45;
+  --color-accent: #e2661b;
+  --color-paper: #ffffff;
+  --color-paper-2: #f7f4ef;
+  --color-line: rgba(27, 42, 69, 0.13);
+  --color-muted: rgba(27, 42, 69, 0.6);
+
+  --radius-card: 14px;
+  --radius-input: 7px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 10px 28px rgba(27, 42, 69, 0.09);
+  --shadow-cta: 0 10px 22px rgba(226, 102, 27, 0.28);
+  --shadow-arrow: 0 8px 20px rgba(27, 42, 69, 0.1);
+}
+
+@theme inline {
+  --font-head: var(--font-barlow-condensed);
+  --font-body: var(--font-barlow);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: page-fade-out 150ms ease-in both;
+  }
+
+  ::view-transition-new(root) {
+    animation: page-fade-in 220ms ease-out 60ms both;
+  }
+}
+
+@keyframes page-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.bg-alt {
+  background: linear-gradient(
+    180deg,
+    rgba(226, 102, 27, 0.07),
+    rgba(226, 102, 27, 0.03)
+  );
+}

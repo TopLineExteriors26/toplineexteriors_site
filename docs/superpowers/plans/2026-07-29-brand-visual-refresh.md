@@ -506,6 +506,213 @@ git commit -m "Apply accent-rule and card treatment to home page sections"
 
 ---
 
+### Task 4.5: Card treatment — `ReviewCarousel`, `FaqAccordion`, `EstimateForm`
+
+**Files:**
+- Modify: `src/components/ui/ReviewCarousel.tsx`
+- Modify: `src/components/ui/FaqAccordion.tsx`
+- Modify: `src/components/ui/EstimateForm.tsx`
+
+**Interfaces:**
+- Consumes: `--radius-card` (now `6px` from Task 1), `--color-accent` token (unchanged).
+- Produces: nothing new consumed by other tasks — these are leaf/mid-level components rendered on both the home page and every hub page. This task was discovered during Task 5's verification pass: the original codebase audit for the design spec missed these three files, which also used `shadow-card` and were not covered by Tasks 2-4.
+
+- [ ] **Step 1: Update `ReviewCarousel.tsx`**
+
+Inside the `ReviewCard` function, change the outer `<div>`'s className from:
+```
+"h-full rounded-card border border-line bg-paper p-8 shadow-card"
+```
+to:
+```
+"h-full rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-8"
+```
+
+Leave every other line in the file — the carousel slide/pagination logic, the prev/next buttons (which use `shadow-arrow`, not `shadow-card` — do not touch those), the dot pagination — completely unchanged.
+
+- [ ] **Step 2: Update `FaqAccordion.tsx`**
+
+The card className is built with the `cn()` helper:
+```tsx
+            className={cn(
+              "overflow-hidden rounded-card border border-line bg-paper shadow-card",
+              isLastOdd && "md:col-span-2"
+            )}
+```
+
+Change the first string argument from:
+```
+"overflow-hidden rounded-card border border-line bg-paper shadow-card"
+```
+to:
+```
+"overflow-hidden rounded-card border border-line border-l-[3px] border-l-accent bg-paper"
+```
+
+Leave the `isLastOdd && "md:col-span-2"` conditional and everything else in the file (accordion open/close state, button markup, panel rendering) unchanged.
+
+- [ ] **Step 3: Update `EstimateForm.tsx`**
+
+Change the outer `<div>`'s className from:
+```
+"rounded-card border border-line p-6 shadow-card sm:p-10"
+```
+to:
+```
+"rounded-card border border-line border-l-[3px] border-l-accent p-6 sm:p-10"
+```
+
+Leave every other line in the file (form fields, validation, service chips, submit button) unchanged.
+
+- [ ] **Step 4: Type-check**
+
+Run: `cd c:\main\Projects\TopLineExteriors && npx tsc --noEmit`
+Expected: no errors.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/components/ui/ReviewCarousel.tsx src/components/ui/FaqAccordion.tsx src/components/ui/EstimateForm.tsx
+git commit -m "Apply accent-border card treatment to ReviewCarousel, FaqAccordion, EstimateForm"
+```
+
+---
+
+### Task 4.6: Card treatment + accent-rule — service detail and project case-study pages
+
+**Files:**
+- Modify: `src/app/roofing/[service]/page.tsx`
+- Modify: `src/app/projects/[slug]/page.tsx`
+
+**Interfaces:**
+- Consumes: `.section-heading-rule` / `.section-heading-rule.is-centered` (Task 1), the same card-treatment pattern already applied elsewhere (Tasks 2-4.5).
+- Produces: nothing new consumed by other tasks — these are the last two route templates in the app that still had the old `shadow-card` treatment and un-accented section headings.
+
+This task exists because the final whole-branch review found that the original codebase audit (which also missed the three files fixed in Task 4.5) additionally missed these two live, statically-generated route templates — `/roofing/roof-replacement` and `/projects/storm-damage-repair-bristol-pa` are both real pages, both linked from other already-updated pages, and both use the exact same card/heading patterns already converted elsewhere. Leaving them meant `--radius-card`'s global 6px change gave their cards sharp corners while they kept the old soft shadow — a visibly half-migrated hybrid, worse than before the refresh started.
+
+- [ ] **Step 1: `src/app/roofing/[service]/page.tsx` — accent-rule under all 7 section headings**
+
+For each heading below, remove its own bottom-margin Tailwind class and add a `<span className="section-heading-rule ..." aria-hidden="true" />` immediately after the closing `</h2>`, carrying that same margin value — the same pattern used in Tasks 3 and 4.
+
+**`intro-heading`** (around line 121-126): current className `"mb-6 font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-6`, becomes `"font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule mb-6" aria-hidden="true" />
+```
+
+**`signs-heading`** (around line 145-150): current className `"mb-8 font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-8`, becomes `"font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule mb-8" aria-hidden="true" />
+```
+
+**`process-heading`** (around line 178-183): current className `"mb-11 font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-11`, becomes `"font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
+```
+
+**`materials-heading`** (around line 213-218): current className `"mb-11 font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-11`, becomes `"font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
+```
+
+**`faq-heading`** (around line 245-250): this one is `text-center`. Current className `"mb-12 text-center font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-12`, becomes `"text-center font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule is-centered mb-12" aria-hidden="true" />
+```
+
+**`related-heading`** (around line 263-268): current className `"mb-11 font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-11`, becomes `"font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
+```
+
+**`estimate-heading`** (around line 306-311): this one is `text-center`. Current className `"mb-8 text-center font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-8`, becomes `"text-center font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule is-centered mb-8" aria-hidden="true" />
+```
+
+- [ ] **Step 2: `src/app/roofing/[service]/page.tsx` — card treatment on 4 card blocks**
+
+**Signs-you-need-this list items** (around line 151-165), find:
+```tsx
+                <li
+                  key={sign}
+                  className="flex gap-3 rounded-card border border-line bg-paper p-5 font-body text-sm leading-[1.6] text-text shadow-card"
+                >
+```
+Change the className from `"flex gap-3 rounded-card border border-line bg-paper p-5 font-body text-sm leading-[1.6] text-text shadow-card"` to `"flex gap-3 rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-5 font-body text-sm leading-[1.6] text-text"`.
+
+**Process-step cards** (around line 184-200), find:
+```tsx
+                <div
+                  key={step.num}
+                  className="rounded-card border border-line bg-paper p-6 shadow-card"
+                >
+```
+Change the className from `"rounded-card border border-line bg-paper p-6 shadow-card"` to `"rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6"` — identical to the process-step treatment already applied in `HubPage.tsx` and `page.tsx`.
+
+**Materials cards** (around line 219-233), find:
+```tsx
+                <div
+                  key={material.title}
+                  className="rounded-card border border-line bg-paper p-7 shadow-card"
+                >
+```
+Change the className from `"rounded-card border border-line bg-paper p-7 shadow-card"` to `"rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-7"`.
+
+**Related-services link cards** (around line 270-289), find:
+```tsx
+                <Link
+                  key={related.title}
+                  href={`${service.hubHref}#subservices`}
+                  className="rounded-card border border-line bg-paper p-7 no-underline shadow-card transition-[filter] duration-150 ease-out hover:brightness-95"
+                >
+```
+Change the className from `"rounded-card border border-line bg-paper p-7 no-underline shadow-card transition-[filter] duration-150 ease-out hover:brightness-95"` to `"rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-7 no-underline transition-[filter] duration-150 ease-out hover:brightness-95"`.
+
+- [ ] **Step 3: `src/app/projects/[slug]/page.tsx` — accent-rule under visible section headings only**
+
+This page has 5 total `<h2>` elements, but two (`facts-heading`, `review-heading`) are `className="sr-only"` — visually hidden, accessibility-only headings with no visible heading text on the page at all. Do NOT add an accent-rule span to either of those two — the motif is a visual decoration under a visible heading; adding it to an `sr-only` heading would either be invisible (harmless but pointless) or, worse, accidentally become visible if the `sr-only` utility ever changes, which is not a risk worth taking for a purely decorative element. Only the 3 visible headings get the treatment:
+
+**`story-heading`** (around line 127-132): current className `"mb-6 font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-6`, becomes `"font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule mb-6" aria-hidden="true" />
+```
+
+**`gallery-heading`** (around line 151-156): current className `"mb-11 font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-11`, becomes `"font-head text-[32px] font-bold uppercase text-text"`. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
+```
+
+**`cta-heading`** (around line 204-209): this one is inside a `text-center` Container/Reveal block (the whole CTA section is centered via `Container className="py-24 text-center"`, not a `text-center` class on the h2 itself). Current h2 className `"mb-4 font-head text-[32px] font-bold uppercase text-text"`. Remove `mb-4`, becomes `"font-head text-[32px] font-bold uppercase text-text"`. Since the containing block is already centered, use the centered span variant. Add after `</h2>`:
+```tsx
+            <span className="section-heading-rule is-centered mb-4" aria-hidden="true" />
+```
+
+Leave `facts-heading` and `review-heading` (the two `sr-only` ones) completely untouched — no span, no className change.
+
+- [ ] **Step 4: `src/app/projects/[slug]/page.tsx` — card treatment on the client review card**
+
+Around line 178, find:
+```tsx
+            <div className="rounded-card border border-line bg-paper p-10 text-center shadow-card">
+```
+Change the className from `"rounded-card border border-line bg-paper p-10 text-center shadow-card"` to `"rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-10 text-center"`.
+
+Note: this page's `dl` element at line 107 (`"grid grid-cols-1 gap-5 rounded-card border border-line bg-paper-2 p-8 sm:grid-cols-2 lg:grid-cols-5"`, the project-facts stat block) does NOT use `shadow-card` and is not a card in the WhyCard/process-step sense — it's a stat/definition-list block on a tinted background. Do not modify it.
+
+- [ ] **Step 5: Type-check**
+
+Run: `cd c:\main\Projects\TopLineExteriors && npx tsc --noEmit`
+Expected: no errors.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add "src/app/roofing/[service]/page.tsx" "src/app/projects/[slug]/page.tsx"
+git commit -m "Apply accent-rule and card treatment to service detail and project case-study pages"
+```
+
+---
+
 ### Task 5: Full-site visual verification
 
 **Files:** none modified — verification only.

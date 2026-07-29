@@ -25,7 +25,7 @@ export function FaqAccordion({ faqs }: FaqAccordionProps) {
           <div
             key={faq.q}
             className={cn(
-              "overflow-hidden rounded-card border border-line bg-paper shadow-card",
+              "overflow-hidden rounded-card border border-line border-l-[3px] border-l-accent bg-paper",
               isLastOdd && "md:col-span-2"
             )}
           >

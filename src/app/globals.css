@@ -9,8 +9,8 @@
   --color-line: rgba(27, 42, 69, 0.13);
   --color-muted: rgba(27, 42, 69, 0.6);
 
-  --radius-card: 14px;
-  --radius-input: 7px;
+  --radius-card: 6px;
+  --radius-input: 6px;
   --radius-pill: 999px;
 
   --shadow-card: 0 10px 28px rgba(27, 42, 69, 0.09);
@@ -56,9 +56,20 @@ body {
 }
 
 .bg-alt {
-  background: linear-gradient(
-    180deg,
-    rgba(226, 102, 27, 0.07),
-    rgba(226, 102, 27, 0.03)
-  );
+  background: var(--color-paper-2);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.section-heading-rule {
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-top: 14px;
+  background: var(--color-accent);
+}
+
+.section-heading-rule.is-centered {
+  margin-left: auto;
+  margin-right: auto;
 }

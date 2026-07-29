@@ -115,6 +115,7 @@ export default function Home() {
                   Licensed &amp; insured across PA and NJ, with 15+ years
                   building and protecting homes in this region.
                 </h2>
+                <span className="section-heading-rule is-centered" aria-hidden="true" />
               </div>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {HOME_WHY_ITEMS.map((item) => (
@@ -138,15 +139,16 @@ export default function Home() {
             </p>
             <h2
               id="services-heading"
-              className="mb-11 max-w-[640px] font-head text-[34px] font-bold uppercase text-text"
+              className="max-w-[640px] font-head text-[34px] font-bold uppercase text-text"
             >
               Three trades. One crew you can trust with all of them.
             </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
             <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-3">
               {SERVICES.map((service) => (
                 <div
                   key={service.title}
-                  className="flex flex-col overflow-hidden rounded-card border border-line shadow-card"
+                  className="flex flex-col overflow-hidden rounded-card border border-line"
                 >
                   <div className="h-1 bg-accent" />
                   <PlaceholderImage
@@ -196,15 +198,16 @@ export default function Home() {
             </p>
             <h2
               id="process-heading"
-              className="mb-14 font-head text-[34px] font-bold uppercase text-text"
+              className="font-head text-[34px] font-bold uppercase text-text"
             >
               From estimate to warranty, in four steps.
             </h2>
+            <span className="section-heading-rule mb-14" aria-hidden="true" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {PROCESS_STEPS.map((step) => (
                 <div
                   key={step.num}
-                  className="rounded-card border border-line bg-paper p-6 shadow-card"
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6"
                 >
                   <p className="mb-2.5 font-body text-[13px] font-bold text-accent">
                     {step.num}
@@ -246,10 +249,11 @@ export default function Home() {
             </p>
             <h2
               id="projects-heading"
-              className="mb-11 font-head text-[34px] font-bold uppercase text-text"
+              className="font-head text-[34px] font-bold uppercase text-text"
             >
               A few from around the region.
             </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
             <div className="grid grid-cols-2 gap-3 [grid-auto-rows:160px] md:grid-cols-4">
               {PROJECTS.map((project) =>
                 project.slug ? (
@@ -298,10 +302,11 @@ export default function Home() {
             </p>
             <h2
               id="reviews-heading"
-              className="mb-11 font-head text-[34px] font-bold uppercase text-text"
+              className="font-head text-[34px] font-bold uppercase text-text"
             >
               Placeholder reviews — swap in real ones before launch.
             </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
             <ReviewCarousel reviews={HOME_REVIEWS} mode="slide" />
             </Reveal>
           </Container>
@@ -317,10 +322,11 @@ export default function Home() {
               </p>
               <h2
                 id="service-area-heading"
-                className="mb-5 font-head text-[34px] font-bold uppercase text-text"
+                className="font-head text-[34px] font-bold uppercase text-text"
               >
                 Proudly serving Bucks County &amp; the greater region.
               </h2>
+              <span className="section-heading-rule mb-5" aria-hidden="true" />
               <p className="mb-6 max-w-[440px] font-body text-[15px] leading-[1.7] text-muted">
                 From Levittown out through Bucks County, into Philadelphia,
                 and across the river into South Jersey — if it&rsquo;s on
@@ -351,10 +357,11 @@ export default function Home() {
             </p>
             <h2
               id="faq-heading"
-              className="mb-12 text-center font-head text-[34px] font-bold uppercase text-text"
+              className="text-center font-head text-[34px] font-bold uppercase text-text"
             >
               Questions homeowners ask us.
             </h2>
+            <span className="section-heading-rule is-centered mb-12" aria-hidden="true" />
             <FaqAccordion faqs={HOME_FAQS} />
             </Reveal>
           </Container>
@@ -369,10 +376,11 @@ export default function Home() {
             </p>
             <h2
               id="estimate-heading"
-              className="mb-9 text-center font-head text-[34px] font-bold uppercase text-text"
+              className="text-center font-head text-[34px] font-bold uppercase text-text"
             >
               Request your free estimate.
             </h2>
+            <span className="section-heading-rule is-centered mb-9" aria-hidden="true" />
             <EstimateForm showServiceChips />
             </Reveal>
           </Container>

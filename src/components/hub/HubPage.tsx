@@ -114,6 +114,7 @@ export function HubPage({ config }: { config: HubPageConfig }) {
                 >
                   {config.why.heading}
                 </h2>
+                <span className="section-heading-rule is-centered" aria-hidden="true" />
               </div>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {config.why.items.map((item) => (
@@ -137,10 +138,11 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               </p>
               <h2
                 id="subservices-heading"
-                className="mb-11 max-w-[680px] font-head text-[32px] font-bold uppercase text-text"
+                className="max-w-[680px] font-head text-[32px] font-bold uppercase text-text"
               >
                 {config.subServices.heading}
               </h2>
+              <span className="section-heading-rule mb-11" aria-hidden="true" />
               <div className="flex flex-col gap-px overflow-hidden rounded-card border border-line bg-line">
                 {config.subServices.items.map((sub) => (
                   <div
@@ -180,10 +182,11 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               </p>
               <h2
                 id="gallery-heading"
-                className="mb-11 max-w-[680px] font-head text-[32px] font-bold uppercase text-text"
+                className="max-w-[680px] font-head text-[32px] font-bold uppercase text-text"
               >
                 {config.gallery.heading}
               </h2>
+              <span className="section-heading-rule mb-11" aria-hidden="true" />
               <GalleryCarousel images={config.gallery.images} />
             </Reveal>
           </Container>
@@ -198,15 +201,16 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               </p>
               <h2
                 id="process-heading"
-                className="mb-11 font-head text-[32px] font-bold uppercase text-text"
+                className="font-head text-[32px] font-bold uppercase text-text"
               >
                 From estimate to warranty, in four steps.
               </h2>
+              <span className="section-heading-rule mb-11" aria-hidden="true" />
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {PROCESS_STEPS.map((step) => (
                   <div
                     key={step.num}
-                    className="rounded-card border border-line bg-paper p-6 shadow-card"
+                    className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6"
                   >
                     <p className="mb-2.5 font-body text-[13px] font-bold text-accent">
                       {step.num}
@@ -244,10 +248,11 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               </p>
               <h2
                 id="reviews-heading"
-                className="mb-11 font-head text-[32px] font-bold uppercase text-text"
+                className="font-head text-[32px] font-bold uppercase text-text"
               >
                 {config.reviews.heading}
               </h2>
+              <span className="section-heading-rule mb-11" aria-hidden="true" />
               <ReviewCarousel
                 reviews={config.reviews.items}
                 mode="paginate"
@@ -266,10 +271,11 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               </p>
               <h2
                 id="faq-heading"
-                className="mb-12 text-center font-head text-[32px] font-bold uppercase text-text"
+                className="text-center font-head text-[32px] font-bold uppercase text-text"
               >
                 Questions we hear most.
               </h2>
+              <span className="section-heading-rule is-centered mb-12" aria-hidden="true" />
               <FaqAccordion faqs={config.faqs.items} />
             </Reveal>
           </Container>
@@ -288,10 +294,11 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               </p>
               <h2
                 id="estimate-heading"
-                className="mb-8 text-center font-head text-[32px] font-bold uppercase text-text"
+                className="text-center font-head text-[32px] font-bold uppercase text-text"
               >
                 {config.estimate.heading}
               </h2>
+              <span className="section-heading-rule is-centered mb-8" aria-hidden="true" />
               <EstimateForm
                 projectPlaceholder={config.estimate.projectPlaceholder}
                 submitLabel={config.estimate.submitLabel}

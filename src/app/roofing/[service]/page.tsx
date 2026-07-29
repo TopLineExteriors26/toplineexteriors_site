@@ -120,10 +120,11 @@ export default async function RoofingServiceDetailPage({
             <Reveal>
             <h2
               id="intro-heading"
-              className="mb-6 font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text"
             >
               What is a {service.title.toLowerCase()}?
             </h2>
+            <span className="section-heading-rule mb-6" aria-hidden="true" />
             <div className="max-w-[70ch]">
               {service.introParagraphs.map((paragraph, i) => (
                 <p
@@ -144,15 +145,16 @@ export default async function RoofingServiceDetailPage({
             <Reveal>
             <h2
               id="signs-heading"
-              className="mb-8 font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text"
             >
               Signs you may need a {service.title.toLowerCase()}
             </h2>
+            <span className="section-heading-rule mb-8" aria-hidden="true" />
             <ul className="grid grid-cols-1 gap-4 p-0 sm:grid-cols-2">
               {service.signsList.map((sign) => (
                 <li
                   key={sign}
-                  className="flex gap-3 rounded-card border border-line bg-paper p-5 font-body text-sm leading-[1.6] text-text shadow-card"
+                  className="flex gap-3 rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-5 font-body text-sm leading-[1.6] text-text"
                 >
                   <span
                     aria-hidden="true"
@@ -177,15 +179,16 @@ export default async function RoofingServiceDetailPage({
             </p>
             <h2
               id="process-heading"
-              className="mb-11 font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text"
             >
               Our {service.title.toLowerCase()} process.
             </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {service.processSteps.map((step) => (
                 <div
                   key={step.num}
-                  className="rounded-card border border-line bg-paper p-6 shadow-card"
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6"
                 >
                   <p className="mb-2.5 font-body text-[13px] font-bold text-accent">
                     {step.num}
@@ -212,15 +215,16 @@ export default async function RoofingServiceDetailPage({
             </p>
             <h2
               id="materials-heading"
-              className="mb-11 font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text"
             >
               Manufacturer-certified systems, not generic materials.
             </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
               {service.materials.map((material) => (
                 <div
                   key={material.title}
-                  className="rounded-card border border-line bg-paper p-7 shadow-card"
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-7"
                 >
                   <h3 className="mb-2.5 font-head text-lg font-bold uppercase text-text">
                     {material.title}
@@ -244,10 +248,11 @@ export default async function RoofingServiceDetailPage({
             </p>
             <h2
               id="faq-heading"
-              className="mb-12 text-center font-head text-[32px] font-bold uppercase text-text"
+              className="text-center font-head text-[32px] font-bold uppercase text-text"
             >
               {service.title} questions.
             </h2>
+            <span className="section-heading-rule is-centered mb-12" aria-hidden="true" />
             <FaqAccordion faqs={service.faqs} />
             </Reveal>
           </Container>
@@ -262,16 +267,17 @@ export default async function RoofingServiceDetailPage({
             </p>
             <h2
               id="related-heading"
-              className="mb-11 font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text"
             >
               Other roofing services you may need.
             </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
               {service.relatedServices.map((related) => (
                 <Link
                   key={related.title}
                   href={`${service.hubHref}#subservices`}
-                  className="rounded-card border border-line bg-paper p-7 no-underline shadow-card transition-[filter] duration-150 ease-out hover:brightness-95"
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-7 no-underline transition-[filter] duration-150 ease-out hover:brightness-95"
                 >
                   <p className="mb-2 font-head text-2xl font-bold text-accent opacity-40">
                     {related.num}
@@ -305,10 +311,11 @@ export default async function RoofingServiceDetailPage({
             </p>
             <h2
               id="estimate-heading"
-              className="mb-8 text-center font-head text-[32px] font-bold uppercase text-text"
+              className="text-center font-head text-[32px] font-bold uppercase text-text"
             >
               Request your free {service.title.toLowerCase()} estimate.
             </h2>
+            <span className="section-heading-rule is-centered mb-8" aria-hidden="true" />
             <EstimateForm
               projectPlaceholder={`Describe your ${service.title.toLowerCase()} project or issue…`}
               submitLabel={`Request My Free ${service.title} Estimate`}

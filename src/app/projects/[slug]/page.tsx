@@ -126,10 +126,11 @@ export default async function ProjectCaseStudyPage({
             <Reveal>
             <h2
               id="story-heading"
-              className="mb-6 font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text"
             >
               What we did
             </h2>
+            <span className="section-heading-rule mb-6" aria-hidden="true" />
             <div className="max-w-[70ch]">
               {project.bodyParagraphs.map((paragraph, i) => (
                 <p
@@ -150,10 +151,11 @@ export default async function ProjectCaseStudyPage({
             <Reveal>
             <h2
               id="gallery-heading"
-              className="mb-11 font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text"
             >
               Project photos
             </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {project.galleryImages.map((img) => (
                 <PlaceholderImage
@@ -175,7 +177,7 @@ export default async function ProjectCaseStudyPage({
             <h2 id="review-heading" className="sr-only">
               Client Review
             </h2>
-            <div className="rounded-card border border-line bg-paper p-10 text-center shadow-card">
+            <div className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-10 text-center">
               <p className="mb-4 font-head text-lg font-bold text-accent">
                 {project.review.stars}
               </p>
@@ -203,10 +205,11 @@ export default async function ProjectCaseStudyPage({
             <Reveal>
             <h2
               id="cta-heading"
-              className="mb-4 font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text"
             >
               Have a similar project in mind?
             </h2>
+            <span className="section-heading-rule is-centered mb-4" aria-hidden="true" />
             <p className="mx-auto mb-8 max-w-[60ch] font-body text-[17px] leading-[1.6] text-muted">
               Whether it&rsquo;s storm damage, a full replacement, or a
               repair, we&rsquo;ll walk your roof and give you a clear,

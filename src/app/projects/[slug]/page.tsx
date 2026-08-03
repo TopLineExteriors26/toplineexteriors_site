@@ -151,12 +151,13 @@ export default async function ProjectCaseStudyPage({
             <Reveal>
             <h2
               id="gallery-heading"
-              className="font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
             >
               Project photos
             </h2>
             <span className="section-heading-rule mb-11" aria-hidden="true" />
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            </Reveal>
+            <Reveal stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {project.galleryImages.map((img) => (
                 <PlaceholderImage
                   key={img.label}
@@ -165,7 +166,6 @@ export default async function ProjectCaseStudyPage({
                   aspect="aspect-[4/3]"
                 />
               ))}
-            </div>
             </Reveal>
           </Container>
         </section>
@@ -205,12 +205,12 @@ export default async function ProjectCaseStudyPage({
             <Reveal>
             <h2
               id="cta-heading"
-              className="font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
             >
               Have a similar project in mind?
             </h2>
             <span className="section-heading-rule is-centered mb-4" aria-hidden="true" />
-            <p className="mx-auto mb-8 max-w-[60ch] font-body text-[17px] leading-[1.6] text-muted">
+            <p className="mx-auto mb-8 max-w-[60ch] font-body text-[17px] leading-[1.6] text-muted bg-alt-muted">
               Whether it&rsquo;s storm damage, a full replacement, or a
               repair, we&rsquo;ll walk your roof and give you a clear,
               written estimate.
@@ -219,7 +219,7 @@ export default async function ProjectCaseStudyPage({
               <Button href="/roofing#estimate" variant="primary">
                 Get a Free Roof Estimate
               </Button>
-              <Button href="/#projects" variant="secondary">
+              <Button href="/#projects" variant="secondary" className="bg-alt-btn-secondary">
                 See More Projects
               </Button>
             </div>

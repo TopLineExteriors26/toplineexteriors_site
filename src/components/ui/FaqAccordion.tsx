@@ -1,20 +1,53 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { Faq } from "@/lib/constants";
 import { cn } from "@/lib/cn";
 
 type FaqAccordionProps = {
   faqs: Faq[];
+  columns?: 1 | 2;
 };
 
-export function FaqAccordion({ faqs }: FaqAccordionProps) {
+export function FaqAccordion({ faqs, columns = 2 }: FaqAccordionProps) {
   const [openIndex, setOpenIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
   const baseId = useId();
-  const isOddLast = faqs.length % 2 === 1;
+  const isOddLast = columns === 2 && faqs.length % 2 === 1;
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      const id = setTimeout(() => setIsVisible(true), 0);
+      return () => clearTimeout(id);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -80px 0px", threshold: 0.1 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+    <div
+      ref={ref}
+      className={cn(
+        "reveal-stagger grid grid-cols-1 items-start gap-5",
+        columns === 2 && "md:grid-cols-2",
+        isVisible && "is-visible"
+      )}
+    >
       {faqs.map((faq, i) => {
         const isOpen = openIndex === i;
         const panelId = `${baseId}-panel-${i}`;
@@ -44,9 +77,9 @@ export function FaqAccordion({ faqs }: FaqAccordionProps) {
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "flex h-7 w-7 flex-none items-center justify-center rounded-full font-body text-[15px] font-bold",
+                    "flex h-7 w-7 flex-none items-center justify-center rounded-full font-body text-[15px] font-bold transition-[transform,background-color,color] duration-200 ease-out",
                     isOpen
-                      ? "bg-accent text-white"
+                      ? "rotate-180 bg-accent text-white"
                       : "border-[1.5px] border-accent text-accent"
                   )}
                 >
@@ -54,16 +87,19 @@ export function FaqAccordion({ faqs }: FaqAccordionProps) {
                 </span>
               </button>
             </h3>
-            {isOpen && (
-              <div
-                id={panelId}
-                role="region"
-                aria-labelledby={buttonId}
-                className="border-t border-line px-6 pb-6 pt-[18px] font-body text-sm leading-[1.7] text-muted"
-              >
-                {faq.a}
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              className="grid transition-[grid-template-rows] duration-300 ease-out"
+              style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+            >
+              <div className="overflow-hidden">
+                <div className="border-t border-line px-6 pb-6 pt-[18px] font-body text-sm leading-[1.7] text-muted">
+                  {faq.a}
+                </div>
               </div>
-            )}
+            </div>
           </div>
         );
       })}

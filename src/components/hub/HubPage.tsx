@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cn } from "@/lib/cn";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
@@ -101,8 +102,8 @@ export function HubPage({ config }: { config: HubPageConfig }) {
         </section>
 
         {/* WHY */}
-        <section className="bg-paper" aria-labelledby="why-heading">
-          <Container className="pb-24">
+        <section className="bg-alt" aria-labelledby="why-heading">
+          <Container className="py-24">
             <Reveal>
               <div className="mx-auto mb-12 max-w-[640px] text-center">
                 <p className="mb-2.5 font-body text-xs font-bold tracking-[.14em] text-accent">
@@ -110,17 +111,17 @@ export function HubPage({ config }: { config: HubPageConfig }) {
                 </p>
                 <h2
                   id="why-heading"
-                  className="font-head text-[32px] font-bold leading-[1.3] text-text"
+                  className="font-head text-[32px] font-bold leading-[1.3] text-text bg-alt-heading"
                 >
                   {config.why.heading}
                 </h2>
                 <span className="section-heading-rule is-centered" aria-hidden="true" />
               </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {config.why.items.map((item) => (
-                  <WhyCard key={item.title} {...item} />
-                ))}
-              </div>
+            </Reveal>
+            <Reveal stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {config.why.items.map((item) => (
+                <WhyCard key={item.title} {...item} />
+              ))}
             </Reveal>
           </Container>
         </section>
@@ -131,7 +132,7 @@ export function HubPage({ config }: { config: HubPageConfig }) {
           className="scroll-mt-20 bg-paper"
           aria-labelledby="subservices-heading"
         >
-          <Container className="pb-24">
+          <Container className="pt-20 pb-24">
             <Reveal>
               <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
                 {config.subServices.eyebrow}
@@ -143,32 +144,33 @@ export function HubPage({ config }: { config: HubPageConfig }) {
                 {config.subServices.heading}
               </h2>
               <span className="section-heading-rule mb-11" aria-hidden="true" />
-              <div className="flex flex-col gap-px overflow-hidden rounded-card border border-line bg-line">
-                {config.subServices.items.map((sub) => (
-                  <div
-                    key={sub.title}
-                    className="flex flex-col gap-4 bg-paper p-6 sm:flex-row sm:items-center sm:gap-6 sm:p-7"
-                  >
-                    <div className="w-[60px] flex-none font-head text-[32px] font-bold text-accent opacity-30">
-                      {sub.num}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="mb-1.5 font-head text-[17px] font-bold uppercase text-text">
-                        {sub.title}
-                      </h3>
-                      <p className="font-body text-sm leading-[1.5] text-muted">
-                        {sub.desc}
-                      </p>
-                    </div>
-                    <Link
-                      href={config.subServices.hrefFor(sub)}
-                      className="whitespace-nowrap font-body text-[13px] font-bold text-accent no-underline"
-                    >
-                      Learn more →
-                    </Link>
+            </Reveal>
+            <Reveal stagger className="flex flex-col overflow-hidden rounded-card border border-line bg-paper">
+              {config.subServices.items.map((sub, i) => (
+                <Link
+                  key={sub.title}
+                  href={config.subServices.hrefFor(sub)}
+                  className={cn(
+                    "flex flex-col gap-4 p-6 no-underline transition-colors duration-150 ease-out hover:bg-paper-2 sm:flex-row sm:items-center sm:gap-6 sm:p-7",
+                    i > 0 && "border-t border-line"
+                  )}
+                >
+                  <div className="w-[60px] flex-none font-head text-[32px] font-bold text-accent opacity-30">
+                    {sub.num}
                   </div>
-                ))}
-              </div>
+                  <div className="flex-1">
+                    <h3 className="mb-1.5 font-head text-[17px] font-bold uppercase text-text">
+                      {sub.title}
+                    </h3>
+                    <p className="font-body text-sm leading-[1.5] text-muted">
+                      {sub.desc}
+                    </p>
+                  </div>
+                  <span className="whitespace-nowrap font-body text-[13px] font-bold text-accent">
+                    Learn more →
+                  </span>
+                </Link>
+              ))}
             </Reveal>
           </Container>
         </section>
@@ -194,44 +196,38 @@ export function HubPage({ config }: { config: HubPageConfig }) {
 
         {/* HOW IT WORKS */}
         <section className="bg-alt" aria-labelledby="process-heading">
-          <Container className="py-[88px]">
+          <Container className="pt-[88px] pb-10">
             <Reveal>
               <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
                 HOW IT WORKS
               </p>
               <h2
                 id="process-heading"
-                className="font-head text-[32px] font-bold uppercase text-text"
+                className="font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
               >
                 From estimate to warranty, in four steps.
               </h2>
               <span className="section-heading-rule mb-11" aria-hidden="true" />
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {PROCESS_STEPS.map((step) => (
-                  <div
-                    key={step.num}
-                    className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6"
-                  >
-                    <p className="mb-2.5 font-body text-[13px] font-bold text-accent">
-                      {step.num}
-                    </p>
-                    <h3 className="mb-2 font-body text-lg font-bold text-text">
-                      {step.title}
-                    </h3>
-                    <p className="font-body text-sm leading-[1.6] text-muted">
-                      {step.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
             </Reveal>
-          </Container>
-        </section>
-
-        {/* STATS */}
-        <section className="bg-ink text-white">
-          <Container className="py-14">
-            <Reveal className="grid grid-cols-2 gap-6 text-center lg:grid-cols-4">
+            <Reveal stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {PROCESS_STEPS.map((step) => (
+                <div
+                  key={step.num}
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6"
+                >
+                  <p className="mb-2.5 font-body text-[13px] font-bold text-accent">
+                    {step.num}
+                  </p>
+                  <h3 className="mb-2 font-body text-lg font-bold text-text">
+                    {step.title}
+                  </h3>
+                  <p className="font-body text-sm leading-[1.6] text-muted">
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
+            </Reveal>
+            <Reveal stagger className="mt-10 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 text-center lg:grid-cols-4">
               {config.stats.map((stat) => (
                 <StatBlock key={stat.label} {...stat} />
               ))}
@@ -271,7 +267,7 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               </p>
               <h2
                 id="faq-heading"
-                className="text-center font-head text-[32px] font-bold uppercase text-text"
+                className="text-center font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
               >
                 Questions we hear most.
               </h2>

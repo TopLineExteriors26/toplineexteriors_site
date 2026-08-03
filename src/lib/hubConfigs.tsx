@@ -1,6 +1,7 @@
 import type {
   Faq,
   GalleryImage,
+  NavLink,
   Review,
   Stat,
   SubService,
@@ -30,6 +31,36 @@ import {
 } from "@/lib/constants";
 
 export type HubHeaderFooterVariant = "roofing" | "siding" | "decks";
+
+const ROOFING_SERVICE_SLUGS: Record<string, string> = {
+  "01": "roof-replacement",
+  "02": "roof-repair",
+  "03": "asphalt-shingle-roofing",
+  "04": "metal-roofing",
+  "05": "flat-low-slope-roofing",
+  "06": "roof-inspections-storm-damage",
+  "07": "gutters-gutter-guards",
+};
+
+const DECKS_SERVICE_SLUGS: Record<string, string> = {
+  "01": "custom-deck-construction",
+  "02": "deck-restoration-refinishing",
+  "03": "composite-decking",
+  "04": "wood-decking",
+  "05": "railings-guardrails",
+  "06": "fencing",
+  "07": "deck-repair-structural-reinforcement",
+};
+
+const SIDING_SERVICE_SLUGS: Record<string, string> = {
+  "01": "siding-replacement",
+  "02": "vinyl-siding",
+  "03": "james-hardie-fiber-cement-siding",
+  "04": "insulated-siding",
+  "05": "wood-cedar-shake-siding",
+  "06": "siding-repair",
+  "07": "soffit-fascia-trim",
+};
 
 export type HubPageConfig = {
   /** e.g. "roofing" — used for Header/Footer variant, canonical path, breadcrumb */
@@ -120,8 +151,7 @@ export const ROOFING_HUB_CONFIG: HubPageConfig = {
     eyebrow: "ROOFING SERVICES",
     heading: "Every roofing job we take on, done by one crew.",
     items: ROOFING_SUB_SERVICES,
-    hrefFor: (sub) =>
-      sub.num === "01" ? "/roofing/roof-replacement" : "/roofing#estimate",
+    hrefFor: (sub) => `/roofing/${ROOFING_SERVICE_SLUGS[sub.num]}`,
   },
   gallery: {
     heading: (
@@ -175,7 +205,7 @@ export const SIDING_HUB_CONFIG: HubPageConfig = {
     eyebrow: "SIDING SERVICES",
     heading: "Every siding job we take on, done by one crew.",
     items: SIDING_SUB_SERVICES,
-    hrefFor: () => "/siding#estimate",
+    hrefFor: (sub) => `/siding/${SIDING_SERVICE_SLUGS[sub.num]}`,
   },
   gallery: {
     heading: <>Siding projects from around Bucks County &amp; South Jersey.</>,
@@ -231,7 +261,7 @@ export const DECKS_HUB_CONFIG: HubPageConfig = {
     eyebrow: "DECK SERVICES",
     heading: "Every deck and fence job we take on, done by one crew.",
     items: DECKS_SUB_SERVICES,
-    hrefFor: () => "/decks#estimate",
+    hrefFor: (sub) => `/decks/${DECKS_SERVICE_SLUGS[sub.num]}`,
   },
   gallery: {
     heading: (
@@ -257,5 +287,12 @@ export const DECKS_HUB_CONFIG: HubPageConfig = {
     submitLabel: "Request My Free Deck Estimate",
   },
 };
+
+export function navDropdownItemsFor(config: HubPageConfig): NavLink[] {
+  return config.subServices.items.map((sub) => ({
+    label: sub.title,
+    href: config.subServices.hrefFor(sub),
+  }));
+}
 
 export { PROCESS_STEPS };

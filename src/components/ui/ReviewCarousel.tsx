@@ -106,17 +106,21 @@ export function ReviewCarousel({
               type="button"
               onClick={goPrev}
               aria-label="Previous reviews"
-              className="absolute left-[-22px] top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-paper font-body text-base font-bold text-text shadow-arrow sm:flex"
+              className="absolute left-[-22px] top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-white shadow-arrow transition-transform duration-150 ease-out hover:scale-105 hover:brightness-95 sm:flex"
             >
-              ‹
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </button>
             <button
               type="button"
               onClick={goNext}
               aria-label="Next reviews"
-              className="absolute right-[-22px] top-1/2 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-paper font-body text-base font-bold text-text shadow-arrow sm:flex"
+              className="absolute right-[-22px] top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-white shadow-arrow transition-transform duration-150 ease-out hover:scale-105 hover:brightness-95 sm:flex"
             >
-              ›
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </button>
           </>
         )}

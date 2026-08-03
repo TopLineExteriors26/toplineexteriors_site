@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/layout/Logo";
+import { HeaderNavLink } from "@/components/layout/HeaderNavLink";
 import {
   DECKS_NAV_LINKS,
   HOME_NAV_LINKS,
@@ -11,7 +12,14 @@ import {
   PHONE_DISPLAY,
   ROOFING_NAV_LINKS,
   SIDING_NAV_LINKS,
+  type NavLink,
 } from "@/lib/constants";
+import {
+  DECKS_HUB_CONFIG,
+  ROOFING_HUB_CONFIG,
+  SIDING_HUB_CONFIG,
+  navDropdownItemsFor,
+} from "@/lib/hubConfigs";
 import { cn } from "@/lib/cn";
 
 type HeaderVariant = "home" | "roofing" | "decks" | "siding";
@@ -34,11 +42,64 @@ const ESTIMATE_HREF_BY_VARIANT: Record<HeaderVariant, string> = {
   siding: "/siding#estimate",
 };
 
+const DROPDOWN_ITEMS_BY_HREF: Record<string, NavLink[]> = {
+  "/roofing": navDropdownItemsFor(ROOFING_HUB_CONFIG),
+  "/decks": navDropdownItemsFor(DECKS_HUB_CONFIG),
+  "/siding": navDropdownItemsFor(SIDING_HUB_CONFIG),
+};
+
 export function Header({ variant = "home" }: HeaderProps) {
   const pathname = usePathname();
   const links = NAV_LINKS_BY_VARIANT[variant];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const navRef = useRef<HTMLElement | null>(null);
+  const linkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoverStyle, setHoverStyle] = useState<{ left: string; width: string }>({
+    left: "0px",
+    width: "0px",
+  });
+  const [activeStyle, setActiveStyle] = useState<{ left: string; width: string }>({
+    left: "0px",
+    width: "0px",
+  });
+
+  const activeIndex = links.findIndex(
+    (link) => link.href !== "/" && pathname.startsWith(link.href)
+  );
+
+  // Each nav item wraps its <Link> in its own `position: relative` div (needed
+  // so the dropdown panel can anchor under just that item), which makes that
+  // wrapper the link's offsetParent. That means `link.offsetLeft` is relative
+  // to the individual item, not the <nav> — always ~0. Measure via
+  // getBoundingClientRect() against the nav container instead.
+  const measureAgainstNav = (el: HTMLAnchorElement) => {
+    const nav = navRef.current;
+    if (!nav) return null;
+    const navRect = nav.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    return { left: `${elRect.left - navRect.left}px`, width: `${elRect.width}px` };
+  };
+
+  useEffect(() => {
+    if (hoveredIndex === null) return;
+    const el = linkRefs.current[hoveredIndex];
+    if (!el) return;
+    const style = measureAgainstNav(el);
+    if (style) setHoverStyle(style);
+  }, [hoveredIndex]);
+
+  useEffect(() => {
+    if (activeIndex < 0) return;
+    const el = linkRefs.current[activeIndex];
+    if (!el) return;
+    const style = measureAgainstNav(el);
+    if (style) setActiveStyle(style);
+  }, [activeIndex, links]);
+
+  const activeIndicatorOpacity = activeIndex < 0 ? 0 : 1;
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -48,29 +109,73 @@ export function Header({ variant = "home" }: HeaderProps) {
     };
   }, [isMenuOpen]);
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 24);
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-paper">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-5 py-2 sm:px-8 lg:px-10">
+    <header
+      className={cn(
+        "sticky top-0 z-40 transition-[padding] duration-300 ease-out",
+        isScrolled ? "xl:px-4 xl:pt-3" : ""
+      )}
+    >
+      <div
+        className={cn(
+          "mx-auto flex items-center justify-between gap-4 bg-paper transition-all duration-300 ease-out",
+          isScrolled
+            ? "xl:w-fit xl:rounded-full xl:px-6 xl:py-1.5 xl:shadow-card"
+            : "w-full max-w-[1440px] px-5 py-2 sm:px-8 lg:px-10"
+        )}
+      >
         <Logo />
 
         <nav
+          ref={navRef}
           aria-label="Primary"
-          className="hidden items-center gap-4 xl:flex xl:gap-[22px]"
+          className="relative hidden items-center xl:flex"
         >
-          {links.map((link) => {
-            const isActive =
-              link.href !== "/" && pathname.startsWith(link.href);
+          <div
+            className="pointer-events-none absolute top-0 h-[34px] rounded-[6px] bg-ink/5 transition-all duration-300 ease-out"
+            style={{
+              ...hoverStyle,
+              opacity: hoveredIndex !== null ? 1 : 0,
+            }}
+          />
+          <div
+            className="pointer-events-none absolute bottom-[2px] h-[2px] bg-accent transition-all duration-300 ease-out"
+            style={{ ...activeStyle, opacity: activeIndicatorOpacity }}
+          />
+
+          {links.map((link, index) => {
+            const isActive = index === activeIndex;
             return (
-              <Link
+              <HeaderNavLink
                 key={link.label}
-                href={link.href}
-                className={cn(
-                  "whitespace-nowrap font-body text-sm font-semibold no-underline transition-colors duration-150 ease-out hover:text-accent",
-                  isActive ? "text-accent" : "text-text"
-                )}
-              >
-                {link.label}
-              </Link>
+                link={link}
+                isActive={isActive}
+                dropdownItems={DROPDOWN_ITEMS_BY_HREF[link.href]}
+                linkRef={(el) => {
+                  linkRefs.current[index] = el;
+                }}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() =>
+                  setHoveredIndex((current) => (current === index ? null : current))
+                }
+              />
             );
           })}
         </nav>

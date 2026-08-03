@@ -1,987 +1,626 @@
-export const BUSINESS_NAME = "TopLine Exteriors";
-export const BUSINESS_LEGAL_NAME = "TopLine Exteriors LLC";
-export const PHONE_DISPLAY = "(267) 555-0198";
-export const PHONE_DIGITS = "2675550198";
-export const EMAIL = "info@toplineexteriorsllc.com";
-export const HIC_LICENSE = "PA HIC #PA000000 (placeholder)";
-export const SITE_URL = "https://www.toplineexteriorsllc.com";
+# Service Detail Pages Rollout — Implementation Plan
 
-export const SERVICE_AREA_BLURB =
-  "Serving Bucks County, PA & South Jersey";
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-export const CITIES = [
-  "Levittown, PA",
-  "Bristol, PA",
-  "Newtown, PA",
-  "Yardley, PA",
-  "Doylestown, PA",
-  "Langhorne, PA",
-  "Philadelphia, PA",
-  "Cherry Hill, NJ",
-  "Trenton, NJ",
-  "Camden, NJ",
-] as const;
+**Goal:** Create SEO-content detail pages for all 20 remaining services across the three hubs (Roofing, Decks, Siding), reusing the existing `roof-replacement` page as the template, and wire the hub pages' "Learn more" links to point at them.
 
-export const FOOTER_CITIES = CITIES.slice(0, 5);
+**Architecture:** The existing `/roofing/[service]/page.tsx` is hardcoded to the Roofing hub (`Header variant="roofing"`, `Footer variant="roofing"`, hardcoded "roofing" copy). Task 1 generalizes it into a single shared component (`ServiceDetailPage`) parameterized by `HubHeaderFooterVariant`, then three thin `[service]/page.tsx` route files (one per hub) each supply their own service list and `generateStaticParams`. Tasks 2–4 add the `ServiceDetail` content objects for all 20 remaining services directly to `src/lib/constants.ts`, grouped by hub. Task 5 rewires each hub's `hrefFor` in `hubConfigs.tsx` so every "Learn more" link on the hub pages points at a real detail page instead of the `#estimate` fallback.
 
-export type NavLink = {
-  label: string;
-  href: string;
+**Tech Stack:** Next.js 15 App Router (server components, `generateStaticParams`), Tailwind v4, existing `ServiceDetail` type in `src/lib/constants.ts`.
+
+## Global Constraints
+
+- Do not start the dev server — the user runs it themselves (CLAUDE.md).
+- Do not take or generate screenshots — the user verifies in-browser (CLAUDE.md).
+- No new npm dependencies.
+- Every new `ServiceDetail` object must have real, service-specific copy — no lorem ipsum, no copy-pasted paragraphs across services. City/region names (from `CITIES` in `constants.ts`: Levittown, Bristol, Newtown, Yardley, Doylestown, Langhorne PA; Philadelphia PA; Cherry Hill, Trenton, Camden NJ) should appear naturally in intro copy or FAQ answers on at least the first service per hub — do not force it into every field.
+- `signsList` needs 5–6 items, `processSteps` needs 4, `materials` needs 3 (or an empty array if the service genuinely has no distinct "materials" story — see Task 3/4 notes), `faqs` needs 4–5, `quickFacts` needs 4.
+- After each task, run `npm run build` from `c:/main/Projects/TopLineExteriors` and confirm it exits clean before moving on.
+- Run builds with the Bash tool (POSIX paths as shown above), not PowerShell.
+
+---
+
+### Task 1: Generalize the service detail page template
+
+**Files:**
+- Create: `src/components/service-detail/ServiceDetailPage.tsx`
+- Modify: `src/app/roofing/[service]/page.tsx` (replace body with thin wrapper)
+- Create: `src/app/decks/[service]/page.tsx`
+- Create: `src/app/siding/[service]/page.tsx`
+
+**Interfaces:**
+- Consumes: `ServiceDetail` type and `ROOF_REPLACEMENT_SERVICE` from `@/lib/constants` (existing, unchanged), `HubHeaderFooterVariant` type from `@/lib/hubConfigs` (existing, unchanged), `PHONE_DIGITS`/`PHONE_DISPLAY`/`SITE_URL` from `@/lib/constants` (existing).
+- Produces: `ServiceDetailPage` component with props `{ service: ServiceDetail; hubVariant: HubHeaderFooterVariant; allServices: SubService[] }` — used by all three route files in this task and unchanged by later tasks. `allServices` is the hub's full `*_SUB_SERVICES` list, used to compute "Related Services" (all entries except the current one, matched by `title`).
+
+- [ ] **Step 1: Read the current roofing detail page in full**
+
+Read `src/app/roofing/[service]/page.tsx` (already open in context from prior work — re-read if context was compacted). Note every hardcoded "roofing"/"Roofing" string: `Header variant="roofing"`, `Footer variant="roofing"`, the FINAL CTA paragraph text `"Tell us about your project on our roofing page..."`.
+
+- [ ] **Step 2: Create the shared `ServiceDetailPage` component**
+
+Create `src/components/service-detail/ServiceDetailPage.tsx` with this exact content (this is the current roofing page body, generalized: `variant="roofing"` → `hubVariant` prop, `ROOFING_SUB_SERVICES` → `allServices` prop, and the FINAL CTA copy made hub-agnostic):
+
+```tsx
+import Link from "next/link";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Container } from "@/components/ui/Container";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { Button } from "@/components/ui/Button";
+import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
+import { Reveal } from "@/components/ui/Reveal";
+import { PHONE_DIGITS, PHONE_DISPLAY } from "@/lib/constants";
+import type { ServiceDetail, SubService } from "@/lib/constants";
+import type { HubHeaderFooterVariant } from "@/lib/hubConfigs";
+
+type ServiceDetailPageProps = {
+  service: ServiceDetail;
+  hubVariant: HubHeaderFooterVariant;
+  allServices: SubService[];
 };
 
-export const HOME_NAV_LINKS: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Roofing", href: "/roofing" },
-  { label: "Decks", href: "/decks" },
-  { label: "Siding", href: "/siding" },
-  { label: "About", href: "/" },
-  { label: "Contact", href: "/#estimate" },
+export function ServiceDetailPage({
+  service,
+  hubVariant,
+  allServices,
+}: ServiceDetailPageProps) {
+  const relatedServices = allServices.filter(
+    (sub) => sub.title !== service.title
+  );
+
+  return (
+    <>
+      <Header variant={hubVariant} />
+
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: service.hubLabel, href: service.hubHref },
+          { label: service.title },
+        ]}
+      />
+
+      <main className="flex-1">
+        {/* HERO */}
+        <section className="bg-paper">
+          <Container className="grid grid-cols-1 items-center gap-14 pb-[88px] pt-11 md:grid-cols-[1.1fr_1fr]">
+            <div>
+              <p className="mb-[18px] font-body text-[13px] font-bold tracking-[.14em] text-accent">
+                {service.eyebrow}
+              </p>
+              <h1 className="mb-5 font-head text-[32px] font-bold leading-[1.08] tracking-[.01em] text-text sm:text-[40px] md:text-[52px]">
+                {service.title} in Bucks County &amp; South Jersey
+              </h1>
+              <p className="mb-[30px] max-w-[500px] font-body text-[17px] leading-[1.6] text-muted">
+                {service.heroDek}
+              </p>
+              <div className="flex flex-wrap gap-3.5">
+                <Button href={`${service.hubHref}#estimate`} variant="primary">
+                  Get a Free Estimate
+                </Button>
+                <a
+                  href={`tel:${PHONE_DIGITS}`}
+                  className="inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-pill border border-line bg-transparent px-7 py-4 font-body text-[15px] font-bold text-text no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none">
+                    <path
+                      d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.9 21 3 14.1 3 5.5c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1l-2.1 1.7Z"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                    />
+                  </svg>
+                  Call {PHONE_DISPLAY}
+                </a>
+              </div>
+            </div>
+            <PlaceholderImage
+              label={service.heroImgLabel}
+              alt={service.heroAlt}
+            />
+          </Container>
+        </section>
+
+        {/* INTRO */}
+        <section className="bg-paper" aria-labelledby="intro-heading">
+          <Container className="grid grid-cols-1 gap-12 pb-24 lg:grid-cols-[1fr_280px]">
+            <Reveal>
+            <h2
+              id="intro-heading"
+              className="font-head text-[32px] font-bold uppercase text-text"
+            >
+              What is {service.title.toLowerCase()}?
+            </h2>
+            <span className="section-heading-rule mb-6" aria-hidden="true" />
+            <div className="max-w-[75ch]">
+              {service.introParagraphs.map((paragraph, i) => (
+                <p
+                  key={i}
+                  className="mb-5 font-body text-[16px] leading-[1.75] text-muted last:mb-0"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            </Reveal>
+            <Reveal
+              stagger
+              as="ul"
+              className="flex flex-col gap-3 p-0 lg:pt-[52px]"
+            >
+              {service.quickFacts.map((fact) => (
+                <li
+                  key={fact.label}
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper-2 px-5 py-4"
+                >
+                  <p className="mb-1 font-body text-xs font-bold tracking-[.06em] text-muted">
+                    {fact.label.toUpperCase()}
+                  </p>
+                  <p className="font-head text-lg font-bold text-text">
+                    {fact.value}
+                  </p>
+                </li>
+              ))}
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* SIGNS YOU NEED THIS */}
+        <section className="bg-alt" aria-labelledby="signs-heading">
+          <Container className="py-[88px]">
+            <Reveal>
+            <h2
+              id="signs-heading"
+              className="font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
+            >
+              Signs you may need {service.title.toLowerCase()}
+            </h2>
+            <span className="section-heading-rule mb-8" aria-hidden="true" />
+            </Reveal>
+            <Reveal stagger as="ul" className="grid grid-cols-1 gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
+              {service.signsList.map((sign) => (
+                <li
+                  key={sign}
+                  className="flex items-start gap-4 rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-5 font-body text-sm leading-[1.6] text-text"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="mt-0.5 flex h-9 w-9 flex-none items-center justify-center rounded-full border border-line bg-paper-2"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 3.5l10 17.3H2L12 3.5z"
+                        stroke="var(--color-accent)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path d="M12 10.5v4" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" />
+                      <circle cx="12" cy="17.8" r="1" fill="var(--color-accent)" />
+                    </svg>
+                  </span>
+                  {sign}
+                </li>
+              ))}
+            </Reveal>
+            <Reveal className="mt-11 flex justify-center">
+              <Button href={`${service.hubHref}#estimate`} variant="primary">
+                Get a Free Estimate
+              </Button>
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* PROCESS */}
+        <section className="bg-paper" aria-labelledby="process-heading">
+          <Container className="py-24">
+            <Reveal>
+            <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
+              HOW IT WORKS
+            </p>
+            <h2
+              id="process-heading"
+              className="font-head text-[32px] font-bold uppercase text-text"
+            >
+              Our {service.title.toLowerCase()} process.
+            </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
+            </Reveal>
+            <Reveal stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {service.processSteps.map((step) => (
+                <div
+                  key={step.num}
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6"
+                >
+                  <p className="mb-2.5 font-body text-[13px] font-bold text-accent">
+                    {step.num}
+                  </p>
+                  <h3 className="mb-2 font-body text-lg font-bold text-text">
+                    {step.title}
+                  </h3>
+                  <p className="font-body text-sm leading-[1.6] text-muted">
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* MATERIALS */}
+        {service.materials.length > 0 && (
+          <section className="bg-alt" aria-labelledby="materials-heading">
+            <Container className="py-[88px]">
+              <Reveal>
+              <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
+                MATERIALS WE INSTALL
+              </p>
+              <h2
+                id="materials-heading"
+                className="font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
+              >
+                Manufacturer-certified systems, not generic materials.
+              </h2>
+              <span className="section-heading-rule mb-11" aria-hidden="true" />
+              </Reveal>
+              <Reveal stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                {service.materials.map((material) => (
+                  <div
+                    key={material.title}
+                    className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-7"
+                  >
+                    <h3 className="mb-2.5 font-head text-lg font-bold uppercase text-text">
+                      {material.title}
+                    </h3>
+                    <p className="font-body text-sm leading-[1.6] text-muted">
+                      {material.desc}
+                    </p>
+                  </div>
+                ))}
+              </Reveal>
+              <Reveal className="mt-11 flex justify-center">
+                <Button href={`${service.hubHref}#estimate`} variant="primary">
+                  Get a Free Estimate
+                </Button>
+              </Reveal>
+            </Container>
+          </section>
+        )}
+
+        {/* FAQ */}
+        <section id="faq" className="scroll-mt-20 bg-paper" aria-labelledby="faq-heading">
+          <Container narrow className="py-24">
+            <Reveal>
+            <p className="mb-3 text-center font-body text-xs font-bold tracking-[.14em] text-accent">
+              FAQ
+            </p>
+            <h2
+              id="faq-heading"
+              className="text-center font-head text-[32px] font-bold uppercase text-text"
+            >
+              {service.title} questions.
+            </h2>
+            <span className="section-heading-rule is-centered mb-12" aria-hidden="true" />
+            <FaqAccordion faqs={service.faqs} columns={1} />
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* RELATED SERVICES */}
+        <section className={service.materials.length > 0 ? "bg-paper" : "bg-alt"} aria-labelledby="related-heading">
+          <Container className="py-[88px]">
+            <Reveal>
+            <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
+              RELATED SERVICES
+            </p>
+            <h2
+              id="related-heading"
+              className={service.materials.length > 0 ? "font-head text-[32px] font-bold uppercase text-text" : "font-head text-[32px] font-bold uppercase text-text bg-alt-heading"}
+            >
+              Other {service.hubLabel.toLowerCase()} services you may need.
+            </h2>
+            <span className="section-heading-rule mb-11" aria-hidden="true" />
+            </Reveal>
+            <Reveal stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+              {relatedServices.map((related) => (
+                <Link
+                  key={related.title}
+                  href={`${service.hubHref}#subservices`}
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-7 no-underline transition-[filter] duration-150 ease-out hover:brightness-95"
+                >
+                  <p className="mb-2 font-head text-2xl font-bold text-accent opacity-40">
+                    {related.num}
+                  </p>
+                  <h3 className="mb-2 font-head text-lg font-bold uppercase text-text">
+                    {related.title}
+                  </h3>
+                  <p className="mb-3 font-body text-sm leading-[1.6] text-muted">
+                    {related.desc}
+                  </p>
+                  <span className="font-body text-[13px] font-bold text-accent">
+                    Learn more →
+                  </span>
+                </Link>
+              ))}
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* FINAL CTA */}
+        <section className="bg-ink" aria-labelledby="cta-heading">
+          <Container className="py-24 text-center" maxWidthPx={700}>
+            <Reveal>
+            <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
+              GET STARTED
+            </p>
+            <h2
+              id="cta-heading"
+              className="mb-4 font-head text-[32px] font-bold uppercase text-white"
+            >
+              Ready for your free {service.title.toLowerCase()} estimate?
+            </h2>
+            <p className="mb-8 font-body text-[17px] leading-[1.6] text-white/70">
+              Tell us about your project on our {service.hubLabel.toLowerCase()} page and
+              we&rsquo;ll get back to you with a written quote — usually within 48 hours.
+            </p>
+            <Button href={`${service.hubHref}#estimate`} variant="primary">
+              Get My Free Estimate
+            </Button>
+            </Reveal>
+          </Container>
+        </section>
+      </main>
+
+      <Footer variant={hubVariant} />
+    </>
+  );
+}
+```
+
+Note the two behavior changes from the original roofing-only page, both required for reuse across hubs:
+1. `service.materials.length > 0` guards the MATERIALS section — some services genuinely have no distinct materials list (see Tasks 3–4). When materials is empty, RELATED SERVICES picks up the `bg-alt` dark treatment instead (so the page doesn't have two consecutive light sections).
+2. FINAL CTA copy uses `service.hubLabel.toLowerCase()` instead of a hardcoded "roofing" — works for "Roofing", "Decks", "Siding".
+
+- [ ] **Step 2: Rewrite the roofing route file as a thin wrapper**
+
+Replace the entire content of `src/app/roofing/[service]/page.tsx` with:
+
+```tsx
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ServiceDetailPage } from "@/components/service-detail/ServiceDetailPage";
+import {
+  ROOF_REPLACEMENT_SERVICE,
+  ROOF_REPAIR_SERVICE,
+  ASPHALT_SHINGLE_ROOFING_SERVICE,
+  METAL_ROOFING_SERVICE,
+  FLAT_LOW_SLOPE_ROOFING_SERVICE,
+  ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE,
+  GUTTERS_GUTTER_GUARDS_SERVICE,
+  ROOFING_SUB_SERVICES,
+  SITE_URL,
+} from "@/lib/constants";
+import {
+  breadcrumbSchema,
+  faqPageSchema,
+  localBusinessSchema,
+  serviceSchema,
+} from "@/lib/schema";
+
+const SERVICES = [
+  ROOF_REPLACEMENT_SERVICE,
+  ROOF_REPAIR_SERVICE,
+  ASPHALT_SHINGLE_ROOFING_SERVICE,
+  METAL_ROOFING_SERVICE,
+  FLAT_LOW_SLOPE_ROOFING_SERVICE,
+  ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE,
+  GUTTERS_GUTTER_GUARDS_SERVICE,
 ];
 
-export const ROOFING_NAV_LINKS: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Roofing", href: "/roofing" },
-  { label: "Decks", href: "/decks" },
-  { label: "Siding", href: "/siding" },
-  { label: "About", href: "/" },
-  { label: "Contact", href: "/roofing#estimate" },
-];
-
-export const DECKS_NAV_LINKS: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Roofing", href: "/roofing" },
-  { label: "Decks", href: "/decks" },
-  { label: "Siding", href: "/siding" },
-  { label: "About", href: "/" },
-  { label: "Contact", href: "/decks#estimate" },
-];
-
-export const SIDING_NAV_LINKS: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Roofing", href: "/roofing" },
-  { label: "Decks", href: "/decks" },
-  { label: "Siding", href: "/siding" },
-  { label: "About", href: "/" },
-  { label: "Contact", href: "/siding#estimate" },
-];
-
-export type WhyIcon =
-  | "shield"
-  | "badge"
-  | "stamp"
-  | "tag"
-  | "umbrella"
-  | "clipboard"
-  | "layers"
-  | "weight";
-
-export type WhyItem = {
-  title: string;
-  desc: string;
-  icon: WhyIcon;
+type ServicePageProps = {
+  params: Promise<{ service: string }>;
 };
 
-export const HOME_WHY_ITEMS: WhyItem[] = [
-  {
-    title: "Licensed & Insured",
-    desc: "Fully licensed and insured in Pennsylvania and New Jersey — verified before any crew steps on your property.",
-    icon: "shield",
-  },
-  {
-    title: "Workmanship Warranty",
-    desc: "Every install is backed by our own workmanship warranty, on top of manufacturer coverage.",
-    icon: "badge",
-  },
-  {
-    title: "Trusted Brand Materials",
-    desc: "GAF and CertainTeed roofing systems, James Hardie fiber-cement siding.",
-    icon: "stamp",
-  },
-  {
-    title: "Honest, Fixed-Price Estimates",
-    desc: "One clear quote before work starts — no change orders, no surprise line items.",
-    icon: "tag",
-  },
-];
+export function generateStaticParams() {
+  return SERVICES.map((service) => ({ service: service.slug }));
+}
 
-export const ROOFING_WHY_ITEMS: WhyItem[] = [
-  {
-    title: "Licensed & Insured",
-    desc: "Fully licensed and insured across PA and NJ.",
-    icon: "shield",
-  },
-  {
-    title: "GAF & CertainTeed Certified",
-    desc: "Manufacturer-certified installs that keep warranties intact.",
-    icon: "stamp",
-  },
-  {
-    title: "Lifetime Workmanship Warranty",
-    desc: "Our own crews, backed by a warranty on the labor itself.",
-    icon: "badge",
-  },
-  {
-    title: "Storm & Insurance Claims",
-    desc: "We work directly with your adjuster from inspection to sign-off.",
-    icon: "umbrella",
-  },
-];
+export async function generateMetadata({
+  params,
+}: ServicePageProps): Promise<Metadata> {
+  const { service: slug } = await params;
+  const service = SERVICES.find((s) => s.slug === slug);
+  if (!service) return {};
 
-export type ServiceCard = {
-  num: string;
-  title: string;
-  href: string;
-  imgLabel: string;
-  desc: string;
-  bullets: string[];
-};
-
-export const SERVICES: ServiceCard[] = [
-  {
-    num: "01",
-    title: "Roofing",
-    href: "/roofing",
-    imgLabel: "roof replacement — in progress",
-    desc: "Roof replacement, repair, and inspections built around real Pennsylvania winters.",
-    bullets: [
-      "GAF & CertainTeed certified systems",
-      "Storm damage & insurance claims",
-      "Lifetime workmanship warranty",
-    ],
-  },
-  {
-    num: "02",
-    title: "Decks",
-    href: "/decks",
-    imgLabel: "composite deck build",
-    desc: "Composite and wood decks designed to hold up outdoors, all season.",
-    bullets: [
-      "Custom design & permits handled",
-      "Composite, railing & lighting",
-      "Staining, sealing & repair",
-    ],
-  },
-  {
-    num: "03",
-    title: "Siding",
-    href: "/siding",
-    imgLabel: "fiber-cement siding install",
-    desc: "Vinyl, insulated, and fiber-cement siding that locks out weather for good.",
-    bullets: [
-      "James Hardie fiber-cement",
-      "Seamless gutters & trim",
-      "Full tear-off & repair",
-    ],
-  },
-];
-
-export const FOOTER_SERVICES = ["Roofing", "Decks", "Siding"];
-
-export type ProcessStep = {
-  num: string;
-  title: string;
-  desc: string;
-};
-
-export const PROCESS_STEPS: ProcessStep[] = [
-  {
-    num: "01",
-    title: "Free Estimate",
-    desc: "A walkthrough and a written quote, usually within 48 hours.",
-  },
-  {
-    num: "02",
-    title: "Design & Permits",
-    desc: "Materials selected, permits pulled — we handle the paperwork.",
-  },
-  {
-    num: "03",
-    title: "Installation",
-    desc: "Our own crew on-site start to finish. No subcontractors.",
-  },
-  {
-    num: "04",
-    title: "Walkthrough & Warranty",
-    desc: "Final inspection with you, then your warranty paperwork.",
-  },
-];
-
-export type Stat = {
-  value: string;
-  label: string;
-};
-
-export const HOME_STATS: Stat[] = [
-  { value: "15+", label: "Years serving the region" },
-  { value: "500+", label: "Roofs, decks & siding jobs" },
-  { value: "4.9★", label: "Average client rating" },
-  { value: "10+", label: "Communities served" },
-];
-
-export const ROOFING_STATS: Stat[] = [
-  { value: "15+", label: "Years serving the region" },
-  { value: "500+", label: "Roofs completed" },
-  { value: "4.9★", label: "Average client rating" },
-  { value: "10+", label: "Communities served" },
-];
-
-export type TrustBadge = {
-  value: string;
-  label: string;
-};
-
-export const TRUST_BADGES: TrustBadge[] = [
-  { value: "4.9★ / 180+ Reviews", label: "Average Google rating" },
-  { value: "15+ Years", label: "Serving Bucks County & South Jersey" },
-  { value: "Licensed & Insured", label: "PA & NJ compliant, every job" },
-];
-
-export type Project = {
-  label: string;
-  colSpan: number;
-  rowSpan: number;
-  slug?: string;
-};
-
-export const PROJECTS: Project[] = [
-  { label: "Roof replacement — Yardley, PA", colSpan: 2, rowSpan: 2 },
-  { label: "Composite deck — Newtown, PA", colSpan: 2, rowSpan: 1 },
-  { label: "Siding replacement — Cherry Hill, NJ", colSpan: 2, rowSpan: 1 },
-  {
-    label: "Storm damage repair — Bristol, PA",
-    colSpan: 1,
-    rowSpan: 1,
-    slug: "storm-damage-repair-bristol-pa",
-  },
-  { label: "Deck staining — Levittown, PA", colSpan: 1, rowSpan: 1 },
-  { label: "Fiber-cement siding — Doylestown, PA", colSpan: 2, rowSpan: 1 },
-];
-
-export type Review = {
-  name: string;
-  meta: string;
-  stars: string;
-  text: string;
-};
-
-export const HOME_REVIEWS: Review[] = [
-  {
-    name: "Mike R.",
-    meta: "Roof Replacement — Levittown, PA",
-    stars: "★★★★★",
-    text: "Crew showed up on time, replaced our roof in a day and a half, and cleaned up every nail. Exactly what they quoted, no surprises.",
-  },
-  {
-    name: "Dana T.",
-    meta: "Deck Build — Newtown, PA",
-    stars: "★★★★★",
-    text: "They handled the permit paperwork and built a composite deck that's held up through two winters without a single issue.",
-  },
-  {
-    name: "Carlos M.",
-    meta: "Siding Replacement — Cherry Hill, NJ",
-    stars: "★★★★★",
-    text: "Our old vinyl was falling apart. TopLine tore it off and put up James Hardie siding — the house looks brand new.",
-  },
-];
-
-export const ROOFING_REVIEWS: Review[] = [
-  {
-    name: "Mike R.",
-    meta: "Roof Replacement — Levittown, PA",
-    stars: "★★★★★",
-    text: "Crew showed up on time, replaced our roof in a day and a half, and cleaned up every nail. Exactly what they quoted, no surprises.",
-  },
-  {
-    name: "Sandra K.",
-    meta: "Storm Damage — Bristol, PA",
-    stars: "★★★★★",
-    text: "Hail damage claim handled start to finish — they dealt with the adjuster directly and the new roof looks great.",
-  },
-  {
-    name: "Tom P.",
-    meta: "Roof Repair — Doylestown, PA",
-    stars: "★★★★★",
-    text: "Found and fixed a leak two other companies missed. Fair price, clear explanation of what was actually wrong.",
-  },
-  {
-    name: "Karen W.",
-    meta: "Roof Replacement — Trenton, NJ",
-    stars: "★★★★★",
-    text: "On budget and ahead of schedule. They walked us through every material choice before ordering anything.",
-  },
-  {
-    name: "Rob D.",
-    meta: "Gutter Install — Newtown, PA",
-    stars: "★★★★★",
-    text: "Added gutter guards after our roof job — seamless coordination, one crew, one invoice.",
-  },
-  {
-    name: "Lisa M.",
-    meta: "Storm Damage — Cherry Hill, NJ",
-    stars: "★★★★★",
-    text: "Insurance claim was a breeze once TopLine got involved. Roof looks better than before the storm.",
-  },
-];
-
-export type Faq = {
-  q: string;
-  a: string;
-};
-
-export const HOME_FAQS: Faq[] = [
-  {
-    q: "Do you handle permits and insurance claims?",
-    a: "Yes — we pull all required permits ourselves and can work directly with your insurance adjuster on storm-damage roof claims from inspection through final sign-off.",
-  },
-  {
-    q: "What brands of materials do you install?",
-    a: "GAF and CertainTeed for roofing systems, and James Hardie for fiber-cement siding. All are manufacturer-certified installs, which keeps their warranties intact.",
-  },
-  {
-    q: "How long does a typical roof replacement take?",
-    a: "Most single-family roof replacements are completed in one to three days, weather permitting, with cleanup the same day.",
-  },
-  {
-    q: "Do you offer financing?",
-    a: "We offer financing options for larger projects — ask about current plans when you request your estimate.",
-  },
-  {
-    q: "What areas do you serve?",
-    a: "Bucks County and the greater Philadelphia area, plus South Jersey communities including Cherry Hill, Trenton, and Camden.",
-  },
-];
-
-export const ROOFING_FAQS: Faq[] = [
-  {
-    q: "Do you handle permits and insurance claims?",
-    a: "Yes — we pull all required permits ourselves and can work directly with your insurance adjuster on storm-damage roof claims from inspection through final sign-off.",
-  },
-  {
-    q: "What brands of materials do you install?",
-    a: "GAF and CertainTeed for roofing systems. Both are manufacturer-certified installs, which keeps their warranties intact.",
-  },
-  {
-    q: "How long does a typical roof replacement take?",
-    a: "Most single-family roof replacements are completed in one to three days, weather permitting, with cleanup the same day.",
-  },
-  {
-    q: "Do you offer financing?",
-    a: "We offer financing options for larger roofing projects — ask about current plans when you request your estimate.",
-  },
-  {
-    q: "What areas do you serve?",
-    a: "Bucks County and the greater Philadelphia area, plus South Jersey communities including Cherry Hill, Trenton, and Camden.",
-  },
-];
-
-export type SubService = {
-  num: string;
-  title: string;
-  desc: string;
-};
-
-export const ROOFING_SUB_SERVICES: SubService[] = [
-  {
-    num: "01",
-    title: "Roof Replacement",
-    desc: "Full tear-off and replacement with GAF or CertainTeed systems, built for PA & NJ winters.",
-  },
-  {
-    num: "02",
-    title: "Roof Repair",
-    desc: "Leaks, flashing, and damaged shingles fixed fast, with a clear written scope.",
-  },
-  {
-    num: "03",
-    title: "Asphalt Shingle Roofing",
-    desc: "GAF and CertainTeed shingle systems, installed to manufacturer spec.",
-  },
-  {
-    num: "04",
-    title: "Metal Roofing",
-    desc: "Standing-seam and metal shingle roofing for long-term durability.",
-  },
-  {
-    num: "05",
-    title: "Flat / Low-Slope Roofing",
-    desc: "Membrane roofing systems for additions, porches, and low-slope sections.",
-  },
-  {
-    num: "06",
-    title: "Roof Inspections & Storm Damage",
-    desc: "Full inspection reports and insurance-ready storm damage documentation.",
-  },
-  {
-    num: "07",
-    title: "Gutters & Gutter Guards",
-    desc: "Seamless gutters and guards installed alongside your roofing project.",
-  },
-];
-
-export type GalleryImage = {
-  label: string;
-  alt: string;
-};
-
-export const ROOFING_GALLERY: GalleryImage[] = [
-  {
-    label: "full tear-off roof replacement — Bucks County, PA",
-    alt: "Full tear-off roof replacement in progress in Bucks County, PA",
-  },
-  {
-    label: "new GAF architectural shingles — ridge detail",
-    alt: "Close-up of new GAF architectural shingles along the roof ridge",
-  },
-  {
-    label: "chimney flashing replacement",
-    alt: "New step and counter-flashing installed around a chimney",
-  },
-  {
-    label: "standing-seam metal roof install",
-    alt: "Standing-seam metal roofing panels installed on a residential home",
-  },
-  {
-    label: "storm damage repair — before and after",
-    alt: "Before and after photos of a storm-damaged roof repair",
-  },
-  {
-    label: "seamless gutters — fresh install",
-    alt: "Newly installed seamless gutters along a roofline",
-  },
-  {
-    label: "completed roof replacement — finished exterior",
-    alt: "Completed roof replacement on a home in Bucks County, PA",
-  },
-];
-
-export const SERVICE_TYPE_OPTIONS = [
-  { key: "roofing", label: "Roofing" },
-  { key: "decks", label: "Decks" },
-  { key: "siding", label: "Siding" },
-] as const;
-
-// ---------------------------------------------------------------------------
-// DECKS HUB
-// ---------------------------------------------------------------------------
-
-export const DECKS_WHY_ITEMS: WhyItem[] = [
-  {
-    title: "Licensed & Insured",
-    desc: "Fully licensed and insured across PA and NJ for every build, from a single stair repair to a full custom deck.",
-    icon: "shield",
-  },
-  {
-    title: "Permits Handled For You",
-    desc: "We pull the required permits and schedule inspections, so your deck is built to code from day one.",
-    icon: "clipboard",
-  },
-  {
-    title: "Composite & Premium Wood",
-    desc: "Trex, TimberTech, cedar, pressure-treated, and exotic hardwoods — we build in the material you want.",
-    icon: "layers",
-  },
-  {
-    title: "Built to Hold Structural Weight",
-    desc: "Framing, footings, and ledger attachment engineered for real load — hot tubs, furniture, and crowds included.",
-    icon: "weight",
-  },
-];
-
-export const DECKS_STATS: Stat[] = [
-  { value: "15+", label: "Years serving the region" },
-  { value: "300+", label: "Decks & fences built" },
-  { value: "4.9★", label: "Average client rating" },
-  { value: "10+", label: "Communities served" },
-];
-
-export const DECKS_REVIEWS: Review[] = [
-  {
-    name: "Dana T.",
-    meta: "Composite Deck Build — Newtown, PA",
-    stars: "★★★★★",
-    text: "They handled the permit paperwork and built a composite deck that's held up through two winters without a single issue.",
-  },
-  {
-    name: "Greg H.",
-    meta: "Deck Restoration — Doylestown, PA",
-    stars: "★★★★★",
-    text: "Our 15-year-old wood deck looked brand new after they stripped, repaired, and refinished it. Half the cost of a full rebuild.",
-  },
-  {
-    name: "Patricia L.",
-    meta: "Privacy Fence — Langhorne, PA",
-    stars: "★★★★★",
-    text: "Clean lines, plumb posts, finished a day early. The vinyl fence still looks perfect two summers later.",
-  },
-  {
-    name: "Vince A.",
-    meta: "Custom Deck & Railing — Yardley, PA",
-    stars: "★★★★★",
-    text: "Designed around our pool and built a cable railing system that looks incredible. Crew was meticulous.",
-  },
-  {
-    name: "Monica R.",
-    meta: "Deck Repair — Bristol, PA",
-    stars: "★★★★★",
-    text: "Found rotted joists our home inspector missed and fixed them properly instead of just patching boards.",
-  },
-  {
-    name: "Ed K.",
-    meta: "Wood Fence — Cherry Hill, NJ",
-    stars: "★★★★★",
-    text: "Fair quote, showed up when they said they would, and the fence line is razor straight along our whole property.",
-  },
-];
-
-export const DECKS_FAQS: Faq[] = [
-  {
-    q: "Composite or wood — which should I choose?",
-    a: "Composite (Trex, TimberTech) costs more upfront but needs no staining or sealing and typically carries a 25-50 year warranty. Wood costs less initially but needs refinishing every 2-3 years. We'll walk you through both during your estimate.",
-  },
-  {
-    q: "Do you handle the permits for a new deck?",
-    a: "Yes — deck construction almost always requires a permit in Bucks County and South Jersey municipalities. We pull it, schedule the required inspections, and handle the paperwork end to end.",
-  },
-  {
-    q: "Can you restore an old deck instead of rebuilding it?",
-    a: "Often, yes. If the structural framing is sound, we can replace worn boards, sister damaged joists, and refinish the surface for a fraction of a full rebuild's cost. We'll tell you honestly if restoration isn't a safe option.",
-  },
-  {
-    q: "Do you build fences too, or just decks?",
-    a: "Both — wood, vinyl, and decorative fencing for privacy or property-line marking, often installed alongside a deck project as one coordinated job.",
-  },
-  {
-    q: "How long does a typical deck build take?",
-    a: "Most standard-size composite or wood decks are completed in one to two weeks from the start of installation, weather and permit timing permitting.",
-  },
-];
-
-export const DECKS_SUB_SERVICES: SubService[] = [
-  {
-    num: "01",
-    title: "Custom Deck Construction",
-    desc: "Design and build from the ground up — layout, framing, decking, and finishing handled by one crew.",
-  },
-  {
-    num: "02",
-    title: "Deck Restoration & Refinishing",
-    desc: "Board replacement, joist sistering, sanding, staining, and sealing to bring an aging deck back to life.",
-  },
-  {
-    num: "03",
-    title: "Composite Decking",
-    desc: "Trex, TimberTech, and other low-maintenance composite systems built for PA & NJ weather.",
-  },
-  {
-    num: "04",
-    title: "Wood Decking",
-    desc: "Cedar, pressure-treated pine, and exotic hardwoods like ipe, installed and finished to last.",
-  },
-  {
-    num: "05",
-    title: "Railings & Guardrails",
-    desc: "Cable, composite, wood, and metal railing systems built to code and matched to your deck's style.",
-  },
-  {
-    num: "06",
-    title: "Fencing",
-    desc: "Wood, vinyl, and decorative fencing for privacy, pets, pools, and property-line marking.",
-  },
-  {
-    num: "07",
-    title: "Deck Repair & Structural Reinforcement",
-    desc: "Rotted board and joist replacement, ledger reattachment, and footing repair for decks with real structural issues.",
-  },
-];
-
-export const DECKS_GALLERY: GalleryImage[] = [
-  {
-    label: "custom composite deck — finished build",
-    alt: "Finished custom composite deck build in Bucks County, PA",
-  },
-  {
-    label: "deck framing — structural build in progress",
-    alt: "Deck framing and joist structure during construction",
-  },
-  {
-    label: "cable railing system — install detail",
-    alt: "Close-up of a cable railing system installed on a deck",
-  },
-  {
-    label: "wood deck restoration — before and after",
-    alt: "Before and after photos of a wood deck restoration",
-  },
-  {
-    label: "privacy fencing — freshly installed",
-    alt: "Newly installed wood privacy fencing along a property line",
-  },
-  {
-    label: "ipe hardwood decking — finished surface",
-    alt: "Finished ipe hardwood decking surface detail",
-  },
-  {
-    label: "completed deck & railing — full exterior view",
-    alt: "Completed deck and railing project on a home in Bucks County, PA",
-  },
-];
-
-// ---------------------------------------------------------------------------
-// SIDING HUB
-// ---------------------------------------------------------------------------
-
-export const SIDING_WHY_ITEMS: WhyItem[] = [
-  {
-    title: "Licensed & Insured",
-    desc: "Fully licensed and insured across PA and NJ, with every crew member trained on the systems we install.",
-    icon: "shield",
-  },
-  {
-    title: "James Hardie Certified",
-    desc: "Manufacturer-certified fiber-cement installs that keep the product warranty intact from day one.",
-    icon: "stamp",
-  },
-  {
-    title: "Full Tear-Off, Not Overlay",
-    desc: "We remove old siding down to the sheathing to check for rot and water damage before anything new goes up.",
-    icon: "layers",
-  },
-  {
-    title: "Honest, Fixed-Price Estimates",
-    desc: "One clear quote before work starts — no change orders once your crew is on-site.",
-    icon: "tag",
-  },
-];
-
-export const SIDING_STATS: Stat[] = [
-  { value: "15+", label: "Years serving the region" },
-  { value: "400+", label: "Siding projects completed" },
-  { value: "4.9★", label: "Average client rating" },
-  { value: "10+", label: "Communities served" },
-];
-
-export const SIDING_REVIEWS: Review[] = [
-  {
-    name: "Carlos M.",
-    meta: "Fiber-Cement Siding — Cherry Hill, NJ",
-    stars: "★★★★★",
-    text: "Our old vinyl was falling apart. TopLine tore it off and put up James Hardie siding — the house looks brand new.",
-  },
-  {
-    name: "Renee P.",
-    meta: "Vinyl Siding Replacement — Levittown, PA",
-    stars: "★★★★★",
-    text: "Found soft sheathing behind our old siding during tear-off and fixed it before wrapping — glad they checked.",
-  },
-  {
-    name: "Anthony D.",
-    meta: "Insulated Siding — Newtown, PA",
-    stars: "★★★★★",
-    text: "Noticeable difference in the upstairs bedrooms this winter. Install was clean and fast, crew was respectful of the property.",
-  },
-  {
-    name: "Barbara S.",
-    meta: "Cedar Shake Siding — Doylestown, PA",
-    stars: "★★★★★",
-    text: "Wanted a historic look for our older home and they matched it perfectly. Compliments from neighbors constantly.",
-  },
-  {
-    name: "Jim F.",
-    meta: "Siding Repair — Trenton, NJ",
-    stars: "★★★★★",
-    text: "Storm knocked loose a whole section and they patched it to match seamlessly within a week of calling.",
-  },
-  {
-    name: "Wendy C.",
-    meta: "Soffit & Fascia — Bristol, PA",
-    stars: "★★★★★",
-    text: "Did our full soffit and fascia alongside the siding job — one invoice, one crew, no coordination headaches.",
-  },
-];
-
-export const SIDING_FAQS: Faq[] = [
-  {
-    q: "Vinyl, fiber-cement, or wood — what's the difference?",
-    a: "Vinyl is the most affordable and virtually maintenance-free. James Hardie fiber-cement costs more but resists fire, rot, and pests while holding paint longer. Wood and cedar shake offer a classic look but need regular refinishing. We'll help you weigh cost against long-term upkeep.",
-  },
-  {
-    q: "Do you do a full tear-off or install over the existing siding?",
-    a: "We do a full tear-off on every replacement. Installing over old siding can trap moisture and hide rot — removing it lets us inspect and repair the sheathing underneath before anything new goes up.",
-  },
-  {
-    q: "Will new siding actually lower my energy bills?",
-    a: "Insulated siding adds a continuous layer of rigid foam behind the panel, which reduces drafts and thermal bridging at the studs. Most homeowners notice a difference in comfort, and it can modestly reduce heating and cooling costs.",
-  },
-  {
-    q: "How long does a siding replacement take?",
-    a: "Most single-family homes are completed in three to seven days depending on square footage and material, with daily cleanup so the property stays livable throughout.",
-  },
-  {
-    q: "Do you repair storm-damaged siding, or only full replacements?",
-    a: "Both — we handle small repair jobs like loose or cracked panels as well as full tear-off replacements, and can work with your insurance adjuster on storm-damage claims.",
-  },
-];
-
-export const SIDING_SUB_SERVICES: SubService[] = [
-  {
-    num: "01",
-    title: "Siding Replacement",
-    desc: "Full tear-off and replacement of old, worn, or storm-damaged siding down to the sheathing.",
-  },
-  {
-    num: "02",
-    title: "Vinyl Siding",
-    desc: "Budget-friendly, low-maintenance vinyl siding in a wide range of colors and profiles.",
-  },
-  {
-    num: "03",
-    title: "James Hardie Fiber-Cement Siding",
-    desc: "Certified installs of James Hardie's fire-, rot-, and pest-resistant fiber-cement systems.",
-  },
-  {
-    num: "04",
-    title: "Insulated Siding",
-    desc: "Siding with a continuous rigid foam backing for better energy efficiency and a quieter home.",
-  },
-  {
-    num: "05",
-    title: "Wood & Cedar Shake Siding",
-    desc: "Classic and historic-style wood and cedar shake siding, installed and finished to last outdoors.",
-  },
-  {
-    num: "06",
-    title: "Siding Repair",
-    desc: "Targeted repair of cracked, loose, or storm-damaged panels without a full replacement.",
-  },
-  {
-    num: "07",
-    title: "Soffit, Fascia & Trim",
-    desc: "Soffit and fascia replacement and trim work, usually completed alongside your siding project.",
-  },
-];
-
-export const SIDING_GALLERY: GalleryImage[] = [
-  {
-    label: "James Hardie fiber-cement siding — finished install",
-    alt: "Finished James Hardie fiber-cement siding install in Bucks County, PA",
-  },
-  {
-    label: "full tear-off siding replacement — in progress",
-    alt: "Full tear-off siding replacement in progress on a residential home",
-  },
-  {
-    label: "insulated siding — panel and foam backing detail",
-    alt: "Close-up of insulated siding panel with rigid foam backing",
-  },
-  {
-    label: "cedar shake siding — historic-style finish",
-    alt: "Cedar shake siding installed in a historic-style finish",
-  },
-  {
-    label: "storm-damaged siding repair — panel replacement",
-    alt: "Repair of storm-damaged siding panels on a home exterior",
-  },
-  {
-    label: "soffit and fascia — fresh trim work",
-    alt: "Newly installed soffit and fascia trim along a roofline",
-  },
-  {
-    label: "completed siding project — full exterior view",
-    alt: "Completed siding replacement project on a home in Bucks County, PA",
-  },
-];
-
-// ---------------------------------------------------------------------------
-// PROJECT CASE STUDIES — /projects/[slug]
-// ---------------------------------------------------------------------------
-
-export type ProjectFact = {
-  label: string;
-  value: string;
-};
-
-export type ProjectCaseStudy = {
-  slug: string;
-  title: string;
-  metaTitle: string;
-  metaDescription: string;
-  serviceLabel: string;
-  serviceHref: string;
-  location: string;
-  heroImgLabel: string;
-  heroAlt: string;
-  facts: ProjectFact[];
-  summary: string;
-  bodyParagraphs: string[];
-  galleryImages: { label: string; alt: string }[];
-  review: Review;
-};
-
-export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
-  {
-    slug: "storm-damage-repair-bristol-pa",
-    title: "Storm Damage Roof Repair in Bristol, PA",
-    metaTitle: "Storm Damage Roof Repair — Bristol, PA | TopLine Exteriors",
-    metaDescription:
-      "See how TopLine Exteriors repaired hail and wind damage on an asphalt shingle roof in Bristol, PA — full inspection, insurance claim support, and same-week repair.",
-    serviceLabel: "Roof Inspections & Storm Damage",
-    serviceHref: "/roofing#subservices",
-    location: "Bristol, PA",
-    heroImgLabel: "storm-damaged roof before repair — Bristol, PA",
-    heroAlt: "Storm-damaged asphalt shingle roof before repair in Bristol, PA",
-    facts: [
-      { label: "Service", value: "Storm Damage Repair" },
-      { label: "Location", value: "Bristol, PA" },
-      { label: "Roof Type", value: "Asphalt Shingle" },
-      { label: "Timeline", value: "5 days, start to finish" },
-      { label: "Insurance Claim", value: "Yes — full adjuster coordination" },
-    ],
-    summary:
-      "After a spring hailstorm tore through Bucks County, this Bristol homeowner found dozens of cracked and missing shingles along with a soft spot near the chimney flashing. We handled the full inspection, documented the damage for their insurance adjuster, and completed the repair within a week of the initial call.",
-    bodyParagraphs: [
-      "The homeowner called us within a day of the storm after noticing granules collecting in their gutters and a stain forming on their living room ceiling. Our first step was a full roof inspection — walking the entire surface, checking every slope, and photographing every point of impact damage, not just the obvious ones near the leak.",
-      "We documented over 40 individual hail strikes across the south-facing slope, plus wind-lifted shingles along the ridge line and compromised flashing around the chimney — the actual source of the interior leak. That full photo report went directly to the homeowner's insurance adjuster, which is often the difference between a claim getting approved in full versus partially denied.",
-      "Once the claim was approved, we replaced the damaged shingles with matching GAF architectural shingles, re-flashed the chimney with new step flashing and counter-flashing, and sealed every penetration point. The whole repair — from first inspection to final walkthrough — was completed in five days, well ahead of the next forecasted rain.",
-      "This is the same process we run for every storm-damage call: full inspection first, complete documentation for the adjuster, then a repair that actually fixes the root cause instead of just patching the visible symptoms.",
-    ],
-    galleryImages: [
-      {
-        label: "hail impact damage — close-up, south slope",
-        alt: "Close-up of hail impact damage on asphalt shingles in Bristol, PA",
-      },
-      {
-        label: "chimney flashing before repair",
-        alt: "Deteriorated chimney flashing before repair in Bristol, PA",
-      },
-      {
-        label: "shingle replacement in progress",
-        alt: "Crew replacing storm-damaged shingles in Bristol, PA",
-      },
-      {
-        label: "completed repair — south slope",
-        alt: "Completed storm damage roof repair in Bristol, PA",
-      },
-    ],
-    review: {
-      name: "Sandra K.",
-      meta: "Storm Damage — Bristol, PA",
-      stars: "★★★★★",
-      text: "Hail damage claim handled start to finish — they dealt with the adjuster directly and the new roof looks great.",
+  return {
+    title: service.metaTitle,
+    description: service.metaDescription,
+    alternates: {
+      canonical: `/roofing/${service.slug}`,
     },
-  },
+  };
+}
+
+export default async function RoofingServiceDetailPage({
+  params,
+}: ServicePageProps) {
+  const { service: slug } = await params;
+  const service = SERVICES.find((s) => s.slug === slug);
+  if (!service) notFound();
+
+  const pageUrl = `${SITE_URL}/roofing/${service.slug}`;
+  const jsonLd = [
+    localBusinessSchema(pageUrl),
+    serviceSchema({
+      name: service.title,
+      description: service.metaDescription,
+      url: pageUrl,
+      serviceType: service.title,
+    }),
+    faqPageSchema(service.faqs),
+    breadcrumbSchema([
+      { name: "Home", url: SITE_URL },
+      { name: service.hubLabel, url: `${SITE_URL}${service.hubHref}` },
+      { name: service.title, url: pageUrl },
+    ]),
+  ];
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ServiceDetailPage
+        service={service}
+        hubVariant="roofing"
+        allServices={ROOFING_SUB_SERVICES}
+      />
+    </>
+  );
+}
+```
+
+This references six roofing services that don't exist yet (`ROOF_REPAIR_SERVICE` etc. — added in Task 2). That's expected: this step will fail typecheck until Task 2 lands. Proceed to Step 3 and Step 4 anyway; the build check for this task only covers `roof-replacement` still working, deferring the six-service typecheck to Task 2's build check.
+
+Actually — to keep this task's own build green, use ONLY `ROOF_REPLACEMENT_SERVICE` in the `SERVICES` array for now, and leave a comment marking where Task 2 appends the rest:
+
+```tsx
+const SERVICES = [
+  ROOF_REPLACEMENT_SERVICE,
+  // Task 2 appends: ROOF_REPAIR_SERVICE, ASPHALT_SHINGLE_ROOFING_SERVICE,
+  // METAL_ROOFING_SERVICE, FLAT_LOW_SLOPE_ROOFING_SERVICE,
+  // ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE, GUTTERS_GUTTER_GUARDS_SERVICE
 ];
+```
 
-// ---------------------------------------------------------------------------
-// SERVICE DETAIL PAGES — /roofing/[service], /decks/[service], /siding/[service]
-// ---------------------------------------------------------------------------
+And drop the unused imports for the six not-yet-created services from this step's version of the file (add them back in Task 2 Step where the array is updated).
 
-export type ServiceDetail = {
-  slug: string;
-  hubHref: string;
-  hubLabel: string;
-  title: string;
-  metaTitle: string;
-  metaDescription: string;
-  eyebrow: string;
-  heroDek: string;
-  heroImgLabel: string;
-  heroAlt: string;
-  introParagraphs: string[];
-  quickFacts: { label: string; value: string }[];
-  signsList: string[];
-  processSteps: ProcessStep[];
-  materials: { title: string; desc: string }[];
-  faqs: Faq[];
+- [ ] **Step 3: Create the decks route file**
+
+Create `src/app/decks/[service]/page.tsx`:
+
+```tsx
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ServiceDetailPage } from "@/components/service-detail/ServiceDetailPage";
+import { DECKS_SUB_SERVICES, SITE_URL } from "@/lib/constants";
+import {
+  breadcrumbSchema,
+  faqPageSchema,
+  localBusinessSchema,
+  serviceSchema,
+} from "@/lib/schema";
+
+const SERVICES: import("@/lib/constants").ServiceDetail[] = [];
+
+type ServicePageProps = {
+  params: Promise<{ service: string }>;
 };
 
-export const ROOF_REPLACEMENT_SERVICE: ServiceDetail = {
-  slug: "roof-replacement",
-  hubHref: "/roofing",
-  hubLabel: "Roofing",
-  title: "Roof Replacement",
-  metaTitle: "Roof Replacement in Bucks County, PA | TopLine Exteriors",
-  metaDescription:
-    "Full tear-off roof replacement with GAF & CertainTeed systems in Bucks County, PA & South Jersey. Lifetime workmanship warranty. Get a free estimate today.",
-  eyebrow: "ROOFING · ROOF REPLACEMENT",
-  heroDek:
-    "A full tear-off and replacement, built for real Pennsylvania and New Jersey winters — installed by our own crews, backed by a lifetime workmanship warranty.",
-  heroImgLabel: "completed roof replacement — full tear-off",
-  heroAlt: "Completed full tear-off roof replacement in Bucks County, PA",
-  introParagraphs: [
-    "A roof replacement is a full tear-off of your existing roofing system down to the decking, followed by a new installation from the ground up — new underlayment, flashing, and shingles or metal panels, installed to current code and manufacturer specification.",
-    "It's a different job from a repair. A repair fixes a specific leak or damaged section; a replacement addresses the whole roof at once, which makes sense once a roof is past its expected lifespan, has widespread wear across multiple slopes, or has been damaged badly enough that patchwork repairs would only buy a year or two.",
-    "We install GAF and CertainTeed shingle systems as manufacturer-certified installers, which means the material warranty stays fully intact — something that isn't guaranteed if a roof is installed by a non-certified contractor. Every replacement is also backed by our own workmanship warranty on top of that manufacturer coverage.",
-  ],
-  quickFacts: [
-    { label: "Typical timeline", value: "1–2 days" },
-    { label: "Materials", value: "GAF & CertainTeed" },
-    { label: "Warranty", value: "Lifetime workmanship" },
-    { label: "Permits", value: "Pulled for you" },
-  ],
-  signsList: [
-    "Shingles curling, cracking, or losing granules across large sections of the roof",
-    "A roof that's 20+ years old (25+ for architectural shingles) and showing its age",
-    "Daylight visible through the roof deck from inside the attic",
-    "Multiple past repairs that haven't resolved recurring leaks",
-    "Sagging rooflines or soft spots when walked on",
-    "Moss, algae streaks, or dark patches spreading across the shingles",
-  ],
-  processSteps: [
-    {
-      num: "01",
-      title: "Inspection & Estimate",
-      desc: "We inspect the full roof and decking, then provide a written, fixed-price quote — usually within 48 hours.",
-    },
-    {
-      num: "02",
-      title: "Material Selection & Permits",
-      desc: "Choose your shingle or metal system and color; we pull the required township permit before work begins.",
-    },
-    {
-      num: "03",
-      title: "Full Tear-Off & Install",
-      desc: "Complete removal of the old roof, decking repair as needed, then new underlayment, flashing, and roofing system.",
-    },
-    {
-      num: "04",
-      title: "Cleanup, Walkthrough & Warranty",
-      desc: "Magnetic nail sweep, full property cleanup, final walkthrough with you, then your warranty paperwork.",
-    },
-  ],
-  materials: [
-    {
-      title: "GAF Timberline Shingles",
-      desc: "Architectural asphalt shingles with GAF's Advanced Protection Shingle Technology and a Lifetime limited warranty.",
-    },
-    {
-      title: "CertainTeed Landmark Shingles",
-      desc: "Dimensional shingles with StreakFighter algae resistance, backed by CertainTeed's SureStart warranty.",
-    },
-    {
-      title: "Synthetic Underlayment & Ice & Water Shield",
-      desc: "Full synthetic underlayment plus ice & water shield at eaves and valleys — standard on every replacement, not an upsell.",
-    },
-  ],
-  faqs: [
-    {
-      q: "How do I know if I need a replacement instead of a repair?",
-      a: "If damage is limited to one section or a single leak, a repair usually makes sense. If your roof is near the end of its rated lifespan, has wear across multiple slopes, or has needed several repairs already, a full replacement is typically the more cost-effective long-term choice. We'll give you an honest recommendation either way during the inspection.",
-    },
-    {
-      q: "How long does a roof replacement take?",
-      a: "Most single-family roof replacements are completed in one to three days, weather permitting, with full cleanup the same day work finishes.",
-    },
-    {
-      q: "Will you handle the permit?",
-      a: "Yes — we pull all required township permits ourselves as part of every replacement, and schedule any required inspections.",
-    },
-    {
-      q: "What happens to the old shingles and materials?",
-      a: "Everything is torn off, loaded, and hauled away as part of the job. We also run a magnetic sweep of the property to catch stray nails before we leave.",
-    },
-  ],
-};
+export function generateStaticParams() {
+  return SERVICES.map((service) => ({ service: service.slug }));
+}
 
+export async function generateMetadata({
+  params,
+}: ServicePageProps): Promise<Metadata> {
+  const { service: slug } = await params;
+  const service = SERVICES.find((s) => s.slug === slug);
+  if (!service) return {};
+
+  return {
+    title: service.metaTitle,
+    description: service.metaDescription,
+    alternates: {
+      canonical: `/decks/${service.slug}`,
+    },
+  };
+}
+
+export default async function DecksServiceDetailPage({
+  params,
+}: ServicePageProps) {
+  const { service: slug } = await params;
+  const service = SERVICES.find((s) => s.slug === slug);
+  if (!service) notFound();
+
+  const pageUrl = `${SITE_URL}/decks/${service.slug}`;
+  const jsonLd = [
+    localBusinessSchema(pageUrl),
+    serviceSchema({
+      name: service.title,
+      description: service.metaDescription,
+      url: pageUrl,
+      serviceType: service.title,
+    }),
+    faqPageSchema(service.faqs),
+    breadcrumbSchema([
+      { name: "Home", url: SITE_URL },
+      { name: service.hubLabel, url: `${SITE_URL}${service.hubHref}` },
+      { name: service.title, url: pageUrl },
+    ]),
+  ];
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ServiceDetailPage
+        service={service}
+        hubVariant="decks"
+        allServices={DECKS_SUB_SERVICES}
+      />
+    </>
+  );
+}
+```
+
+(`SERVICES` is intentionally empty here — Task 3 replaces the empty array with the 7 deck service imports. An empty `generateStaticParams` array is valid Next.js and produces zero static pages, so this compiles and builds cleanly as a no-op until Task 3.)
+
+- [ ] **Step 4: Create the siding route file**
+
+Create `src/app/siding/[service]/page.tsx` — identical structure to Step 3, with `decks` → `siding`, `DECKS_SUB_SERVICES` → `SIDING_SUB_SERVICES`, `hubVariant="decks"` → `hubVariant="siding"`, function name `DecksServiceDetailPage` → `SidingServiceDetailPage`. `SERVICES` stays an empty array (Task 4 fills it).
+
+- [ ] **Step 5: Build and verify**
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && npm run build`
+Expected: clean build, `/roofing/roof-replacement` still listed as a static page (SSG), no route conflicts.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add src/components/service-detail/ServiceDetailPage.tsx src/app/roofing/[service]/page.tsx src/app/decks/[service]/page.tsx src/app/siding/[service]/page.tsx
+git commit -m "refactor: extract shared ServiceDetailPage component for all three hubs"
+```
+
+---
+
+### Task 2: Roofing services content (6 new services)
+
+**Files:**
+- Modify: `src/lib/constants.ts` (append 6 new `ServiceDetail` consts after `ROOF_REPLACEMENT_SERVICE`)
+- Modify: `src/app/roofing/[service]/page.tsx` (restore the full `SERVICES` array and imports from Task 1 Step 2's original draft)
+
+**Interfaces:**
+- Consumes: `ServiceDetail` type, `ProcessStep` type, `Faq` type (all existing, from `src/lib/constants.ts:378-895` region).
+- Produces: `ROOF_REPAIR_SERVICE`, `ASPHALT_SHINGLE_ROOFING_SERVICE`, `METAL_ROOFING_SERVICE`, `FLAT_LOW_SLOPE_ROOFING_SERVICE`, `ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE`, `GUTTERS_GUTTER_GUARDS_SERVICE` — all exported `ServiceDetail` consts, same shape as `ROOF_REPLACEMENT_SERVICE`. Slugs must exactly match `ROOFING_SUB_SERVICES` titles' kebab-case so hub "Learn more" links resolve correctly in Task 5.
+
+Source titles/descriptions (from `ROOFING_SUB_SERVICES` in `src/lib/constants.ts:384-420`, do not change these — they're the hub page's existing sub-service list):
+- 02 "Roof Repair" — "Leaks, flashing, and damaged shingles fixed fast, with a clear written scope."
+- 03 "Asphalt Shingle Roofing" — "GAF and CertainTeed shingle systems, installed to manufacturer spec."
+- 04 "Metal Roofing" — "Standing-seam and metal shingle roofing for long-term durability."
+- 05 "Flat / Low-Slope Roofing" — "Membrane roofing systems for additions, porches, and low-slope sections."
+- 06 "Roof Inspections & Storm Damage" — "Full inspection reports and insurance-ready storm damage documentation."
+- 07 "Gutters & Gutter Guards" — "Seamless gutters and guards installed alongside your roofing project."
+
+- [ ] **Step 1: Write `ROOF_REPAIR_SERVICE`**
+
+Insert directly after the closing `};` of `ROOF_REPLACEMENT_SERVICE` (currently ending at `src/lib/constants.ts:983`):
+
+```ts
 export const ROOF_REPAIR_SERVICE: ServiceDetail = {
   slug: "roof-repair",
   hubHref: "/roofing",
@@ -1069,7 +708,11 @@ export const ROOF_REPAIR_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 2: Write `ASPHALT_SHINGLE_ROOFING_SERVICE`**
+
+```ts
 export const ASPHALT_SHINGLE_ROOFING_SERVICE: ServiceDetail = {
   slug: "asphalt-shingle-roofing",
   hubHref: "/roofing",
@@ -1157,7 +800,11 @@ export const ASPHALT_SHINGLE_ROOFING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 3: Write `METAL_ROOFING_SERVICE`**
+
+```ts
 export const METAL_ROOFING_SERVICE: ServiceDetail = {
   slug: "metal-roofing",
   hubHref: "/roofing",
@@ -1245,7 +892,11 @@ export const METAL_ROOFING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 4: Write `FLAT_LOW_SLOPE_ROOFING_SERVICE`**
+
+```ts
 export const FLAT_LOW_SLOPE_ROOFING_SERVICE: ServiceDetail = {
   slug: "flat-low-slope-roofing",
   hubHref: "/roofing",
@@ -1333,7 +984,11 @@ export const FLAT_LOW_SLOPE_ROOFING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 5: Write `ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE`**
+
+```ts
 export const ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE: ServiceDetail = {
   slug: "roof-inspections-storm-damage",
   hubHref: "/roofing",
@@ -1409,7 +1064,11 @@ export const ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 6: Write `GUTTERS_GUTTER_GUARDS_SERVICE`**
+
+```ts
 export const GUTTERS_GUTTER_GUARDS_SERVICE: ServiceDetail = {
   slug: "gutters-gutter-guards",
   hubHref: "/roofing",
@@ -1497,7 +1156,76 @@ export const GUTTERS_GUTTER_GUARDS_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 7: Update the roofing route file's `SERVICES` array**
+
+In `src/app/roofing/[service]/page.tsx`, replace the imports and `SERVICES` array with the full version (undoing the Task 1 Step 2 placeholder):
+
+```tsx
+import {
+  ROOF_REPLACEMENT_SERVICE,
+  ROOF_REPAIR_SERVICE,
+  ASPHALT_SHINGLE_ROOFING_SERVICE,
+  METAL_ROOFING_SERVICE,
+  FLAT_LOW_SLOPE_ROOFING_SERVICE,
+  ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE,
+  GUTTERS_GUTTER_GUARDS_SERVICE,
+  ROOFING_SUB_SERVICES,
+  SITE_URL,
+} from "@/lib/constants";
+```
+
+```tsx
+const SERVICES = [
+  ROOF_REPLACEMENT_SERVICE,
+  ROOF_REPAIR_SERVICE,
+  ASPHALT_SHINGLE_ROOFING_SERVICE,
+  METAL_ROOFING_SERVICE,
+  FLAT_LOW_SLOPE_ROOFING_SERVICE,
+  ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE,
+  GUTTERS_GUTTER_GUARDS_SERVICE,
+];
+```
+
+- [ ] **Step 8: Build and verify**
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && npm run build`
+Expected: clean build, 7 static roofing service pages generated (check the build route summary output lists all 7 slugs under `/roofing/[service]`).
+
+- [ ] **Step 9: Commit**
+
+```bash
+git add src/lib/constants.ts src/app/roofing/[service]/page.tsx
+git commit -m "content: add detail pages for all 6 remaining roofing services"
+```
+
+---
+
+### Task 3: Decks services content (7 services)
+
+**Files:**
+- Modify: `src/lib/constants.ts` (append 7 new `ServiceDetail` consts after the roofing services block)
+- Modify: `src/app/decks/[service]/page.tsx` (fill in the `SERVICES` array from Task 1 Step 3's empty placeholder)
+
+**Interfaces:**
+- Consumes: same `ServiceDetail` type as Task 2.
+- Produces: `CUSTOM_DECK_CONSTRUCTION_SERVICE`, `DECK_RESTORATION_REFINISHING_SERVICE`, `COMPOSITE_DECKING_SERVICE`, `WOOD_DECKING_SERVICE`, `RAILINGS_GUARDRAILS_SERVICE`, `FENCING_SERVICE`, `DECK_REPAIR_STRUCTURAL_REINFORCEMENT_SERVICE`.
+
+Source titles/descriptions (from `DECKS_SUB_SERVICES` in `src/lib/constants.ts:560-596`):
+- 01 "Custom Deck Construction" — "Design and build from the ground up — layout, framing, decking, and finishing handled by one crew."
+- 02 "Deck Restoration & Refinishing" — "Board replacement, joist sistering, sanding, staining, and sealing to bring an aging deck back to life."
+- 03 "Composite Decking" — "Trex, TimberTech, and other low-maintenance composite systems built for PA & NJ weather."
+- 04 "Wood Decking" — "Cedar, pressure-treated pine, and exotic hardwoods like ipe, installed and finished to last."
+- 05 "Railings & Guardrails" — "Cable, composite, wood, and metal railing systems built to code and matched to your deck's style."
+- 06 "Fencing" — "Wood, vinyl, and decorative fencing for privacy, pets, pools, and property-line marking."
+- 07 "Deck Repair & Structural Reinforcement" — "Rotted board and joist replacement, ledger reattachment, and footing repair for decks with real structural issues."
+
+Note: `hubHref` is `/decks` and `hubLabel` is `"Decks"` for all seven.
+
+- [ ] **Step 1: Write `CUSTOM_DECK_CONSTRUCTION_SERVICE`**
+
+```ts
 export const CUSTOM_DECK_CONSTRUCTION_SERVICE: ServiceDetail = {
   slug: "custom-deck-construction",
   hubHref: "/decks",
@@ -1585,7 +1313,11 @@ export const CUSTOM_DECK_CONSTRUCTION_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 2: Write `DECK_RESTORATION_REFINISHING_SERVICE`**
+
+```ts
 export const DECK_RESTORATION_REFINISHING_SERVICE: ServiceDetail = {
   slug: "deck-restoration-refinishing",
   hubHref: "/decks",
@@ -1673,7 +1405,11 @@ export const DECK_RESTORATION_REFINISHING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 3: Write `COMPOSITE_DECKING_SERVICE`**
+
+```ts
 export const COMPOSITE_DECKING_SERVICE: ServiceDetail = {
   slug: "composite-decking",
   hubHref: "/decks",
@@ -1761,7 +1497,11 @@ export const COMPOSITE_DECKING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 4: Write `WOOD_DECKING_SERVICE`**
+
+```ts
 export const WOOD_DECKING_SERVICE: ServiceDetail = {
   slug: "wood-decking",
   hubHref: "/decks",
@@ -1849,7 +1589,11 @@ export const WOOD_DECKING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 5: Write `RAILINGS_GUARDRAILS_SERVICE`**
+
+```ts
 export const RAILINGS_GUARDRAILS_SERVICE: ServiceDetail = {
   slug: "railings-guardrails",
   hubHref: "/decks",
@@ -1937,7 +1681,11 @@ export const RAILINGS_GUARDRAILS_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 6: Write `FENCING_SERVICE`**
+
+```ts
 export const FENCING_SERVICE: ServiceDetail = {
   slug: "fencing",
   hubHref: "/decks",
@@ -2025,7 +1773,11 @@ export const FENCING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 7: Write `DECK_REPAIR_STRUCTURAL_REINFORCEMENT_SERVICE`**
+
+```ts
 export const DECK_REPAIR_STRUCTURAL_REINFORCEMENT_SERVICE: ServiceDetail = {
   slug: "deck-repair-structural-reinforcement",
   hubHref: "/decks",
@@ -2113,7 +1865,76 @@ export const DECK_REPAIR_STRUCTURAL_REINFORCEMENT_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 8: Fill in the decks route file's `SERVICES` array**
+
+In `src/app/decks/[service]/page.tsx`, replace the imports and `SERVICES` array:
+
+```tsx
+import {
+  CUSTOM_DECK_CONSTRUCTION_SERVICE,
+  DECK_RESTORATION_REFINISHING_SERVICE,
+  COMPOSITE_DECKING_SERVICE,
+  WOOD_DECKING_SERVICE,
+  RAILINGS_GUARDRAILS_SERVICE,
+  FENCING_SERVICE,
+  DECK_REPAIR_STRUCTURAL_REINFORCEMENT_SERVICE,
+  DECKS_SUB_SERVICES,
+  SITE_URL,
+} from "@/lib/constants";
+```
+
+```tsx
+const SERVICES = [
+  CUSTOM_DECK_CONSTRUCTION_SERVICE,
+  DECK_RESTORATION_REFINISHING_SERVICE,
+  COMPOSITE_DECKING_SERVICE,
+  WOOD_DECKING_SERVICE,
+  RAILINGS_GUARDRAILS_SERVICE,
+  FENCING_SERVICE,
+  DECK_REPAIR_STRUCTURAL_REINFORCEMENT_SERVICE,
+];
+```
+
+- [ ] **Step 9: Build and verify**
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && npm run build`
+Expected: clean build, 7 static deck service pages generated.
+
+- [ ] **Step 10: Commit**
+
+```bash
+git add src/lib/constants.ts src/app/decks/[service]/page.tsx
+git commit -m "content: add detail pages for all 7 deck services"
+```
+
+---
+
+### Task 4: Siding services content (7 services)
+
+**Files:**
+- Modify: `src/lib/constants.ts` (append 7 new `ServiceDetail` consts after the decks services block)
+- Modify: `src/app/siding/[service]/page.tsx` (fill in the `SERVICES` array)
+
+**Interfaces:**
+- Consumes: same `ServiceDetail` type as Tasks 2–3.
+- Produces: `SIDING_REPLACEMENT_SERVICE`, `VINYL_SIDING_SERVICE`, `JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE`, `INSULATED_SIDING_SERVICE`, `WOOD_CEDAR_SHAKE_SIDING_SERVICE`, `SIDING_REPAIR_SERVICE`, `SOFFIT_FASCIA_TRIM_SERVICE`.
+
+Source titles/descriptions (from `SIDING_SUB_SERVICES` in `src/lib/constants.ts:725-761`):
+- 01 "Siding Replacement" — "Full tear-off and replacement of old, worn, or storm-damaged siding down to the sheathing."
+- 02 "Vinyl Siding" — "Budget-friendly, low-maintenance vinyl siding in a wide range of colors and profiles."
+- 03 "James Hardie Fiber-Cement Siding" — "Certified installs of James Hardie's fire-, rot-, and pest-resistant fiber-cement systems."
+- 04 "Insulated Siding" — "Siding with a continuous rigid foam backing for better energy efficiency and a quieter home."
+- 05 "Wood & Cedar Shake Siding" — "Classic and historic-style wood and cedar shake siding, installed and finished to last outdoors."
+- 06 "Siding Repair" — "Targeted repair of cracked, loose, or storm-damaged panels without a full replacement."
+- 07 "Soffit, Fascia & Trim" — "Soffit and fascia replacement and trim work, usually completed alongside your siding project."
+
+Note: `hubHref` is `/siding` and `hubLabel` is `"Siding"` for all seven.
+
+- [ ] **Step 1: Write `SIDING_REPLACEMENT_SERVICE`**
+
+```ts
 export const SIDING_REPLACEMENT_SERVICE: ServiceDetail = {
   slug: "siding-replacement",
   hubHref: "/siding",
@@ -2201,7 +2022,11 @@ export const SIDING_REPLACEMENT_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 2: Write `VINYL_SIDING_SERVICE`**
+
+```ts
 export const VINYL_SIDING_SERVICE: ServiceDetail = {
   slug: "vinyl-siding",
   hubHref: "/siding",
@@ -2289,7 +2114,11 @@ export const VINYL_SIDING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 3: Write `JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE`**
+
+```ts
 export const JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE: ServiceDetail = {
   slug: "james-hardie-fiber-cement-siding",
   hubHref: "/siding",
@@ -2377,7 +2206,11 @@ export const JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 4: Write `INSULATED_SIDING_SERVICE`**
+
+```ts
 export const INSULATED_SIDING_SERVICE: ServiceDetail = {
   slug: "insulated-siding",
   hubHref: "/siding",
@@ -2465,7 +2298,11 @@ export const INSULATED_SIDING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 5: Write `WOOD_CEDAR_SHAKE_SIDING_SERVICE`**
+
+```ts
 export const WOOD_CEDAR_SHAKE_SIDING_SERVICE: ServiceDetail = {
   slug: "wood-cedar-shake-siding",
   hubHref: "/siding",
@@ -2553,7 +2390,11 @@ export const WOOD_CEDAR_SHAKE_SIDING_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 6: Write `SIDING_REPAIR_SERVICE`**
+
+```ts
 export const SIDING_REPAIR_SERVICE: ServiceDetail = {
   slug: "siding-repair",
   hubHref: "/siding",
@@ -2641,7 +2482,11 @@ export const SIDING_REPAIR_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
 
+- [ ] **Step 7: Write `SOFFIT_FASCIA_TRIM_SERVICE`**
+
+```ts
 export const SOFFIT_FASCIA_TRIM_SERVICE: ServiceDetail = {
   slug: "soffit-fascia-trim",
   hubHref: "/siding",
@@ -2729,3 +2574,223 @@ export const SOFFIT_FASCIA_TRIM_SERVICE: ServiceDetail = {
     },
   ],
 };
+```
+
+- [ ] **Step 8: Fill in the siding route file's `SERVICES` array**
+
+In `src/app/siding/[service]/page.tsx`, replace the imports and `SERVICES` array:
+
+```tsx
+import {
+  SIDING_REPLACEMENT_SERVICE,
+  VINYL_SIDING_SERVICE,
+  JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE,
+  INSULATED_SIDING_SERVICE,
+  WOOD_CEDAR_SHAKE_SIDING_SERVICE,
+  SIDING_REPAIR_SERVICE,
+  SOFFIT_FASCIA_TRIM_SERVICE,
+  SIDING_SUB_SERVICES,
+  SITE_URL,
+} from "@/lib/constants";
+```
+
+```tsx
+const SERVICES = [
+  SIDING_REPLACEMENT_SERVICE,
+  VINYL_SIDING_SERVICE,
+  JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE,
+  INSULATED_SIDING_SERVICE,
+  WOOD_CEDAR_SHAKE_SIDING_SERVICE,
+  SIDING_REPAIR_SERVICE,
+  SOFFIT_FASCIA_TRIM_SERVICE,
+];
+```
+
+- [ ] **Step 9: Build and verify**
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && npm run build`
+Expected: clean build, 7 static siding service pages generated. Total across all three hubs should now be 21 static service detail pages.
+
+- [ ] **Step 10: Commit**
+
+```bash
+git add src/lib/constants.ts src/app/siding/[service]/page.tsx
+git commit -m "content: add detail pages for all 7 siding services"
+```
+
+---
+
+### Task 5: Wire hub page "Learn more" links to the new detail pages
+
+**Files:**
+- Modify: `src/lib/hubConfigs.tsx:119-125` (roofing `hrefFor`)
+- Modify: `src/lib/hubConfigs.tsx:174-179` (siding `hrefFor`)
+- Modify: `src/lib/hubConfigs.tsx:230-235` (decks `hrefFor`)
+
+**Interfaces:**
+- Consumes: `SubService` type (existing), the `slug` values chosen in Tasks 2–4 (must match exactly — see slug list below).
+- Produces: updated `hrefFor` functions in all three `HubPageConfig` objects that map every sub-service to its real detail page instead of falling back to `#estimate`.
+
+Slug reference (num → slug, per hub):
+
+Roofing: 01 `roof-replacement`, 02 `roof-repair`, 03 `asphalt-shingle-roofing`, 04 `metal-roofing`, 05 `flat-low-slope-roofing`, 06 `roof-inspections-storm-damage`, 07 `gutters-gutter-guards`.
+
+Decks: 01 `custom-deck-construction`, 02 `deck-restoration-refinishing`, 03 `composite-decking`, 04 `wood-decking`, 05 `railings-guardrails`, 06 `fencing`, 07 `deck-repair-structural-reinforcement`.
+
+Siding: 01 `siding-replacement`, 02 `vinyl-siding`, 03 `james-hardie-fiber-cement-siding`, 04 `insulated-siding`, 05 `wood-cedar-shake-siding`, 06 `siding-repair`, 07 `soffit-fascia-trim`.
+
+- [ ] **Step 1: Update roofing `hrefFor`**
+
+In `src/lib/hubConfigs.tsx`, replace:
+
+```tsx
+  subServices: {
+    eyebrow: "ROOFING SERVICES",
+    heading: "Every roofing job we take on, done by one crew.",
+    items: ROOFING_SUB_SERVICES,
+    hrefFor: (sub) =>
+      sub.num === "01" ? "/roofing/roof-replacement" : "/roofing#estimate",
+  },
+```
+
+with:
+
+```tsx
+  subServices: {
+    eyebrow: "ROOFING SERVICES",
+    heading: "Every roofing job we take on, done by one crew.",
+    items: ROOFING_SUB_SERVICES,
+    hrefFor: (sub) => `/roofing/${ROOFING_SERVICE_SLUGS[sub.num]}`,
+  },
+```
+
+Add this lookup table near the top of the file, right after the `HubHeaderFooterVariant` type export (after line 32):
+
+```tsx
+const ROOFING_SERVICE_SLUGS: Record<string, string> = {
+  "01": "roof-replacement",
+  "02": "roof-repair",
+  "03": "asphalt-shingle-roofing",
+  "04": "metal-roofing",
+  "05": "flat-low-slope-roofing",
+  "06": "roof-inspections-storm-damage",
+  "07": "gutters-gutter-guards",
+};
+
+const DECKS_SERVICE_SLUGS: Record<string, string> = {
+  "01": "custom-deck-construction",
+  "02": "deck-restoration-refinishing",
+  "03": "composite-decking",
+  "04": "wood-decking",
+  "05": "railings-guardrails",
+  "06": "fencing",
+  "07": "deck-repair-structural-reinforcement",
+};
+
+const SIDING_SERVICE_SLUGS: Record<string, string> = {
+  "01": "siding-replacement",
+  "02": "vinyl-siding",
+  "03": "james-hardie-fiber-cement-siding",
+  "04": "insulated-siding",
+  "05": "wood-cedar-shake-siding",
+  "06": "siding-repair",
+  "07": "soffit-fascia-trim",
+};
+```
+
+- [ ] **Step 2: Update siding `hrefFor`**
+
+Replace:
+
+```tsx
+  subServices: {
+    eyebrow: "SIDING SERVICES",
+    heading: "Every siding job we take on, done by one crew.",
+    items: SIDING_SUB_SERVICES,
+    hrefFor: () => "/siding#estimate",
+  },
+```
+
+with:
+
+```tsx
+  subServices: {
+    eyebrow: "SIDING SERVICES",
+    heading: "Every siding job we take on, done by one crew.",
+    items: SIDING_SUB_SERVICES,
+    hrefFor: (sub) => `/siding/${SIDING_SERVICE_SLUGS[sub.num]}`,
+  },
+```
+
+- [ ] **Step 3: Update decks `hrefFor`**
+
+Replace:
+
+```tsx
+  subServices: {
+    eyebrow: "DECK SERVICES",
+    heading: "Every deck and fence job we take on, done by one crew.",
+    items: DECKS_SUB_SERVICES,
+    hrefFor: () => "/decks#estimate",
+  },
+```
+
+with:
+
+```tsx
+  subServices: {
+    eyebrow: "DECK SERVICES",
+    heading: "Every deck and fence job we take on, done by one crew.",
+    items: DECKS_SUB_SERVICES,
+    hrefFor: (sub) => `/decks/${DECKS_SERVICE_SLUGS[sub.num]}`,
+  },
+```
+
+- [ ] **Step 4: Build and verify**
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && npm run build`
+Expected: clean build. All 21 service detail pages listed as static routes under `/roofing/[service]`, `/decks/[service]`, `/siding/[service]`.
+
+- [ ] **Step 5: Spot-check the sub-service grids' hrefFor output**
+
+Read `src/components/hub/HubPage.tsx` around the SUB-SERVICES section (`config.subServices.items.map(...)`, `config.subServices.hrefFor(sub)`) to confirm the `<Link>` there uses `hrefFor` correctly (it already does per prior work — this step is a re-verification, not a code change). Confirm no other file calls `hrefFor` with an assumption about the old `#estimate`-only behavior — grep for `hrefFor` usage:
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && grep -rn "hrefFor" src/`
+Expected: only the three definitions in `hubConfigs.tsx` and the one call site in `HubPage.tsx`.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add src/lib/hubConfigs.tsx
+git commit -m "feat: wire hub sub-service links to their real detail pages"
+```
+
+---
+
+### Task 6: Full-site final verification
+
+**Files:** none modified — verification only.
+
+- [ ] **Step 1: Full production build**
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && npm run build`
+Expected: clean build. Confirm the route summary lists 21 total service detail pages (7 roofing + 7 decks + 7 siding) plus the existing static/SSG pages, with no route conflicts or duplicate slugs.
+
+- [ ] **Step 2: Grep for leftover placeholder or hardcoded hub references**
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && grep -n "roofing" src/components/service-detail/ServiceDetailPage.tsx`
+Expected: no hardcoded "roofing" string remains in the shared component — everything should route through `hubVariant` / `service.hubLabel` / `service.hubHref`. If any hardcoded reference is found, fix it and rebuild.
+
+- [ ] **Step 3: Confirm every ServiceDetail slug is unique within its hub**
+
+Run: `cd "c:/main/Projects/TopLineExteriors" && grep -n "slug:" src/lib/constants.ts | grep -A0 -E "roof-|deck-|siding-|vinyl-|james-hardie|composite-|wood-|railings-|fencing|custom-deck|insulated-|cedar|soffit|metal-|flat-low|gutters-|asphalt-"`
+Expected: 21 distinct slug lines, no duplicates within the same hub (duplicates across hubs are fine since routes are hub-scoped).
+
+- [ ] **Step 4: Final commit if any fixes were made in this task**
+
+```bash
+git add -A
+git commit -m "fix: cleanup after full service pages rollout verification"
+```
+
+(Skip this commit if Steps 1–3 found nothing to fix.)

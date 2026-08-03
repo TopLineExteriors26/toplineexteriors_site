@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ServiceDetailPage } from "@/components/service-detail/ServiceDetailPage";
 import {
-  ROOF_REPLACEMENT_SERVICE,
-  ROOF_REPAIR_SERVICE,
-  ASPHALT_SHINGLE_ROOFING_SERVICE,
-  METAL_ROOFING_SERVICE,
-  FLAT_LOW_SLOPE_ROOFING_SERVICE,
-  ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE,
-  GUTTERS_GUTTER_GUARDS_SERVICE,
-  ROOFING_SUB_SERVICES,
+  SIDING_REPLACEMENT_SERVICE,
+  VINYL_SIDING_SERVICE,
+  JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE,
+  INSULATED_SIDING_SERVICE,
+  WOOD_CEDAR_SHAKE_SIDING_SERVICE,
+  SIDING_REPAIR_SERVICE,
+  SOFFIT_FASCIA_TRIM_SERVICE,
+  SIDING_SUB_SERVICES,
   SITE_URL,
 } from "@/lib/constants";
 import {
@@ -20,13 +20,13 @@ import {
 } from "@/lib/schema";
 
 const SERVICES = [
-  ROOF_REPLACEMENT_SERVICE,
-  ROOF_REPAIR_SERVICE,
-  ASPHALT_SHINGLE_ROOFING_SERVICE,
-  METAL_ROOFING_SERVICE,
-  FLAT_LOW_SLOPE_ROOFING_SERVICE,
-  ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE,
-  GUTTERS_GUTTER_GUARDS_SERVICE,
+  SIDING_REPLACEMENT_SERVICE,
+  VINYL_SIDING_SERVICE,
+  JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE,
+  INSULATED_SIDING_SERVICE,
+  WOOD_CEDAR_SHAKE_SIDING_SERVICE,
+  SIDING_REPAIR_SERVICE,
+  SOFFIT_FASCIA_TRIM_SERVICE,
 ];
 
 type ServicePageProps = {
@@ -48,19 +48,19 @@ export async function generateMetadata({
     title: service.metaTitle,
     description: service.metaDescription,
     alternates: {
-      canonical: `/roofing/${service.slug}`,
+      canonical: `/siding/${service.slug}`,
     },
   };
 }
 
-export default async function RoofingServiceDetailPage({
+export default async function SidingServiceDetailPage({
   params,
 }: ServicePageProps) {
   const { service: slug } = await params;
   const service = SERVICES.find((s) => s.slug === slug);
   if (!service) notFound();
 
-  const pageUrl = `${SITE_URL}/roofing/${service.slug}`;
+  const pageUrl = `${SITE_URL}/siding/${service.slug}`;
   const jsonLd = [
     localBusinessSchema(pageUrl),
     serviceSchema({
@@ -85,8 +85,8 @@ export default async function RoofingServiceDetailPage({
       />
       <ServiceDetailPage
         service={service}
-        hubVariant="roofing"
-        allServices={ROOFING_SUB_SERVICES}
+        hubVariant="siding"
+        allServices={SIDING_SUB_SERVICES}
       />
     </>
   );

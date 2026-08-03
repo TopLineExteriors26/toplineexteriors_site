@@ -92,17 +92,17 @@ export default function Home() {
 
           {/* TRUST BADGES */}
           <Container className="pb-16 pt-14">
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <Reveal stagger className="grid grid-cols-1 gap-5 sm:grid-cols-3">
               {TRUST_BADGES.map((badge) => (
                 <TrustBadgeCard key={badge.label} {...badge} />
               ))}
-            </div>
+            </Reveal>
           </Container>
         </section>
 
         {/* WHY TOPLINE */}
-        <section className="bg-paper" aria-labelledby="why-heading">
-          <Container className="py-24">
+        <section className="bg-alt" aria-labelledby="why-heading">
+          <Container className="pt-24 pb-20">
             <Reveal>
               <div className="mx-auto mb-12 max-w-[640px] text-center">
                 <p className="mb-2.5 font-body text-xs font-bold tracking-[.14em] text-accent">
@@ -110,18 +110,23 @@ export default function Home() {
                 </p>
                 <h2
                   id="why-heading"
-                  className="font-head text-[32px] font-bold leading-[1.3] text-text"
+                  className="font-head text-[32px] font-bold leading-[1.3] text-text bg-alt-heading"
                 >
                   Licensed &amp; insured across PA and NJ, with 15+ years
                   building and protecting homes in this region.
                 </h2>
                 <span className="section-heading-rule is-centered" aria-hidden="true" />
               </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {HOME_WHY_ITEMS.map((item) => (
-                  <WhyCard key={item.title} {...item} />
-                ))}
-              </div>
+            </Reveal>
+            <Reveal stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {HOME_WHY_ITEMS.map((item) => (
+                <WhyCard key={item.title} {...item} />
+              ))}
+            </Reveal>
+            <Reveal stagger className="mt-10 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 text-center lg:grid-cols-4">
+              {HOME_STATS.map((stat) => (
+                <StatBlock key={stat.label} {...stat} />
+              ))}
             </Reveal>
           </Container>
         </section>
@@ -132,7 +137,7 @@ export default function Home() {
           className="scroll-mt-20 bg-paper"
           aria-labelledby="services-heading"
         >
-          <Container className="pb-24">
+          <Container className="pt-20 pb-24">
             <Reveal>
             <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
               OUR SERVICES
@@ -144,7 +149,8 @@ export default function Home() {
               Three trades. One crew you can trust with all of them.
             </h2>
             <span className="section-heading-rule mb-11" aria-hidden="true" />
-            <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-3">
+            </Reveal>
+            <Reveal stagger className="grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-3">
               {SERVICES.map((service) => (
                 <div
                   key={service.title}
@@ -184,7 +190,6 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-            </div>
             </Reveal>
           </Container>
         </section>
@@ -198,12 +203,13 @@ export default function Home() {
             </p>
             <h2
               id="process-heading"
-              className="font-head text-[34px] font-bold uppercase text-text"
+              className="font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
             >
               From estimate to warranty, in four steps.
             </h2>
             <span className="section-heading-rule mb-14" aria-hidden="true" />
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            </Reveal>
+            <Reveal stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {PROCESS_STEPS.map((step) => (
                 <div
                   key={step.num}
@@ -219,18 +225,6 @@ export default function Home() {
                     {step.desc}
                   </p>
                 </div>
-              ))}
-            </div>
-            </Reveal>
-          </Container>
-        </section>
-
-        {/* STATS */}
-        <section className="bg-ink text-white">
-          <Container className="py-14">
-            <Reveal className="grid grid-cols-2 gap-6 text-center lg:grid-cols-4">
-              {HOME_STATS.map((stat) => (
-                <StatBlock key={stat.label} {...stat} />
               ))}
             </Reveal>
           </Container>
@@ -254,7 +248,8 @@ export default function Home() {
               A few from around the region.
             </h2>
             <span className="section-heading-rule mb-11" aria-hidden="true" />
-            <div className="grid grid-cols-2 gap-3 [grid-auto-rows:160px] md:grid-cols-4">
+            </Reveal>
+            <Reveal stagger className="grid grid-cols-2 gap-3 [grid-auto-rows:160px] md:grid-cols-4">
               {PROJECTS.map((project) =>
                 project.slug ? (
                   <Link
@@ -288,7 +283,6 @@ export default function Home() {
                   </div>
                 )
               )}
-            </div>
             </Reveal>
           </Container>
         </section>
@@ -302,7 +296,7 @@ export default function Home() {
             </p>
             <h2
               id="reviews-heading"
-              className="font-head text-[34px] font-bold uppercase text-text"
+              className="font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
             >
               Placeholder reviews — swap in real ones before launch.
             </h2>
@@ -357,7 +351,7 @@ export default function Home() {
             </p>
             <h2
               id="faq-heading"
-              className="text-center font-head text-[34px] font-bold uppercase text-text"
+              className="text-center font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
             >
               Questions homeowners ask us.
             </h2>

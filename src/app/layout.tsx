@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { barlow, barlowCondensed } from "@/lib/fonts";
+import { archivo, archivoBlack, jetbrains } from "./fonts";
 import { SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${barlow.variable} ${barlowCondensed.variable} antialiased`}
+      className={`${barlow.variable} ${barlowCondensed.variable} ${archivo.variable} ${archivoBlack.variable} ${jetbrains.variable} antialiased`}
     >
       <body className="flex min-h-screen flex-col">{children}</body>
     </html>

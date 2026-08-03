@@ -117,3 +117,109 @@ body {
   .reveal-stagger > *:nth-child(8) { --stagger-delay: 560ms; }
   .reveal-stagger > *:nth-child(n+9) { --stagger-delay: 640ms; }
 }
+
+/* ---------------------------------------------------------------------
+   Homepage redesign tokens (2026-08-04). Additive: the block above this
+   comment backs every page NOT yet redesigned (hub pages, service-detail
+   pages, project case studies). Do not delete it. See
+   docs/superpowers/specs/2026-08-04-homepage-redesign-design.md
+
+   Note: --shadow-card/--shadow-cta are intentionally NOT reused here.
+   A grep of src/ (see task-2 report) found existing consumers of
+   shadow-card/shadow-cta outside the components this redesign restyles
+   (e.g. src/components/hub/HubPage.tsx, src/app/page.tsx), so redefining
+   those names would leak new shadow values onto out-of-scope pages.
+   The homepage-only shadow tokens below are named --shadow-home-card and
+   --shadow-home-cta instead.
+   ------------------------------------------------------------------- */
+@theme {
+  --color-graphite-950: #1E2023;
+  --color-graphite-900: #2C2F33;
+  --color-graphite-700: #43464A;
+  --color-graphite-500: #52565B;
+  --color-graphite-300: #8A9099;
+  --color-graphite-200: #9AA0A7;
+  --color-graphite-100: #C9CDD2;
+
+  --color-sand-50:  #F7F6F4;
+  --color-sand-100: #F4F3F0;
+  --color-sand-200: #E8E6E2;
+  --color-sand-300: #DCDAD6;
+  --color-sand-500: #8A857D;
+  --color-sand-600: #6E6A63;
+
+  --color-brand-50:  #FDF1E8;
+  --color-brand-400: #F79553;
+  --color-brand-500: #F0731E;
+  --color-brand-600: #D45F10;
+  --color-brand-700: #C25A10;
+
+  --color-placeholder: #9C968D;
+  --color-ph-a: #EFEDE9;
+  --color-ph-b: #E7E5E0;
+
+  --font-display: var(--font-archivo-black), system-ui, sans-serif;
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --text-display-xl: 4.75rem;
+  --text-display-xl--line-height: 0.95;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-lg: 3.5rem;
+  --text-display-lg--line-height: 0.98;
+  --text-display-lg--letter-spacing: -0.035em;
+  --text-display-md: 3rem;
+  --text-display-md--line-height: 1;
+  --text-display-md--letter-spacing: -0.03em;
+  --text-display-sm: 2.125rem;
+  --text-display-sm--line-height: 1;
+
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+
+  --shadow-nav: 0 4px 18px rgb(30 28 25 / 0.05);
+  --shadow-home-card: 0 18px 44px rgb(30 28 25 / 0.10);
+  --shadow-panel: 0 20px 50px rgb(30 28 25 / 0.08);
+  --shadow-home-cta: 0 10px 24px rgb(240 115 30 / 0.28);
+  --shadow-float: 0 16px 40px rgb(20 20 20 / 0.25);
+
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@layer utilities {
+  .reveal-init {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+  }
+  .reveal-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-init { opacity: 1; transform: none; transition: none; }
+  }
+}
+
+.ba-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+.ba-range::-webkit-slider-runnable-track { height: 34px; }
+.ba-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #fff;
+  border: 3px solid var(--color-brand-500);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.35);
+  cursor: ew-resize;
+}
+.ba-range::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #fff;
+  border: 3px solid var(--color-brand-500);
+  cursor: ew-resize;
+}

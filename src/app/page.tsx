@@ -18,6 +18,8 @@ import {
   HOME_REVIEWS,
   HOME_STATS,
   HOME_WHY_ITEMS,
+  PHONE_DIGITS,
+  PHONE_DISPLAY,
   PROCESS_STEPS,
   PROJECTS,
   SERVICES,
@@ -344,19 +346,45 @@ export default function Home() {
 
         {/* FAQ */}
         <section className="bg-alt" aria-labelledby="faq-heading">
-          <Container narrow className="py-24">
-            <Reveal>
-            <p className="mb-3 text-center font-body text-xs font-bold tracking-[.14em] text-accent">
-              FAQ
-            </p>
-            <h2
-              id="faq-heading"
-              className="text-center font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
-            >
-              Questions homeowners ask us.
-            </h2>
-            <span className="section-heading-rule is-centered mb-12" aria-hidden="true" />
-            <FaqAccordion faqs={HOME_FAQS} />
+          <Container className="py-24">
+            <Reveal className="grid grid-cols-1 gap-14 md:grid-cols-[1.3fr_1fr]">
+            <div>
+              <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
+                FAQ
+              </p>
+              <h2
+                id="faq-heading"
+                className="font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
+              >
+                Questions homeowners ask us.
+              </h2>
+              <span className="section-heading-rule mb-11" aria-hidden="true" />
+              <FaqAccordion faqs={HOME_FAQS} columns={1} />
+            </div>
+            <div className="flex flex-col items-start gap-6 rounded-card border border-white/10 bg-white/5 p-8">
+              <div>
+                <h3 className="mb-2 font-head text-2xl font-bold text-text bg-alt-heading">
+                  Still have questions? We&rsquo;re here to help.
+                </h3>
+                <p className="font-body text-sm leading-[1.6] text-muted bg-alt-muted">
+                  Call us directly or request a free estimate — we&rsquo;ll walk you through it.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3.5 self-stretch">
+                <Button href="/#estimate" variant="primary">
+                  Get a Free Roof Estimate
+                </Button>
+                <Button href="/#projects" variant="secondary" className="bg-alt-btn-secondary">
+                  View Our Work
+                </Button>
+              </div>
+              <a
+                href={`tel:${PHONE_DIGITS}`}
+                className="font-head text-2xl font-bold text-text no-underline bg-alt-heading"
+              >
+                {PHONE_DISPLAY}
+              </a>
+            </div>
             </Reveal>
           </Container>
         </section>

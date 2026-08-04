@@ -7,6 +7,7 @@ import {
   EMAIL,
   HIC_LICENSE,
   HOME_REDESIGN_FOOTER_LINKS,
+  NJ_HIC_LICENSE,
   PHONE_DISPLAY,
   ROOFING_SUB_SERVICES,
   SERVICE_AREA_BLURB,
@@ -53,7 +54,7 @@ export function Footer({ variant = "home" }: FooterProps) {
           <p className="text-right text-[13px] leading-normal text-graphite-300">
             {BUSINESS_LEGAL_NAME}
             <br />
-            {HIC_LICENSE}
+            {HIC_LICENSE} · {NJ_HIC_LICENSE}
           </p>
         </div>
       </footer>

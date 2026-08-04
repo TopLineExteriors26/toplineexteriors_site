@@ -4,6 +4,8 @@ export const PHONE_DISPLAY = "(267) 555-0198";
 export const PHONE_DIGITS = "2675550198";
 export const EMAIL = "info@toplineexteriorsllc.com";
 export const HIC_LICENSE = "PA HIC #PA000000 (placeholder)";
+// TODO(client): confirm real NJ HIC license number.
+export const NJ_HIC_LICENSE = "NJ HIC #13VH00000000 (placeholder)";
 export const SITE_URL = "https://www.toplineexteriorsllc.com";
 
 export const SERVICE_AREA_BLURB =

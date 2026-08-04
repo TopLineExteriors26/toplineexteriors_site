@@ -347,20 +347,7 @@ export default function Home() {
         {/* FAQ */}
         <section className="bg-alt" aria-labelledby="faq-heading">
           <Container className="py-24">
-            <Reveal className="grid grid-cols-1 gap-14 md:grid-cols-[1.3fr_1fr]">
-            <div>
-              <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
-                FAQ
-              </p>
-              <h2
-                id="faq-heading"
-                className="font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
-              >
-                Questions homeowners ask us.
-              </h2>
-              <span className="section-heading-rule mb-11" aria-hidden="true" />
-              <FaqAccordion faqs={HOME_FAQS} columns={1} />
-            </div>
+            <Reveal className="grid grid-cols-1 gap-14 md:grid-cols-[1fr_1.3fr]">
             <div className="flex flex-col items-start gap-6 rounded-card border border-white/10 bg-white/5 p-8">
               <div>
                 <h3 className="mb-2 font-head text-2xl font-bold text-text bg-alt-heading">
@@ -384,6 +371,19 @@ export default function Home() {
               >
                 {PHONE_DISPLAY}
               </a>
+            </div>
+            <div>
+              <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
+                FAQ
+              </p>
+              <h2
+                id="faq-heading"
+                className="font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
+              >
+                Questions homeowners ask us.
+              </h2>
+              <span className="section-heading-rule mb-11" aria-hidden="true" />
+              <FaqAccordion faqs={HOME_FAQS} columns={1} />
             </div>
             </Reveal>
           </Container>

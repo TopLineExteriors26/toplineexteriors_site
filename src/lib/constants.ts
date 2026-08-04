@@ -294,6 +294,42 @@ export const HOME_REVIEWS: Review[] = [
     stars: "★★★★★",
     text: "Our old vinyl was falling apart. TopLine tore it off and put up James Hardie siding — the house looks brand new.",
   },
+  {
+    name: "Sandra K.",
+    meta: "Storm Damage Repair — Bristol, PA",
+    stars: "★★★★★",
+    text: "Hail damage claim handled start to finish — they dealt with the adjuster directly and the new roof looks great.",
+  },
+  {
+    name: "Vince A.",
+    meta: "Custom Deck & Railing — Yardley, PA",
+    stars: "★★★★★",
+    text: "Designed around our pool and built a cable railing system that looks incredible. Crew was meticulous the whole way through.",
+  },
+  {
+    name: "Barbara S.",
+    meta: "Cedar Shake Siding — Doylestown, PA",
+    stars: "★★★★★",
+    text: "Wanted a historic look for our older home and they matched it perfectly. We still get compliments from neighbors.",
+  },
+  {
+    name: "Tom P.",
+    meta: "Roof Repair — Doylestown, PA",
+    stars: "★★★★★",
+    text: "Found and fixed a leak two other companies missed. Fair price, clear explanation of what was actually wrong.",
+  },
+  {
+    name: "Monica R.",
+    meta: "Deck Repair — Bristol, PA",
+    stars: "★★★★★",
+    text: "Found rotted joists our home inspector missed and fixed them properly instead of just patching boards.",
+  },
+  {
+    name: "Renee P.",
+    meta: "Vinyl Siding Replacement — Levittown, PA",
+    stars: "★★★★★",
+    text: "Found soft sheathing behind our old siding during tear-off and fixed it before wrapping — glad they checked.",
+  },
 ];
 
 export const ROOFING_REVIEWS: Review[] = [
@@ -314,24 +350,6 @@ export const ROOFING_REVIEWS: Review[] = [
     meta: "Roof Repair — Doylestown, PA",
     stars: "★★★★★",
     text: "Found and fixed a leak two other companies missed. Fair price, clear explanation of what was actually wrong.",
-  },
-  {
-    name: "Karen W.",
-    meta: "Roof Replacement — Trenton, NJ",
-    stars: "★★★★★",
-    text: "On budget and ahead of schedule. They walked us through every material choice before ordering anything.",
-  },
-  {
-    name: "Rob D.",
-    meta: "Gutter Install — Newtown, PA",
-    stars: "★★★★★",
-    text: "Added gutter guards after our roof job — seamless coordination, one crew, one invoice.",
-  },
-  {
-    name: "Lisa M.",
-    meta: "Storm Damage — Cherry Hill, NJ",
-    stars: "★★★★★",
-    text: "Insurance claim was a breeze once TopLine got involved. Roof looks better than before the storm.",
   },
 ];
 
@@ -525,24 +543,6 @@ export const DECKS_REVIEWS: Review[] = [
     stars: "★★★★★",
     text: "Clean lines, plumb posts, finished a day early. The vinyl fence still looks perfect two summers later.",
   },
-  {
-    name: "Vince A.",
-    meta: "Custom Deck & Railing — Yardley, PA",
-    stars: "★★★★★",
-    text: "Designed around our pool and built a cable railing system that looks incredible. Crew was meticulous.",
-  },
-  {
-    name: "Monica R.",
-    meta: "Deck Repair — Bristol, PA",
-    stars: "★★★★★",
-    text: "Found rotted joists our home inspector missed and fixed them properly instead of just patching boards.",
-  },
-  {
-    name: "Ed K.",
-    meta: "Wood Fence — Cherry Hill, NJ",
-    stars: "★★★★★",
-    text: "Fair quote, showed up when they said they would, and the fence line is razor straight along our whole property.",
-  },
 ];
 
 export const DECKS_FAQS: Faq[] = [
@@ -689,24 +689,6 @@ export const SIDING_REVIEWS: Review[] = [
     meta: "Insulated Siding — Newtown, PA",
     stars: "★★★★★",
     text: "Noticeable difference in the upstairs bedrooms this winter. Install was clean and fast, crew was respectful of the property.",
-  },
-  {
-    name: "Barbara S.",
-    meta: "Cedar Shake Siding — Doylestown, PA",
-    stars: "★★★★★",
-    text: "Wanted a historic look for our older home and they matched it perfectly. Compliments from neighbors constantly.",
-  },
-  {
-    name: "Jim F.",
-    meta: "Siding Repair — Trenton, NJ",
-    stars: "★★★★★",
-    text: "Storm knocked loose a whole section and they patched it to match seamlessly within a week of calling.",
-  },
-  {
-    name: "Wendy C.",
-    meta: "Soffit & Fascia — Bristol, PA",
-    stars: "★★★★★",
-    text: "Did our full soffit and fascia alongside the siding job — one invoice, one crew, no coordination headaches.",
   },
 ];
 

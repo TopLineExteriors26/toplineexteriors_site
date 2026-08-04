@@ -252,7 +252,7 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               <ReviewCarousel
                 reviews={config.reviews.items}
                 mode="paginate"
-                autoAdvanceMs={6000}
+                cardSize="lg"
               />
             </Reveal>
           </Container>

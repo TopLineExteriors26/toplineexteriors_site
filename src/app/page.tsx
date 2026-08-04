@@ -301,7 +301,7 @@ export default function Home() {
               Placeholder reviews — swap in real ones before launch.
             </h2>
             <span className="section-heading-rule mb-11" aria-hidden="true" />
-            <ReviewCarousel reviews={HOME_REVIEWS} mode="slide" />
+            <ReviewCarousel reviews={HOME_REVIEWS} mode="paginate" autoAdvanceMs={6000} />
             </Reveal>
           </Container>
         </section>

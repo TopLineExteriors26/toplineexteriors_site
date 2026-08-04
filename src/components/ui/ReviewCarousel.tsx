@@ -6,38 +6,61 @@ import { cn } from "@/lib/cn";
 
 type ReviewCarouselProps = {
   reviews: Review[];
-  /** "slide": one card at a time, continuous (Home). "paginate": groups of 3 per page (Roofing hub). */
+  /** "slide": one card at a time, continuous (Home). "paginate": groups of 3 per page (hub pages). */
   mode: "slide" | "paginate";
   autoAdvanceMs?: number;
+  /** "lg" gives the card more padding and bigger stars — used where a page shows a single, unpaginated set of 3 (hub pages). Defaults to the original size. */
+  cardSize?: "default" | "lg";
 };
 
-function ReviewCard({ review }: { review: Review }) {
+function ReviewCard({ review, size = "default" }: { review: Review; size?: "default" | "lg" }) {
+  const isLg = size === "lg";
   return (
-    <div className="h-full rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-8">
-      <div className="mb-3.5 font-head text-lg font-bold text-accent">
+    <div
+      className={cn(
+        "h-full rounded-card border border-line border-l-[3px] border-l-accent bg-paper",
+        isLg ? "p-10" : "p-8"
+      )}
+    >
+      <div
+        className={cn(
+          "font-head font-bold text-accent",
+          isLg ? "mb-5 text-2xl" : "mb-3.5 text-lg"
+        )}
+      >
         {review.stars}
       </div>
-      <p className="mb-5 font-body text-sm leading-[1.6] text-text">
+      <p
+        className={cn(
+          "font-body leading-[1.6] text-text",
+          isLg ? "mb-6 text-base" : "mb-5 text-sm"
+        )}
+      >
         &ldquo;{review.text}&rdquo;
       </p>
-      <div className="font-body text-[13px] font-bold text-text">
+      <div className={cn("font-body font-bold text-text", isLg ? "text-base" : "text-[13px]")}>
         {review.name}
       </div>
-      <div className="font-body text-xs font-medium text-muted">
+      <div className={cn("font-body font-medium text-muted", isLg ? "text-sm" : "text-xs")}>
         {review.meta}
       </div>
     </div>
   );
 }
 
+const PAGE_SIZE = 3;
+
 export function ReviewCarousel({
   reviews,
   mode,
   autoAdvanceMs,
+  cardSize = "default",
 }: ReviewCarouselProps) {
   const pages =
     mode === "paginate"
-      ? [reviews.slice(0, 3), reviews.slice(3, 6)].filter((p) => p.length > 0)
+      ? Array.from({ length: Math.ceil(reviews.length / PAGE_SIZE) }, (_, i) =>
+          reviews.slice(i * PAGE_SIZE, i * PAGE_SIZE + PAGE_SIZE)
+        )
       : reviews.map((r) => [r]);
   const pageCount = pages.length;
   const [index, setIndex] = useState(0);
@@ -84,7 +107,7 @@ export function ReviewCarousel({
                     className="box-border flex-none px-3.5"
                     style={{ width: "var(--review-slide-width)" }}
                   >
-                    <ReviewCard review={review} />
+                    <ReviewCard review={review} size={cardSize} />
                   </div>
                 ))
               : pages.map((page, pageIdx) => (
@@ -93,7 +116,7 @@ export function ReviewCarousel({
                     className="grid w-full flex-none grid-cols-1 gap-6 box-border sm:grid-cols-3"
                   >
                     {page.map((review) => (
-                      <ReviewCard key={review.name + review.meta} review={review} />
+                      <ReviewCard key={review.name + review.meta} review={review} size={cardSize} />
                     ))}
                   </div>
                 ))}

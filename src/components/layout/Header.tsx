@@ -135,10 +135,10 @@ export function Header({ variant = "home" }: HeaderProps) {
     >
       <div
         className={cn(
-          "mx-auto flex items-center justify-between gap-4 border border-transparent bg-white transition-all duration-300 ease-out",
+          "mx-auto flex w-full items-center justify-between gap-4 border border-transparent bg-white transition-[max-width,padding,border-radius,box-shadow] duration-300 ease-out",
           isScrolled
-            ? "xl:w-fit xl:rounded-full xl:border-sand-200 xl:px-6 xl:py-1.5 xl:shadow-nav"
-            : "w-full max-w-[1440px] rounded-full border-sand-200 px-5 py-2 shadow-nav sm:px-8 lg:px-10"
+            ? "xl:max-w-[1080px] xl:rounded-full xl:border-sand-200 xl:px-6 xl:py-1.5 xl:shadow-nav"
+            : "max-w-[1440px] rounded-full border-sand-200 px-5 py-2 shadow-nav sm:px-8 lg:px-10"
         )}
       >
         <Logo />

@@ -10,7 +10,7 @@ export function Logo({ dark = false }: { dark?: boolean }) {
           alt="TopLine Exteriors"
           width={1448}
           height={1086}
-          className="h-10 w-auto opacity-90 invert"
+          className="h-10 w-auto opacity-90 brightness-0 invert"
         />
       </Link>
     );

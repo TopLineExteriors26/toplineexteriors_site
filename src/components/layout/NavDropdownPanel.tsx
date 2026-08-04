@@ -16,7 +16,7 @@ export function NavDropdownPanel({
   return (
     <div
       className={cn(
-        "absolute left-0 top-full z-40 w-[420px] rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6 shadow-card transition-all duration-150 ease-out",
+        "absolute left-0 top-full z-40 w-[420px] rounded-xl border border-sand-200 bg-white p-6 shadow-nav transition-all duration-150 ease-out",
         isOpen
           ? "translate-y-2 opacity-100"
           : "pointer-events-none translate-y-0 opacity-0"
@@ -28,7 +28,7 @@ export function NavDropdownPanel({
             key={item.href}
             href={item.href}
             onClick={onLinkClick}
-            className="font-body text-sm font-semibold leading-snug text-text no-underline transition-colors duration-150 ease-out hover:text-accent"
+            className="text-sm font-semibold leading-snug text-graphite-900 no-underline transition-colors duration-150 ease-out hover:text-brand-500"
           >
             {item.label}
           </Link>

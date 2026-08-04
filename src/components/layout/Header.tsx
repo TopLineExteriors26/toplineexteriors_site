@@ -129,16 +129,16 @@ export function Header({ variant = "home" }: HeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 transition-[padding] duration-300 ease-out",
+        "sticky top-0 z-40 bg-white transition-[padding] duration-300 ease-out",
         isScrolled ? "xl:px-4 xl:pt-3" : ""
       )}
     >
       <div
         className={cn(
-          "mx-auto flex items-center justify-between gap-4 bg-paper transition-all duration-300 ease-out",
+          "mx-auto flex items-center justify-between gap-4 border border-transparent bg-white transition-all duration-300 ease-out",
           isScrolled
-            ? "xl:w-fit xl:rounded-full xl:px-6 xl:py-1.5 xl:shadow-card"
-            : "w-full max-w-[1440px] px-5 py-2 sm:px-8 lg:px-10"
+            ? "xl:w-fit xl:rounded-full xl:border-sand-200 xl:px-6 xl:py-1.5 xl:shadow-nav"
+            : "w-full max-w-[1440px] rounded-full border-sand-200 px-5 py-2 shadow-nav sm:px-8 lg:px-10"
         )}
       >
         <Logo />
@@ -149,14 +149,14 @@ export function Header({ variant = "home" }: HeaderProps) {
           className="relative hidden items-center xl:flex"
         >
           <div
-            className="pointer-events-none absolute top-0 h-[34px] rounded-[6px] bg-ink/5 transition-all duration-300 ease-out"
+            className="pointer-events-none absolute top-0 h-[34px] rounded-full bg-sand-100 transition-all duration-300 ease-out"
             style={{
               ...hoverStyle,
               opacity: hoveredIndex !== null ? 1 : 0,
             }}
           />
           <div
-            className="pointer-events-none absolute bottom-[2px] h-[2px] bg-accent transition-all duration-300 ease-out"
+            className="pointer-events-none absolute bottom-[2px] h-[2px] bg-brand-500 transition-all duration-300 ease-out"
             style={{ ...activeStyle, opacity: activeIndicatorOpacity }}
           />
 
@@ -183,13 +183,13 @@ export function Header({ variant = "home" }: HeaderProps) {
         <div className="hidden flex-none items-center gap-4 xl:flex">
           <a
             href={`tel:${PHONE_DIGITS}`}
-            className="whitespace-nowrap font-body text-[15px] font-bold text-text no-underline"
+            className="whitespace-nowrap text-[17px] font-bold text-graphite-900 no-underline"
           >
             {PHONE_DISPLAY}
           </a>
           <Link
             href={ESTIMATE_HREF_BY_VARIANT[variant]}
-            className="whitespace-nowrap rounded-pill bg-accent px-5 py-[11px] font-body text-[13px] font-bold tracking-[.02em] text-white no-underline transition-[filter] duration-150 ease-out hover:brightness-95"
+            className="whitespace-nowrap rounded-full bg-brand-500 px-6 py-3.5 text-[15px] font-bold text-white no-underline transition-colors duration-150 ease-out hover:bg-brand-600"
           >
             Free Estimate
           </Link>
@@ -199,7 +199,7 @@ export function Header({ variant = "home" }: HeaderProps) {
           <a
             href={`tel:${PHONE_DIGITS}`}
             aria-label={`Call ${PHONE_DISPLAY}`}
-            className="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-line text-text no-underline"
+            className="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-sand-200 text-graphite-900 no-underline"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none">
               <path
@@ -215,7 +215,7 @@ export function Header({ variant = "home" }: HeaderProps) {
             aria-controls="mobile-nav"
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-line text-text"
+            className="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-sand-200 text-graphite-900"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" fill="none">
               {isMenuOpen ? (
@@ -241,7 +241,7 @@ export function Header({ variant = "home" }: HeaderProps) {
       <div
         id="mobile-nav"
         className={cn(
-          "overflow-hidden border-t border-line bg-paper transition-[max-height] duration-300 ease-out xl:hidden",
+          "overflow-hidden rounded-b-2xl border-t border-sand-200 bg-white transition-[max-height] duration-300 ease-out xl:hidden",
           isMenuOpen ? "max-h-[480px]" : "max-h-0 border-t-0"
         )}
       >
@@ -255,8 +255,8 @@ export function Header({ variant = "home" }: HeaderProps) {
                 href={link.href}
                 onClick={closeMenu}
                 className={cn(
-                  "border-b border-line py-3 font-body text-base font-semibold no-underline last:border-b-0",
-                  isActive ? "text-accent" : "text-text"
+                  "min-h-[44px] border-b border-sand-200 py-3 text-base font-semibold no-underline last:border-b-0",
+                  isActive ? "text-brand-500" : "text-graphite-900"
                 )}
               >
                 {link.label}
@@ -266,7 +266,7 @@ export function Header({ variant = "home" }: HeaderProps) {
           <Link
             href={ESTIMATE_HREF_BY_VARIANT[variant]}
             onClick={closeMenu}
-            className="mt-4 w-full whitespace-nowrap rounded-pill bg-accent px-5 py-3 text-center font-body text-[15px] font-bold tracking-[.02em] text-white no-underline"
+            className="mt-4 min-h-[44px] w-full whitespace-nowrap rounded-full bg-brand-500 px-5 py-3 text-center text-[15px] font-bold text-white no-underline"
           >
             Free Estimate
           </Link>

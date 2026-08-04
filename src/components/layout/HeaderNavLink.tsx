@@ -61,8 +61,8 @@ export function HeaderNavLink({
         ref={linkRef}
         href={link.href}
         className={cn(
-          "relative z-10 block whitespace-nowrap px-3 py-2 font-body text-sm font-semibold no-underline transition-colors duration-150 ease-out hover:text-accent",
-          isActive ? "text-accent" : "text-text"
+          "relative z-10 block whitespace-nowrap rounded-full px-4 py-2.5 text-[15px] font-semibold no-underline transition-colors duration-150 ease-out hover:text-brand-500",
+          isActive ? "text-brand-500" : "text-graphite-700"
         )}
       >
         {link.label}

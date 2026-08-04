@@ -347,7 +347,7 @@ export default function Home() {
         {/* FAQ */}
         <section className="bg-alt" aria-labelledby="faq-heading">
           <Container className="py-24">
-            <Reveal className="grid grid-cols-1 gap-14 md:grid-cols-[1fr_1.3fr]">
+            <Reveal className="grid grid-cols-1 items-start gap-14 md:grid-cols-[1fr_1.3fr]">
             <div className="flex flex-col items-start gap-6 rounded-card border border-white/10 bg-white/5 p-8">
               <div>
                 <h3 className="mb-2 font-head text-2xl font-bold text-text bg-alt-heading">
@@ -361,16 +361,13 @@ export default function Home() {
                 <Button href="/#estimate" variant="primary">
                   Get a Free Roof Estimate
                 </Button>
-                <Button href="/#projects" variant="secondary" className="bg-alt-btn-secondary">
-                  View Our Work
-                </Button>
+                <a
+                  href={`tel:${PHONE_DIGITS}`}
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-pill border border-white/30 bg-transparent px-7 py-4 font-body text-[15px] font-bold text-white no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {PHONE_DISPLAY}
+                </a>
               </div>
-              <a
-                href={`tel:${PHONE_DIGITS}`}
-                className="font-head text-2xl font-bold text-text no-underline bg-alt-heading"
-              >
-                {PHONE_DISPLAY}
-              </a>
             </div>
             <div>
               <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">

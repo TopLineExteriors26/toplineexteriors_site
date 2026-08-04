@@ -22,6 +22,7 @@ export function Reveal({ children, index = 0, as: Tag = "div", className = "" }:
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: content is visible-by-default on the server, this only arms client-side after mount so JS-disabled users still see it.
       setShown(true);
       return;
     }

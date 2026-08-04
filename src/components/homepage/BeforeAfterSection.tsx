@@ -14,7 +14,7 @@ export function BeforeAfterSection() {
   const hasBothPhotos = Boolean(before.src && after.src);
 
   return (
-    <section className="px-5 py-10 sm:px-8 lg:px-10">
+    <section id="projects" className="scroll-mt-20 px-5 py-10 sm:px-8 lg:px-10">
       <div className="flex flex-col gap-[30px] rounded-2xl bg-graphite-900 p-6 lg:p-12">
         <Reveal as="div" className="flex flex-col gap-[30px] lg:flex-row lg:items-end lg:justify-between lg:gap-[60px]">
           <div className="flex flex-col gap-3.5">

@@ -1,5 +1,6 @@
 export const BUSINESS_NAME = "TopLine Exteriors";
 export const BUSINESS_LEGAL_NAME = "TopLine Exteriors LLC";
+// TODO(client): replace placeholder phone number before launch.
 export const PHONE_DISPLAY = "(267) 555-0198";
 export const PHONE_DIGITS = "2675550198";
 export const EMAIL = "info@toplineexteriorsllc.com";

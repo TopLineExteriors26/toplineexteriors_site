@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #1b2a45;
-  --color-text: #1b2a45;
-  --color-accent: #e2661b;
+  --color-ink: #2C2F33;
+  --color-text: #1E2023;
+  --color-accent: #F0731E;
   --color-paper: #ffffff;
-  --color-paper-2: #f7f4ef;
-  --color-line: rgba(27, 42, 69, 0.13);
-  --color-muted: #1b2a45;
+  --color-paper-2: #F4F3F0;
+  --color-line: #E8E6E2;
+  --color-muted: #52565B;
 
-  --radius-card: 6px;
-  --radius-input: 6px;
+  --radius-card: 14px;
+  --radius-input: 14px;
   --radius-pill: 999px;
 
-  --shadow-card: 0 10px 28px rgba(27, 42, 69, 0.09);
-  --shadow-cta: 0 10px 22px rgba(226, 102, 27, 0.28);
-  --shadow-arrow: 0 8px 20px rgba(27, 42, 69, 0.1);
+  --shadow-card: 0 10px 28px rgba(44, 47, 51, 0.10);
+  --shadow-cta: 0 10px 24px rgba(240, 115, 30, 0.28);
+  --shadow-arrow: 0 8px 20px rgba(44, 47, 51, 0.12);
 }
 
 @theme inline {
-  --font-head: var(--font-barlow-condensed);
-  --font-body: var(--font-barlow);
+  --font-head: var(--font-archivo-black);
+  --font-body: var(--font-archivo);
 }
 
 body {

@@ -109,36 +109,45 @@ export function Header({ variant = "home" }: HeaderProps) {
     };
   }, [isMenuOpen]);
 
-  const [isScrolled, setIsScrolled] = useState(false);
+  // The shrink-to-pill scroll animation is desktop-only (xl+, matching the
+  // Tailwind breakpoint the className below gates on). Below xl the pill is
+  // always full-width, so isScrolledDesktop is pinned to false there — this avoids
+  // any scroll-driven re-render/transition on mobile, not just hiding the
+  // effect behind xl: classes.
+  const [isScrolledDesktop, setIsScrolledDesktop] = useState(false);
 
   useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1280px)");
     let ticking = false;
     const handleScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        setIsScrolled(window.scrollY > 24);
+        setIsScrolledDesktop(desktopQuery.matches && window.scrollY > 24);
         ticking = false;
       });
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    desktopQuery.addEventListener("change", handleScroll);
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      desktopQuery.removeEventListener("change", handleScroll);
+    };
   }, []);
 
   return (
     <header
       className={cn(
         "sticky top-0 z-40 bg-white transition-[padding,background-color] duration-300 ease-out",
-        isScrolled ? "xl:bg-transparent xl:px-4 xl:pt-3" : ""
+        isScrolledDesktop ? "xl:bg-transparent xl:px-4 xl:pt-3" : ""
       )}
     >
       <div
         className={cn(
           "mx-auto flex w-full items-center justify-between gap-4 border border-transparent bg-white transition-[max-width,padding,border-radius,box-shadow] duration-300 ease-out",
-          isScrolled
-            ? "xl:max-w-[1080px] xl:rounded-full xl:border-sand-200 xl:px-6 xl:py-1.5 xl:shadow-nav"
-            : "max-w-[1440px] rounded-full border-sand-200 px-6 py-2 shadow-nav sm:px-8 lg:px-10"
+          "max-w-[1440px] rounded-full border-sand-200 px-6 py-2 shadow-nav sm:px-8 lg:px-10",
+          isScrolledDesktop && "xl:max-w-[1080px] xl:rounded-full xl:border-sand-200 xl:px-6 xl:py-1.5 xl:shadow-nav"
         )}
       >
         <Logo />

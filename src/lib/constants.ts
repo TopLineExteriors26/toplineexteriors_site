@@ -2729,3 +2729,119 @@ export const SOFFIT_FASCIA_TRIM_SERVICE: ServiceDetail = {
     },
   ],
 };
+
+// ---------------------------------------------------------------------------
+// HOMEPAGE REDESIGN (2026-08-04) — copy is verbatim from the approved design
+// handoff README.md. Do not reuse these for hub/service-detail pages; those
+// keep their existing HOME_*/ROOFING_*/etc. constants above.
+// ---------------------------------------------------------------------------
+
+export const HOME_REDESIGN_EYEBROW =
+  // TODO(client): confirm "booking 3 weeks out" reflects real current lead time.
+  "Bucks County, PA · South Jersey · booking 3 weeks out";
+
+export const HOME_REDESIGN_HERO_LINES = ["Roof leaking?", "Deck rotting?", "We answer today."] as const;
+
+export const HOME_REDESIGN_LEDE =
+  "Roofing, decks and siding installed by our own crews — never subcontracted. Detail-obsessed work, straight answers, and one fixed price before anyone touches your house.";
+
+// TODO(client): confirm "See 40 recent jobs" — count of real portfolio jobs available to link to.
+export const HOME_REDESIGN_SECONDARY_CTA = "See 40 recent jobs";
+
+// TODO(client): confirm "2 hrs" average reply time.
+export const HOME_REDESIGN_REPLY_STAT = { value: "2 hrs", label: "Average reply" };
+export const HOME_REDESIGN_REPLY_CAPTION = "A real person calls you back — weekends included.";
+
+export const HOME_REDESIGN_TRUST_LABEL = "Certified installer for";
+// TODO(client): verify the client currently holds each of these five certifications before shipping.
+export const HOME_REDESIGN_TRUST_BRANDS = ["GAF", "CertainTeed", "James Hardie", "Trex", "Owens Corning"] as const;
+
+export type HomeRedesignService = {
+  title: string;
+  imageSlot: "serviceRoofing" | "serviceDecks" | "serviceSiding";
+  body: string;
+  chips: readonly string[];
+  href: string;
+};
+
+export const HOME_REDESIGN_SERVICES: HomeRedesignService[] = [
+  {
+    title: "Roof replacement",
+    imageSlot: "serviceRoofing",
+    body: "Full tear-off, synthetic underlayment, ice & water shield in every valley. Most homes done in a day.",
+    chips: ["Shingle", "Standing seam", "Storm claims"],
+    href: "/roofing",
+  },
+  {
+    title: "Custom decks",
+    imageSlot: "serviceDecks",
+    body: "Composite or cedar on framing we deliberately over-build. Hidden fasteners, permits pulled by us.",
+    chips: ["Trex", "Cedar", "Multi-level"],
+    href: "/decks",
+  },
+  {
+    title: "Siding & trim",
+    imageSlot: "serviceSiding",
+    body: "Fiber-cement or insulated vinyl, wrapped windows, new flashing — the parts that fail first, done first.",
+    chips: ["James Hardie", "Insulated vinyl"],
+    href: "/siding",
+  },
+];
+
+export const HOME_REDESIGN_BA_HEADLINE_LINES = ["Hail hit Tuesday.", "New roof by Friday."] as const;
+
+// TODO(client): verify the Levittown insurance-approval story is accurate before shipping.
+export const HOME_REDESIGN_BA_ASIDE =
+  "Levittown, PA. Insurance approved in six days because every shingle was photographed before we touched it.";
+
+export type HomeRedesignStat = { value: string; label: string };
+
+export const HOME_REDESIGN_BA_STATS: HomeRedesignStat[] = [
+  // TODO(client): confirm 15+ years in the region.
+  { value: "15+", label: "Years in the region" },
+  // TODO(client): confirm 500+ jobs finished.
+  { value: "500+", label: "Jobs finished" },
+  // TODO(client): confirm 4.9★ / 180+ Google reviews.
+  { value: "4.9★", label: "180+ Google reviews" },
+  { value: "0", label: "Subcontracted crews" },
+];
+
+export type HomeRedesignReview = { quote: string; attribution: string };
+
+// TODO(client): these are placeholder quotes — replace with real Google reviews
+// (Places API or client-supplied verbatim text with permission) before launch.
+export const HOME_REDESIGN_REVIEWS: HomeRedesignReview[] = [
+  {
+    quote: "Estimate in my inbox the same evening. Roof finished in a day and my flowerbeds were untouched.",
+    attribution: "Dana R. — Newtown, PA",
+  },
+  {
+    quote: "Called at 8am about a leak, someone was on my roof by noon. Price never moved from the quote.",
+    attribution: "Anthony M. — Levittown, PA",
+  },
+  {
+    quote: "The deck framing is over-built and you can see it. Caulk lines on the siding are perfect.",
+    attribution: "Grace P. — Cherry Hill, NJ",
+  },
+];
+
+export const HOME_REDESIGN_FORM_STEPS = [
+  "You send the address and the problem",
+  "We measure on site and photograph everything",
+  "Fixed price in writing, plus a start date",
+] as const;
+
+export const HOME_REDESIGN_SERVICE_TYPE_OPTIONS = [
+  { key: "roof", label: "Roof" },
+  { key: "deck", label: "Deck" },
+  { key: "siding", label: "Siding" },
+  { key: "not-sure", label: "Not sure" },
+] as const;
+
+export const HOME_REDESIGN_FOOTER_LINKS = [
+  { label: "Roofing", href: "/roofing" },
+  { label: "Decks", href: "/decks" },
+  { label: "Siding", href: "/siding" },
+  { label: "Our work", href: "/#projects" },
+  { label: "Contact", href: "/#estimate" },
+] as const;

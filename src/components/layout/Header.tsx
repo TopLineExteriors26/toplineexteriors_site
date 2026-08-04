@@ -129,8 +129,8 @@ export function Header({ variant = "home" }: HeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 bg-white transition-[padding] duration-300 ease-out",
-        isScrolled ? "xl:px-4 xl:pt-3" : ""
+        "sticky top-0 z-40 bg-white transition-[padding,background-color] duration-300 ease-out",
+        isScrolled ? "xl:bg-transparent xl:px-4 xl:pt-3" : ""
       )}
     >
       <div

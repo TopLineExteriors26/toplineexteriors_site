@@ -14,7 +14,7 @@ import { EstimateForm } from "@/components/ui/EstimateForm";
 import { Reveal } from "@/components/ui/Reveal";
 import type { HubPageConfig } from "@/lib/hubConfigs";
 import { PROCESS_STEPS } from "@/lib/hubConfigs";
-import { SITE_URL } from "@/lib/constants";
+import { PHONE_DIGITS, PHONE_DISPLAY, SITE_URL } from "@/lib/constants";
 import {
   breadcrumbSchema,
   faqPageSchema,
@@ -102,7 +102,8 @@ export function HubPage({ config }: { config: HubPageConfig }) {
         </section>
 
         {/* WHY */}
-        <section className="bg-alt" aria-labelledby="why-heading">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="why-heading">
+          <div className="bg-alt rounded-[28px]">
           <Container className="py-24">
             <Reveal>
               <div className="mx-auto mb-12 max-w-[640px] text-center">
@@ -124,6 +125,7 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               ))}
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* SUB-SERVICES */}
@@ -172,6 +174,17 @@ export function HubPage({ config }: { config: HubPageConfig }) {
                 </Link>
               ))}
             </Reveal>
+            <Reveal className="mt-11 flex flex-wrap items-center justify-center gap-3.5 text-center">
+              <Button href={`/${config.slug}#estimate`} variant="primary">
+                {config.hero.primaryCtaLabel}
+              </Button>
+              <a
+                href={`tel:${PHONE_DIGITS}`}
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-pill border border-line bg-transparent px-7 py-4 font-body text-[15px] font-bold text-text no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                Call {PHONE_DISPLAY}
+              </a>
+            </Reveal>
           </Container>
         </section>
 
@@ -190,12 +203,18 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               </h2>
               <span className="section-heading-rule mb-11" aria-hidden="true" />
               <GalleryCarousel images={config.gallery.images} />
+              <div className="mt-11 flex justify-center">
+                <Button href={`/${config.slug}#estimate`} variant="primary">
+                  See Your Project Here — Get an Estimate
+                </Button>
+              </div>
             </Reveal>
           </Container>
         </section>
 
         {/* HOW IT WORKS */}
-        <section className="bg-alt" aria-labelledby="process-heading">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="process-heading">
+          <div className="bg-alt rounded-[28px]">
           <Container className="pt-[88px] pb-10">
             <Reveal>
               <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
@@ -233,6 +252,7 @@ export function HubPage({ config }: { config: HubPageConfig }) {
               ))}
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* REVIEWS */}
@@ -254,27 +274,61 @@ export function HubPage({ config }: { config: HubPageConfig }) {
                 mode="paginate"
                 cardSize="lg"
               />
+              <div className="mt-11 flex justify-center">
+                <Button href={`/${config.slug}#estimate`} variant="primary">
+                  {config.hero.primaryCtaLabel}
+                </Button>
+              </div>
             </Reveal>
           </Container>
         </section>
 
         {/* FAQ */}
-        <section className="bg-alt" aria-labelledby="faq-heading">
-          <Container narrow className="py-[88px]">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="faq-heading">
+          <div className="bg-alt rounded-[28px]">
+          <Container className="py-24">
             <Reveal>
-              <p className="mb-3 text-center font-body text-xs font-bold tracking-[.14em] text-accent">
-                {config.faqs.eyebrow}
-              </p>
-              <h2
-                id="faq-heading"
-                className="text-center font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
-              >
-                Questions we hear most.
-              </h2>
-              <span className="section-heading-rule is-centered mb-12" aria-hidden="true" />
-              <FaqAccordion faqs={config.faqs.items} />
+            <div className="text-center">
+            <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
+              {config.faqs.eyebrow}
+            </p>
+            <h2
+              id="faq-heading"
+              className="font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
+            >
+              Questions we hear most.
+            </h2>
+            <span className="section-heading-rule is-centered mb-11" aria-hidden="true" />
+            </div>
+            <div className="grid grid-cols-1 items-start gap-14 md:grid-cols-[1fr_1.3fr]">
+            <div className="flex flex-col items-start gap-6 rounded-card border border-white/10 bg-white/5 p-8">
+              <div>
+                <h3 className="mb-2 font-head text-2xl font-bold text-text bg-alt-heading">
+                  Still have questions? We&rsquo;re here to help.
+                </h3>
+                <p className="font-body text-sm leading-[1.6] text-muted bg-alt-muted">
+                  Call us directly or request a free estimate — we&rsquo;ll walk you through it.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3.5 self-stretch">
+                <Button href={`/${config.slug}#estimate`} variant="primary">
+                  {config.hero.primaryCtaLabel}
+                </Button>
+                <a
+                  href={`tel:${PHONE_DIGITS}`}
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-pill border border-white/30 bg-transparent px-7 py-4 font-body text-[15px] font-bold text-white no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {PHONE_DISPLAY}
+                </a>
+              </div>
+            </div>
+            <div>
+              <FaqAccordion faqs={config.faqs.items} columns={1} />
+            </div>
+            </div>
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* ESTIMATE FORM */}

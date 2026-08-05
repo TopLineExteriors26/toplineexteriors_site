@@ -3,110 +3,166 @@ import { Logo } from "@/components/layout/Logo";
 import { Container } from "@/components/ui/Container";
 import {
   BUSINESS_LEGAL_NAME,
-  DECKS_SUB_SERVICES,
+  BUSINESS_NAME,
   EMAIL,
+  FOOTER_CITIES,
   HIC_LICENSE,
-  HOME_REDESIGN_FOOTER_LINKS,
   NJ_HIC_LICENSE,
+  PHONE_DIGITS,
   PHONE_DISPLAY,
-  ROOFING_SUB_SERVICES,
   SERVICE_AREA_BLURB,
-  SIDING_SUB_SERVICES,
-  type SubService,
 } from "@/lib/constants";
+import {
+  DECKS_HUB_CONFIG,
+  ROOFING_HUB_CONFIG,
+  SIDING_HUB_CONFIG,
+  navDropdownItemsFor,
+  type HubHeaderFooterVariant,
+} from "@/lib/hubConfigs";
 
-type FooterVariant = "home" | "roofing" | "decks" | "siding";
+type FooterVariant = "home" | HubHeaderFooterVariant;
 
 type FooterProps = {
   variant?: FooterVariant;
 };
 
-const SERVICE_HUB_CONFIG: Record<
-  Exclude<FooterVariant, "home">,
-  { heading: string; subServices: SubService[] }
-> = {
-  roofing: { heading: "ROOFING SERVICES", subServices: ROOFING_SUB_SERVICES },
-  decks: { heading: "DECK SERVICES", subServices: DECKS_SUB_SERVICES },
-  siding: { heading: "SIDING SERVICES", subServices: SIDING_SUB_SERVICES },
+const HUB_LINKS: Record<HubHeaderFooterVariant, { heading: string; href: string }> = {
+  roofing: { heading: "Roofing Services", href: "/roofing" },
+  decks: { heading: "Deck & Fence Services", href: "/decks" },
+  siding: { heading: "Siding Services", href: "/siding" },
 };
+
+const SERVICE_COLUMNS: Record<HubHeaderFooterVariant, { label: string; href: string }[]> = {
+  roofing: navDropdownItemsFor(ROOFING_HUB_CONFIG),
+  decks: navDropdownItemsFor(DECKS_HUB_CONFIG),
+  siding: navDropdownItemsFor(SIDING_HUB_CONFIG),
+};
+
+const COMPANY_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Roofing", href: "/roofing" },
+  { label: "Decks & Fencing", href: "/decks" },
+  { label: "Siding", href: "/siding" },
+  { label: "Our Work", href: "/#projects" },
+  { label: "Get an Estimate", href: "/#estimate" },
+];
 
 export function Footer({ variant = "home" }: FooterProps) {
   const year = new Date().getFullYear();
   const isHub = variant !== "home";
-  const hubConfig = isHub ? SERVICE_HUB_CONFIG[variant] : null;
+  const estimateHref = isHub ? `/${variant}#estimate` : "/#estimate";
 
-  if (!isHub) {
-    return (
-      <footer className="px-5 pb-10 pt-5 sm:px-8 lg:px-10">
-        <div className="flex flex-col items-center gap-6 rounded-[22px] bg-graphite-900 px-10 py-9 text-center sm:flex-row sm:justify-between sm:text-left">
-          <Logo dark />
-          <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-8 gap-y-2">
-            {HOME_REDESIGN_FOOTER_LINKS.map((link) => (
+  return (
+    <footer className="bg-graphite-900 text-white">
+      <Container className="grid grid-cols-1 gap-10 pb-10 pt-16 sm:grid-cols-2 md:pt-[72px] lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
+        {/* BRAND + CONTACT */}
+        <div>
+          <div className="mb-6 inline-block rounded-2xl bg-white px-6 py-5">
+            <Logo className="h-14 sm:h-16" />
+          </div>
+          <p className="mb-5 max-w-[280px] font-body text-sm leading-[1.7] text-graphite-200">
+            Licensed &amp; insured roofing, deck, and siding contractor
+            serving Bucks County, PA and South Jersey. Our own crews, no
+            subcontractors.
+          </p>
+          <div className="flex flex-col gap-2 font-body text-sm text-graphite-200">
+            <a
+              href={`tel:${PHONE_DIGITS}`}
+              className="font-bold text-white no-underline hover:text-brand-400"
+            >
+              {PHONE_DISPLAY}
+            </a>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="text-graphite-200 no-underline hover:text-brand-400"
+            >
+              {EMAIL}
+            </a>
+            <span>{SERVICE_AREA_BLURB}</span>
+          </div>
+        </div>
+
+        {/* SERVICES */}
+        <div>
+          <div className="mb-4 font-body text-[13px] font-bold tracking-[.06em] text-white/90">
+            SERVICES
+          </div>
+          {isHub ? (
+            <nav aria-label="Services" className="flex flex-col">
+              {SERVICE_COLUMNS[variant].map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="py-1.5 font-body text-sm text-graphite-200 no-underline hover:text-brand-400"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          ) : (
+            <nav aria-label="Services" className="flex flex-col">
+              {(Object.keys(HUB_LINKS) as HubHeaderFooterVariant[]).map((key) => (
+                <Link
+                  key={key}
+                  href={HUB_LINKS[key].href}
+                  className="py-1.5 font-body text-sm text-graphite-200 no-underline hover:text-brand-400"
+                >
+                  {HUB_LINKS[key].heading}
+                </Link>
+              ))}
+            </nav>
+          )}
+        </div>
+
+        {/* COMPANY */}
+        <div>
+          <div className="mb-4 font-body text-[13px] font-bold tracking-[.06em] text-white/90">
+            COMPANY
+          </div>
+          <nav aria-label="Company" className="flex flex-col">
+            {COMPANY_LINKS.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[15px] font-semibold text-graphite-100 no-underline hover:text-brand-400"
+                className="py-1.5 font-body text-sm text-graphite-200 no-underline hover:text-brand-400"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <p className="text-right text-[13px] leading-normal text-graphite-300">
-            {BUSINESS_LEGAL_NAME}
-            <br />
-            {HIC_LICENSE} · {NJ_HIC_LICENSE}
-          </p>
-        </div>
-      </footer>
-    );
-  }
-
-  return (
-    <footer className="bg-graphite-900 text-white">
-      <Container
-        className="grid grid-cols-1 gap-10 pb-8 pt-16 sm:grid-cols-2 md:pt-[72px] lg:grid-cols-[1.3fr_1fr_1fr]"
-      >
-        <div>
-          <div className="mb-[18px]">
-            <Logo dark />
-          </div>
-          <div className="text-sm leading-[1.8] text-graphite-200">
-            {PHONE_DISPLAY}
-            <br />
-            {EMAIL}
-            <br />
-            {SERVICE_AREA_BLURB}
-          </div>
         </div>
 
+        {/* SERVICE AREA */}
         <div>
-          <div className="mb-4 text-[13px] font-bold tracking-[.06em] text-white/90">
-            {hubConfig?.heading}
+          <div className="mb-4 font-body text-[13px] font-bold tracking-[.06em] text-white/90">
+            SERVICE AREA
           </div>
-          {hubConfig?.subServices.map((s) => (
-            <div key={s.title} className="py-1 text-[13px] text-graphite-200">
-              {s.title}
-            </div>
-          ))}
-        </div>
-
-        <div>
-          <div className="mb-4 text-[13px] font-bold tracking-[.06em] text-white/90">
-            COMPANY
-          </div>
-          <Link href="/" className="block py-1.5 text-sm text-graphite-200 no-underline">
-            Home
+          <ul className="m-0 flex flex-col gap-1.5 p-0 font-body text-sm text-graphite-200">
+            {FOOTER_CITIES.map((city) => (
+              <li key={city}>{city}</li>
+            ))}
+          </ul>
+          <Link
+            href={estimateHref}
+            className="mt-4 inline-block font-body text-[13px] font-bold text-accent no-underline hover:text-brand-400"
+          >
+            Get a Free Estimate →
           </Link>
-          <div className="py-1.5 text-sm text-graphite-200">About</div>
-          <div className="py-1.5 text-sm text-graphite-200">Contact</div>
         </div>
       </Container>
 
       <div className="border-t border-graphite-700">
-        <Container className="flex flex-wrap justify-between gap-2 py-6 text-xs text-graphite-300">
+        <Container className="flex flex-col flex-wrap items-center justify-between gap-3 py-6 text-center font-body text-xs text-graphite-300 sm:flex-row sm:text-left">
           <span>
-            © {year} {BUSINESS_LEGAL_NAME}. {HIC_LICENSE}. Licensed &amp;
-            insured.
+            © {year} {BUSINESS_LEGAL_NAME}. All rights reserved. {HIC_LICENSE}{" "}
+            · {NJ_HIC_LICENSE}.
+          </span>
+          <span className="flex items-center gap-4">
+            <Link href="/privacy" className="text-graphite-300 no-underline hover:text-brand-400">
+              Privacy Policy
+            </Link>
+            <span aria-hidden="true">·</span>
+            <span>{BUSINESS_NAME}</span>
           </span>
         </Container>
       </div>

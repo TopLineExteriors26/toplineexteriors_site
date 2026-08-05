@@ -9,14 +9,6 @@ export const HIC_LICENSE = "PA HIC #PA000000 (placeholder)";
 export const NJ_HIC_LICENSE = "NJ HIC #13VH00000000 (placeholder)";
 export const SITE_URL = "https://www.toplineexteriorsllc.com";
 
-export const HOME_REDESIGN_FOOTER_LINKS = [
-  { label: "Roofing", href: "/roofing" },
-  { label: "Decks", href: "/decks" },
-  { label: "Siding", href: "/siding" },
-  { label: "Our work", href: "/#projects" },
-  { label: "Contact", href: "/#estimate" },
-] as const;
-
 export const SERVICE_AREA_BLURB =
   "Serving Bucks County, PA & South Jersey";
 
@@ -45,7 +37,6 @@ export const HOME_NAV_LINKS: NavLink[] = [
   { label: "Roofing", href: "/roofing" },
   { label: "Decks", href: "/decks" },
   { label: "Siding", href: "/siding" },
-  { label: "About", href: "/" },
   { label: "Contact", href: "/#estimate" },
 ];
 
@@ -54,7 +45,6 @@ export const ROOFING_NAV_LINKS: NavLink[] = [
   { label: "Roofing", href: "/roofing" },
   { label: "Decks", href: "/decks" },
   { label: "Siding", href: "/siding" },
-  { label: "About", href: "/" },
   { label: "Contact", href: "/roofing#estimate" },
 ];
 
@@ -63,7 +53,6 @@ export const DECKS_NAV_LINKS: NavLink[] = [
   { label: "Roofing", href: "/roofing" },
   { label: "Decks", href: "/decks" },
   { label: "Siding", href: "/siding" },
-  { label: "About", href: "/" },
   { label: "Contact", href: "/decks#estimate" },
 ];
 
@@ -72,7 +61,6 @@ export const SIDING_NAV_LINKS: NavLink[] = [
   { label: "Roofing", href: "/roofing" },
   { label: "Decks", href: "/decks" },
   { label: "Siding", href: "/siding" },
-  { label: "About", href: "/" },
   { label: "Contact", href: "/siding#estimate" },
 ];
 

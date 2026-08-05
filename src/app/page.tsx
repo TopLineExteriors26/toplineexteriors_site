@@ -29,7 +29,7 @@ import {
 import { faqPageSchema, localBusinessSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "TopLine Exteriors | Roofing, Decks & Siding — Bucks County, PA & South Jersey",
+  title: "TopLine Exteriors | Roofing, Decks & Siding in Bucks County, PA & South Jersey",
   description:
     "Licensed & insured roofing, deck, and siding contractor with 15+ years serving Bucks County, PA, Philadelphia, and South Jersey. Get a free estimate today.",
   alternates: {
@@ -103,7 +103,8 @@ export default function Home() {
         </section>
 
         {/* WHY TOPLINE */}
-        <section className="bg-alt" aria-labelledby="why-heading">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="why-heading">
+          <div className="bg-alt rounded-[28px]">
           <Container className="pt-24 pb-20">
             <Reveal>
               <div className="mx-auto mb-12 max-w-[640px] text-center">
@@ -131,6 +132,7 @@ export default function Home() {
               ))}
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* SERVICES */}
@@ -193,11 +195,23 @@ export default function Home() {
                 </div>
               ))}
             </Reveal>
+            <Reveal className="mt-12 flex flex-wrap items-center justify-center gap-3.5 text-center">
+              <Button href="/#estimate" variant="primary">
+                Get a Free Estimate
+              </Button>
+              <a
+                href={`tel:${PHONE_DIGITS}`}
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-pill border border-line bg-transparent px-7 py-4 font-body text-[15px] font-bold text-text no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                Call {PHONE_DISPLAY}
+              </a>
+            </Reveal>
           </Container>
         </section>
 
         {/* HOW IT WORKS */}
-        <section className="bg-alt" aria-labelledby="process-heading">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="process-heading">
+          <div className="bg-alt rounded-[28px]">
           <Container className="py-24">
             <Reveal>
             <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
@@ -230,6 +244,7 @@ export default function Home() {
               ))}
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* RECENT PROJECTS */}
@@ -286,11 +301,17 @@ export default function Home() {
                 )
               )}
             </Reveal>
+            <Reveal className="mt-12 flex justify-center">
+              <Button href="/#estimate" variant="primary">
+                Start Your Project
+              </Button>
+            </Reveal>
           </Container>
         </section>
 
         {/* REVIEWS */}
-        <section className="overflow-hidden bg-alt" aria-labelledby="reviews-heading">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="reviews-heading">
+          <div className="bg-alt overflow-hidden rounded-[28px]">
           <Container className="py-24">
             <Reveal>
             <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
@@ -306,6 +327,7 @@ export default function Home() {
             <ReviewCarousel reviews={HOME_REVIEWS} mode="paginate" autoAdvanceMs={6000} />
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* SERVICE AREA */}
@@ -328,7 +350,7 @@ export default function Home() {
                 and across the river into South Jersey — if it&rsquo;s on
                 this list, we&rsquo;re already working nearby.
               </p>
-              <ul className="flex flex-wrap gap-2.5 p-0">
+              <ul className="mb-8 flex flex-wrap gap-2.5 p-0">
                 {CITIES.map((city) => (
                   <li
                     key={city}
@@ -338,6 +360,9 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
+              <Button href="/#estimate" variant="primary">
+                Check If We Serve Your Area
+              </Button>
             </div>
             <PlaceholderImage label="service-area map" alt="Map of TopLine Exteriors' service area" />
             </Reveal>
@@ -345,9 +370,23 @@ export default function Home() {
         </section>
 
         {/* FAQ */}
-        <section className="bg-alt" aria-labelledby="faq-heading">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="faq-heading">
+          <div className="bg-alt rounded-[28px]">
           <Container className="py-24">
-            <Reveal className="grid grid-cols-1 items-start gap-14 md:grid-cols-[1fr_1.3fr]">
+            <Reveal>
+            <div className="text-center">
+            <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
+              FAQ
+            </p>
+            <h2
+              id="faq-heading"
+              className="font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
+            >
+              Questions homeowners ask us.
+            </h2>
+            <span className="section-heading-rule is-centered mb-11" aria-hidden="true" />
+            </div>
+            <div className="grid grid-cols-1 items-start gap-14 md:grid-cols-[1fr_1.3fr]">
             <div className="flex flex-col items-start gap-6 rounded-card border border-white/10 bg-white/5 p-8">
               <div>
                 <h3 className="mb-2 font-head text-2xl font-bold text-text bg-alt-heading">
@@ -370,20 +409,12 @@ export default function Home() {
               </div>
             </div>
             <div>
-              <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
-                FAQ
-              </p>
-              <h2
-                id="faq-heading"
-                className="font-head text-[34px] font-bold uppercase text-text bg-alt-heading"
-              >
-                Questions homeowners ask us.
-              </h2>
-              <span className="section-heading-rule mb-11" aria-hidden="true" />
               <FaqAccordion faqs={HOME_FAQS} columns={1} />
+            </div>
             </div>
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* ESTIMATE FORM */}

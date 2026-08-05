@@ -101,6 +101,12 @@ export function Header({ variant = "home" }: HeaderProps) {
 
   const activeIndicatorOpacity = activeIndex < 0 ? 0 : 1;
 
+  const handleHomeLinkClick = (href: string) => {
+    if (href === "/" && pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     if (!isMenuOpen) return;
     document.body.style.overflow = "hidden";
@@ -158,7 +164,7 @@ export function Header({ variant = "home" }: HeaderProps) {
           className="relative hidden items-center xl:flex"
         >
           <div
-            className="pointer-events-none absolute top-0 h-[34px] rounded-full bg-sand-100 transition-all duration-300 ease-out"
+            className="pointer-events-none absolute top-1/2 h-[34px] -translate-y-1/2 rounded-full bg-sand-100 transition-all duration-300 ease-out"
             style={{
               ...hoverStyle,
               opacity: hoveredIndex !== null ? 1 : 0,
@@ -184,6 +190,7 @@ export function Header({ variant = "home" }: HeaderProps) {
                 onMouseLeave={() =>
                   setHoveredIndex((current) => (current === index ? null : current))
                 }
+                onLinkClick={() => handleHomeLinkClick(link.href)}
               />
             );
           })}
@@ -262,7 +269,10 @@ export function Header({ variant = "home" }: HeaderProps) {
               <Link
                 key={link.label}
                 href={link.href}
-                onClick={closeMenu}
+                onClick={() => {
+                  closeMenu();
+                  handleHomeLinkClick(link.href);
+                }}
                 className={cn(
                   "min-h-[44px] border-b border-sand-200 py-3 text-base font-semibold no-underline last:border-b-0",
                   isActive ? "text-brand-500" : "text-graphite-900"

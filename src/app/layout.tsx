@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "TopLine Exteriors | Roofing, Decks & Siding — Bucks County, PA & South Jersey",
+    default: "TopLine Exteriors | Roofing, Decks & Siding in Bucks County, PA & South Jersey",
     template: "%s | TopLine Exteriors",
   },
 };

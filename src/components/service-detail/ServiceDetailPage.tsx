@@ -124,7 +124,8 @@ export function ServiceDetailPage({
         </section>
 
         {/* SIGNS YOU NEED THIS */}
-        <section className="bg-alt" aria-labelledby="signs-heading">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="signs-heading">
+          <div className="bg-alt rounded-[28px]">
           <Container className="py-[88px]">
             <Reveal>
             <h2
@@ -167,6 +168,7 @@ export function ServiceDetailPage({
               </Button>
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* PROCESS */}
@@ -207,7 +209,8 @@ export function ServiceDetailPage({
 
         {/* MATERIALS */}
         {hasMaterials && (
-          <section className="bg-alt" aria-labelledby="materials-heading">
+          <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="materials-heading">
+            <div className="bg-alt rounded-[28px]">
             <Container className="py-[88px]">
               <Reveal>
               <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
@@ -242,6 +245,7 @@ export function ServiceDetailPage({
                 </Button>
               </Reveal>
             </Container>
+            </div>
           </section>
         )}
 
@@ -266,9 +270,10 @@ export function ServiceDetailPage({
 
         {/* RELATED SERVICES */}
         <section
-          className={hasMaterials ? "bg-paper" : "bg-alt"}
+          className={hasMaterials ? "bg-paper" : "bg-paper px-4 py-4 sm:px-6"}
           aria-labelledby="related-heading"
         >
+          <div className={hasMaterials ? undefined : "bg-alt rounded-[28px]"}>
           <Container className="py-[88px]">
             <Reveal>
             <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
@@ -309,6 +314,7 @@ export function ServiceDetailPage({
               ))}
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* FINAL CTA */}

@@ -146,7 +146,8 @@ export default async function ProjectCaseStudyPage({
         </section>
 
         {/* GALLERY */}
-        <section className="bg-alt" aria-labelledby="gallery-heading">
+        <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="gallery-heading">
+          <div className="bg-alt rounded-[28px]">
           <Container className="py-24">
             <Reveal>
             <h2
@@ -168,6 +169,7 @@ export default async function ProjectCaseStudyPage({
               ))}
             </Reveal>
           </Container>
+          </div>
         </section>
 
         {/* REVIEW */}
@@ -198,9 +200,10 @@ export default async function ProjectCaseStudyPage({
         {/* CTA */}
         <section
           id="estimate"
-          className="scroll-mt-20 bg-alt"
+          className="scroll-mt-20 bg-paper px-4 py-4 sm:px-6"
           aria-labelledby="cta-heading"
         >
+          <div className="bg-alt rounded-[28px]">
           <Container className="py-24 text-center">
             <Reveal>
             <h2
@@ -225,6 +228,7 @@ export default async function ProjectCaseStudyPage({
             </div>
             </Reveal>
           </Container>
+          </div>
         </section>
       </main>
 

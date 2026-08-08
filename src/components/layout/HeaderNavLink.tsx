@@ -73,6 +73,8 @@ export function HeaderNavLink({
 
       {dropdownItems ? (
         <NavDropdownPanel
+          heading={link.label}
+          href={link.href}
           items={dropdownItems}
           isOpen={isDropdownOpen}
           onLinkClick={() => setIsDropdownOpen(false)}

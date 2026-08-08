@@ -22,7 +22,7 @@ type ButtonAsButton = CommonProps & {
 type ButtonProps = ButtonAsLink | ButtonAsButton;
 
 const baseClasses =
-  "inline-flex items-center justify-center whitespace-nowrap rounded-pill px-7 py-4 font-body text-[15px] font-bold no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+  "btn-shine inline-flex items-center justify-center whitespace-nowrap rounded-pill px-7 py-4 font-body text-[15px] font-bold no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 const variantClasses = {
   primary: "bg-accent text-white shadow-cta",

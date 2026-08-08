@@ -1,12 +1,9 @@
 export const BUSINESS_NAME = "TopLine Exteriors";
 export const BUSINESS_LEGAL_NAME = "TopLine Exteriors LLC";
-// TODO(client): replace placeholder phone number before launch.
-export const PHONE_DISPLAY = "(267) 555-0198";
-export const PHONE_DIGITS = "2675550198";
-export const EMAIL = "info@toplineexteriorsllc.com";
-export const HIC_LICENSE = "PA HIC #PA000000 (placeholder)";
-// TODO(client): confirm real NJ HIC license number.
-export const NJ_HIC_LICENSE = "NJ HIC #13VH00000000 (placeholder)";
+export const PHONE_DISPLAY = "(267) 202-3663";
+export const PHONE_DIGITS = "2672023663";
+export const EMAIL = "toplineexteriors26@gmail.com";
+export const HIC_LICENSE = "PA HIC #PA214414";
 export const SITE_URL = "https://www.toplineexteriorsllc.com";
 
 export const SERVICE_AREA_BLURB =
@@ -115,7 +112,7 @@ export const ROOFING_WHY_ITEMS: WhyItem[] = [
     icon: "stamp",
   },
   {
-    title: "Lifetime Workmanship Warranty",
+    title: "Workmanship Warranty",
     desc: "Our own crews, backed by a warranty on the labor itself.",
     icon: "badge",
   },
@@ -131,6 +128,7 @@ export type ServiceCard = {
   title: string;
   href: string;
   imgLabel: string;
+  imgSrc?: string;
   desc: string;
   bullets: string[];
 };
@@ -141,11 +139,12 @@ export const SERVICES: ServiceCard[] = [
     title: "Roofing",
     href: "/roofing",
     imgLabel: "roof replacement — in progress",
+    imgSrc: "/roofing/2/1.jpg",
     desc: "Roof replacement, repair, and inspections built around real Pennsylvania winters.",
     bullets: [
       "GAF & CertainTeed certified systems",
       "Storm damage & insurance claims",
-      "Lifetime workmanship warranty",
+      "Workmanship warranty",
     ],
   },
   {
@@ -153,6 +152,7 @@ export const SERVICES: ServiceCard[] = [
     title: "Decks",
     href: "/decks",
     imgLabel: "composite deck build",
+    imgSrc: "/deck/1 deck/1.webp",
     desc: "Composite and wood decks designed to hold up outdoors, all season.",
     bullets: [
       "Custom design & permits handled",
@@ -165,6 +165,7 @@ export const SERVICES: ServiceCard[] = [
     title: "Siding",
     href: "/siding",
     imgLabel: "fiber-cement siding install",
+    imgSrc: "/siding/10 siding/1.webp",
     desc: "Vinyl, insulated, and fiber-cement siding that locks out weather for good.",
     bullets: [
       "James Hardie fiber-cement",
@@ -186,7 +187,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
   {
     num: "01",
     title: "Free Estimate",
-    desc: "A walkthrough and a written quote, usually within 48 hours.",
+    desc: "A walkthrough and a written, no-obligation quote.",
   },
   {
     num: "02",
@@ -211,14 +212,14 @@ export type Stat = {
 };
 
 export const HOME_STATS: Stat[] = [
-  { value: "15+", label: "Years serving the region" },
+  { value: "5+", label: "Years serving the region" },
   { value: "500+", label: "Roofs, decks & siding jobs" },
   { value: "4.9★", label: "Average client rating" },
   { value: "10+", label: "Communities served" },
 ];
 
 export const ROOFING_STATS: Stat[] = [
-  { value: "15+", label: "Years serving the region" },
+  { value: "5+", label: "Years serving the region" },
   { value: "500+", label: "Roofs completed" },
   { value: "4.9★", label: "Average client rating" },
   { value: "10+", label: "Communities served" },
@@ -230,30 +231,39 @@ export type TrustBadge = {
 };
 
 export const TRUST_BADGES: TrustBadge[] = [
-  { value: "4.9★ / 180+ Reviews", label: "Average Google rating" },
-  { value: "15+ Years", label: "Serving Bucks County & South Jersey" },
+  { value: "4.9★ Rating", label: "Average Google rating" },
+  { value: "5+ Years", label: "Serving Bucks County & South Jersey" },
   { value: "Licensed & Insured", label: "PA & NJ compliant, every job" },
 ];
 
 export type Project = {
   label: string;
-  colSpan: number;
-  rowSpan: number;
-  slug?: string;
+  alt: string;
+  src: string;
+  href: string;
+  featured?: boolean;
 };
 
 export const PROJECTS: Project[] = [
-  { label: "Roof replacement — Yardley, PA", colSpan: 2, rowSpan: 2 },
-  { label: "Composite deck — Newtown, PA", colSpan: 2, rowSpan: 1 },
-  { label: "Siding replacement — Cherry Hill, NJ", colSpan: 2, rowSpan: 1 },
   {
-    label: "Storm damage repair — Bristol, PA",
-    colSpan: 1,
-    rowSpan: 1,
-    slug: "storm-damage-repair-bristol-pa",
+    label: "Full tear-off roof replacement",
+    alt: "Full tear-off roof replacement in progress in Bucks County, PA",
+    src: "/roofing/1/1.jpg",
+    href: "/projects/full-tear-off-roof-replacement",
+    featured: true,
   },
-  { label: "Deck staining — Levittown, PA", colSpan: 1, rowSpan: 1 },
-  { label: "Fiber-cement siding — Doylestown, PA", colSpan: 2, rowSpan: 1 },
+  {
+    label: "Privacy fencing — freshly installed",
+    alt: "Newly installed wood privacy fencing along a property line",
+    src: "/deck/5 deck/1.webp",
+    href: "/projects/privacy-fencing-install",
+  },
+  {
+    label: "Full tear-off siding replacement",
+    alt: "Full tear-off siding replacement in progress on a residential home",
+    src: "/siding/2 siding/1.webp",
+    href: "/projects/full-tear-off-siding-replacement",
+  },
 ];
 
 export type Review = {
@@ -280,13 +290,13 @@ export const HOME_REVIEWS: Review[] = [
     name: "Carlos M.",
     meta: "Siding Replacement — Cherry Hill, NJ",
     stars: "★★★★★",
-    text: "Our old vinyl was falling apart. TopLine tore it off and put up James Hardie siding — the house looks brand new.",
+    text: "Our old vinyl was falling apart. TopLine tore it off and put up James Hardie siding, and the house looks brand new.",
   },
   {
     name: "Sandra K.",
     meta: "Storm Damage Repair — Bristol, PA",
     stars: "★★★★★",
-    text: "Hail damage claim handled start to finish — they dealt with the adjuster directly and the new roof looks great.",
+    text: "Hail damage claim handled start to finish, and they dealt with the adjuster directly. The new roof looks great.",
   },
   {
     name: "Vince A.",
@@ -316,7 +326,7 @@ export const HOME_REVIEWS: Review[] = [
     name: "Renee P.",
     meta: "Vinyl Siding Replacement — Levittown, PA",
     stars: "★★★★★",
-    text: "Found soft sheathing behind our old siding during tear-off and fixed it before wrapping — glad they checked.",
+    text: "Found soft sheathing behind our old siding during tear-off and fixed it before wrapping. Glad they checked.",
   },
 ];
 
@@ -331,7 +341,7 @@ export const ROOFING_REVIEWS: Review[] = [
     name: "Sandra K.",
     meta: "Storm Damage — Bristol, PA",
     stars: "★★★★★",
-    text: "Hail damage claim handled start to finish — they dealt with the adjuster directly and the new roof looks great.",
+    text: "Hail damage claim handled start to finish, and they dealt with the adjuster directly. The new roof looks great.",
   },
   {
     name: "Tom P.",
@@ -357,7 +367,7 @@ export const HOME_FAQS: Faq[] = [
   },
   {
     q: "How long does a typical roof replacement take?",
-    a: "Most single-family roof replacements are completed in one to three days, weather permitting, with cleanup the same day.",
+    a: "Timeline depends on the size and complexity of the roof — we'll walk you through the schedule for your specific project during the estimate.",
   },
   {
     q: "Do you offer financing?",
@@ -380,7 +390,7 @@ export const ROOFING_FAQS: Faq[] = [
   },
   {
     q: "How long does a typical roof replacement take?",
-    a: "Most single-family roof replacements are completed in one to three days, weather permitting, with cleanup the same day.",
+    a: "Timeline depends on the size and complexity of the roof — we'll walk you through the schedule for your specific project during the estimate.",
   },
   {
     q: "Do you offer financing?",
@@ -439,36 +449,19 @@ export const ROOFING_SUB_SERVICES: SubService[] = [
 export type GalleryImage = {
   label: string;
   alt: string;
+  src?: string;
 };
 
 export const ROOFING_GALLERY: GalleryImage[] = [
   {
-    label: "full tear-off roof replacement — Bucks County, PA",
+    label: "full tear-off roof replacement",
     alt: "Full tear-off roof replacement in progress in Bucks County, PA",
-  },
-  {
-    label: "new GAF architectural shingles — ridge detail",
-    alt: "Close-up of new GAF architectural shingles along the roof ridge",
-  },
-  {
-    label: "chimney flashing replacement",
-    alt: "New step and counter-flashing installed around a chimney",
+    src: "/roofing/1/1.jpg",
   },
   {
     label: "standing-seam metal roof install",
     alt: "Standing-seam metal roofing panels installed on a residential home",
-  },
-  {
-    label: "storm damage repair — before and after",
-    alt: "Before and after photos of a storm-damaged roof repair",
-  },
-  {
-    label: "seamless gutters — fresh install",
-    alt: "Newly installed seamless gutters along a roofline",
-  },
-  {
-    label: "completed roof replacement — finished exterior",
-    alt: "Completed roof replacement on a home in Bucks County, PA",
+    src: "/roofing/2/1.jpg",
   },
 ];
 
@@ -506,7 +499,7 @@ export const DECKS_WHY_ITEMS: WhyItem[] = [
 ];
 
 export const DECKS_STATS: Stat[] = [
-  { value: "15+", label: "Years serving the region" },
+  { value: "5+", label: "Years serving the region" },
   { value: "300+", label: "Decks & fences built" },
   { value: "4.9★", label: "Average client rating" },
   { value: "10+", label: "Communities served" },
@@ -598,26 +591,32 @@ export const DECKS_GALLERY: GalleryImage[] = [
   {
     label: "custom composite deck — finished build",
     alt: "Finished custom composite deck build in Bucks County, PA",
+    src: "/deck/1 deck/1.webp",
   },
   {
     label: "deck framing — structural build in progress",
     alt: "Deck framing and joist structure during construction",
+    src: "/deck/2 deck/1.webp",
   },
   {
     label: "cable railing system — install detail",
     alt: "Close-up of a cable railing system installed on a deck",
+    src: "/deck/3 deck/1.webp",
   },
   {
     label: "wood deck restoration — before and after",
     alt: "Before and after photos of a wood deck restoration",
+    src: "/deck/4 deck/1.webp",
   },
   {
     label: "privacy fencing — freshly installed",
     alt: "Newly installed wood privacy fencing along a property line",
+    src: "/deck/5 deck/1.webp",
   },
   {
     label: "ipe hardwood decking — finished surface",
     alt: "Finished ipe hardwood decking surface detail",
+    src: "/deck/6 deck/1.webp",
   },
   {
     label: "completed deck & railing — full exterior view",
@@ -653,7 +652,7 @@ export const SIDING_WHY_ITEMS: WhyItem[] = [
 ];
 
 export const SIDING_STATS: Stat[] = [
-  { value: "15+", label: "Years serving the region" },
+  { value: "5+", label: "Years serving the region" },
   { value: "400+", label: "Siding projects completed" },
   { value: "4.9★", label: "Average client rating" },
   { value: "10+", label: "Communities served" },
@@ -664,13 +663,13 @@ export const SIDING_REVIEWS: Review[] = [
     name: "Carlos M.",
     meta: "Fiber-Cement Siding — Cherry Hill, NJ",
     stars: "★★★★★",
-    text: "Our old vinyl was falling apart. TopLine tore it off and put up James Hardie siding — the house looks brand new.",
+    text: "Our old vinyl was falling apart. TopLine tore it off and put up James Hardie siding, and the house looks brand new.",
   },
   {
     name: "Renee P.",
     meta: "Vinyl Siding Replacement — Levittown, PA",
     stars: "★★★★★",
-    text: "Found soft sheathing behind our old siding during tear-off and fixed it before wrapping — glad they checked.",
+    text: "Found soft sheathing behind our old siding during tear-off and fixed it before wrapping. Glad they checked.",
   },
   {
     name: "Anthony D.",
@@ -745,26 +744,32 @@ export const SIDING_GALLERY: GalleryImage[] = [
   {
     label: "James Hardie fiber-cement siding — finished install",
     alt: "Finished James Hardie fiber-cement siding install in Bucks County, PA",
+    src: "/siding/1 siding/1.webp",
   },
   {
     label: "full tear-off siding replacement — in progress",
     alt: "Full tear-off siding replacement in progress on a residential home",
+    src: "/siding/2 siding/1.webp",
   },
   {
     label: "insulated siding — panel and foam backing detail",
     alt: "Close-up of insulated siding panel with rigid foam backing",
+    src: "/siding/4 siding/1.webp",
   },
   {
     label: "cedar shake siding — historic-style finish",
     alt: "Cedar shake siding installed in a historic-style finish",
+    src: "/siding/6 siding/1.webp",
   },
   {
     label: "storm-damaged siding repair — panel replacement",
     alt: "Repair of storm-damaged siding panels on a home exterior",
+    src: "/siding/7 siding/1.webp",
   },
   {
     label: "soffit and fascia — fresh trim work",
     alt: "Newly installed soffit and fascia trim along a roofline",
+    src: "/siding/10 siding/1.webp",
   },
   {
     label: "completed siding project — full exterior view",
@@ -781,74 +786,372 @@ export type ProjectFact = {
   value: string;
 };
 
+export type ProjectTrade = "roofing" | "decks" | "siding";
+
 export type ProjectCaseStudy = {
   slug: string;
+  trade: ProjectTrade;
   title: string;
   metaTitle: string;
   metaDescription: string;
   serviceLabel: string;
-  serviceHref: string;
-  location: string;
-  heroImgLabel: string;
-  heroAlt: string;
+  hubHref: string;
   facts: ProjectFact[];
-  summary: string;
-  bodyParagraphs: string[];
-  galleryImages: { label: string; alt: string }[];
-  review: Review;
+  aboutParagraphs: string[];
+  photos: { src: string; alt: string }[];
 };
 
-export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
+const TRADE_META: Record<
+  ProjectTrade,
   {
-    slug: "storm-damage-repair-bristol-pa",
-    title: "Storm Damage Roof Repair in Bristol, PA",
-    metaTitle: "Storm Damage Roof Repair — Bristol, PA | TopLine Exteriors",
+    hubHref: string;
+    serviceLabel: string;
+    aboutParagraphs: string[];
+    whyItems: WhyItem[];
+  }
+> = {
+  roofing: {
+    hubHref: "/roofing",
+    serviceLabel: "Roofing",
+    aboutParagraphs: [
+      "This roofing project was completed by our own crew — no subcontractors — for a homeowner in Bucks County, PA. Every job starts with a full roof inspection, so the scope of work reflects what the roof actually needs rather than a generic estimate.",
+      "We install GAF and CertainTeed roofing systems as manufacturer-certified installers, which keeps material warranties fully intact. That applies whether the job is a full tear-off replacement, a targeted repair, or a metal roofing install — the underlying process of inspecting, documenting, and installing to manufacturer specification stays the same.",
+      "TopLine Exteriors serves homeowners across Bucks County, Philadelphia, and South Jersey with roofing, deck, and siding work handled by the same in-house crew from start to finish.",
+    ],
+    whyItems: ROOFING_WHY_ITEMS,
+  },
+  decks: {
+    hubHref: "/decks",
+    serviceLabel: "Decks & Fencing",
+    aboutParagraphs: [
+      "This deck and fencing project was built by our own crew from the ground up for a homeowner in Bucks County, PA — framing, footings, decking, and railing all handled in-house. We design around how the space will actually be used before the first post ever goes in the ground.",
+      "Whether the material is composite, pressure-treated pine, cedar, or a hardwood like ipe, the fundamentals stay consistent: engineered framing and footings rated for real load, proper fastening, and finish work that holds up outdoors through every Pennsylvania and New Jersey season.",
+      "TopLine Exteriors builds decks, railing, and fencing for homeowners across Bucks County, Philadelphia, and South Jersey, alongside our roofing and siding work.",
+    ],
+    whyItems: DECKS_WHY_ITEMS,
+  },
+  siding: {
+    hubHref: "/siding",
+    serviceLabel: "Siding",
+    aboutParagraphs: [
+      "This siding project was installed by our own crew for a homeowner in Bucks County, PA, with attention to the details that determine how siding actually performs over time — proper flashing, moisture barriers, and manufacturer-specified fastening.",
+      "We work with vinyl, insulated, James Hardie fiber-cement, and wood siding, and every install — whether it's a full tear-off replacement or a targeted repair — follows the same underlying process: assess the existing wall assembly, address anything hidden underneath before it's covered up, then install to manufacturer specification.",
+      "TopLine Exteriors installs and repairs siding for homeowners across Bucks County, Philadelphia, and South Jersey, alongside our roofing and deck work.",
+    ],
+    whyItems: SIDING_WHY_ITEMS,
+  },
+};
+
+export function whyItemsForTrade(trade: ProjectTrade): WhyItem[] {
+  return TRADE_META[trade].whyItems;
+}
+
+function projectPhotos(folder: string, count: number, ext: string, alt: string) {
+  return Array.from({ length: count }, (_, i) => ({
+    src: `${folder}/${i + 1}.${ext}`,
+    alt: i === 0 ? alt : `${alt} — photo ${i + 1}`,
+  }));
+}
+
+export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
+  // ROOFING
+  {
+    slug: "full-tear-off-roof-replacement",
+    trade: "roofing",
+    title: "Full Tear-Off Roof Replacement",
+    metaTitle: "Full Tear-Off Roof Replacement | TopLine Exteriors",
     metaDescription:
-      "See how TopLine Exteriors repaired hail and wind damage on an asphalt shingle roof in Bristol, PA — full inspection, insurance claim support, and same-week repair.",
-    serviceLabel: "Roof Inspections & Storm Damage",
-    serviceHref: "/roofing#subservices",
-    location: "Bristol, PA",
-    heroImgLabel: "storm-damaged roof before repair — Bristol, PA",
-    heroAlt: "Storm-damaged asphalt shingle roof before repair in Bristol, PA",
+      "Photos from a full tear-off roof replacement completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Roofing",
+    hubHref: "/roofing",
     facts: [
-      { label: "Service", value: "Storm Damage Repair" },
-      { label: "Location", value: "Bristol, PA" },
-      { label: "Roof Type", value: "Asphalt Shingle" },
-      { label: "Timeline", value: "5 days, start to finish" },
-      { label: "Insurance Claim", value: "Yes — full adjuster coordination" },
+      { label: "Service", value: "Full Tear-Off Roof Replacement" },
+      { label: "Location", value: "Bucks County, PA" },
     ],
-    summary:
-      "After a spring hailstorm tore through Bucks County, this Bristol homeowner found dozens of cracked and missing shingles along with a soft spot near the chimney flashing. We handled the full inspection, documented the damage for their insurance adjuster, and completed the repair within a week of the initial call.",
-    bodyParagraphs: [
-      "The homeowner called us within a day of the storm after noticing granules collecting in their gutters and a stain forming on their living room ceiling. Our first step was a full roof inspection — walking the entire surface, checking every slope, and photographing every point of impact damage, not just the obvious ones near the leak.",
-      "We documented over 40 individual hail strikes across the south-facing slope, plus wind-lifted shingles along the ridge line and compromised flashing around the chimney — the actual source of the interior leak. That full photo report went directly to the homeowner's insurance adjuster, which is often the difference between a claim getting approved in full versus partially denied.",
-      "Once the claim was approved, we replaced the damaged shingles with matching GAF architectural shingles, re-flashed the chimney with new step flashing and counter-flashing, and sealed every penetration point. The whole repair — from first inspection to final walkthrough — was completed in five days, well ahead of the next forecasted rain.",
-      "This is the same process we run for every storm-damage call: full inspection first, complete documentation for the adjuster, then a repair that actually fixes the root cause instead of just patching the visible symptoms.",
+    aboutParagraphs: TRADE_META.roofing.aboutParagraphs,
+    photos: projectPhotos(
+      "/roofing/1",
+      7,
+      "jpg",
+      "Full tear-off roof replacement in progress in Bucks County, PA"
+    ),
+  },
+  {
+    slug: "standing-seam-metal-roof-install",
+    trade: "roofing",
+    title: "Standing-Seam Metal Roof Install",
+    metaTitle: "Standing-Seam Metal Roof Install | TopLine Exteriors",
+    metaDescription:
+      "Photos from a standing-seam metal roof installation completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Roofing",
+    hubHref: "/roofing",
+    facts: [
+      { label: "Service", value: "Standing-Seam Metal Roof Install" },
+      { label: "Location", value: "Bucks County, PA" },
     ],
-    galleryImages: [
-      {
-        label: "hail impact damage — close-up, south slope",
-        alt: "Close-up of hail impact damage on asphalt shingles in Bristol, PA",
-      },
-      {
-        label: "chimney flashing before repair",
-        alt: "Deteriorated chimney flashing before repair in Bristol, PA",
-      },
-      {
-        label: "shingle replacement in progress",
-        alt: "Crew replacing storm-damaged shingles in Bristol, PA",
-      },
-      {
-        label: "completed repair — south slope",
-        alt: "Completed storm damage roof repair in Bristol, PA",
-      },
+    aboutParagraphs: TRADE_META.roofing.aboutParagraphs,
+    photos: projectPhotos(
+      "/roofing/2",
+      9,
+      "jpg",
+      "Standing-seam metal roofing panels installed on a residential home"
+    ),
+  },
+
+  // DECKS
+  {
+    slug: "custom-composite-deck-build",
+    trade: "decks",
+    title: "Custom Composite Deck Build",
+    metaTitle: "Custom Composite Deck Build | TopLine Exteriors",
+    metaDescription:
+      "Photos from a custom composite deck build completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Decks & Fencing",
+    hubHref: "/decks",
+    facts: [
+      { label: "Service", value: "Composite Deck Build" },
+      { label: "Location", value: "Bucks County, PA" },
     ],
-    review: {
-      name: "Sandra K.",
-      meta: "Storm Damage — Bristol, PA",
-      stars: "★★★★★",
-      text: "Hail damage claim handled start to finish — they dealt with the adjuster directly and the new roof looks great.",
-    },
+    aboutParagraphs: TRADE_META.decks.aboutParagraphs,
+    photos: projectPhotos(
+      "/deck/1 deck",
+      1,
+      "webp",
+      "Finished custom composite deck build in Bucks County, PA"
+    ),
+  },
+  {
+    slug: "deck-framing-structural-build",
+    trade: "decks",
+    title: "Deck Framing & Structural Build",
+    metaTitle: "Deck Framing & Structural Build | TopLine Exteriors",
+    metaDescription:
+      "Photos from a deck framing and structural build completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Decks & Fencing",
+    hubHref: "/decks",
+    facts: [
+      { label: "Service", value: "Deck Framing & Structural Build" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.decks.aboutParagraphs,
+    photos: projectPhotos(
+      "/deck/2 deck",
+      2,
+      "webp",
+      "Deck framing and joist structure during construction"
+    ),
+  },
+  {
+    slug: "cable-railing-system-install",
+    trade: "decks",
+    title: "Cable Railing System Install",
+    metaTitle: "Cable Railing System Install | TopLine Exteriors",
+    metaDescription:
+      "Photos from a cable railing system installation completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Decks & Fencing",
+    hubHref: "/decks",
+    facts: [
+      { label: "Service", value: "Cable Railing System Install" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.decks.aboutParagraphs,
+    photos: projectPhotos(
+      "/deck/3 deck",
+      2,
+      "webp",
+      "Close-up of a cable railing system installed on a deck"
+    ),
+  },
+  {
+    slug: "wood-deck-restoration",
+    trade: "decks",
+    title: "Wood Deck Restoration",
+    metaTitle: "Wood Deck Restoration | TopLine Exteriors",
+    metaDescription:
+      "Photos from a wood deck restoration completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Decks & Fencing",
+    hubHref: "/decks",
+    facts: [
+      { label: "Service", value: "Wood Deck Restoration" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.decks.aboutParagraphs,
+    photos: projectPhotos(
+      "/deck/4 deck",
+      3,
+      "webp",
+      "Wood deck restoration in Bucks County, PA"
+    ),
+  },
+  {
+    slug: "privacy-fencing-install",
+    trade: "decks",
+    title: "Privacy Fencing Install",
+    metaTitle: "Privacy Fencing Install | TopLine Exteriors",
+    metaDescription:
+      "Photos from a privacy fencing installation completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Decks & Fencing",
+    hubHref: "/decks",
+    facts: [
+      { label: "Service", value: "Privacy Fencing Install" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.decks.aboutParagraphs,
+    photos: projectPhotos(
+      "/deck/5 deck",
+      4,
+      "webp",
+      "Newly installed wood privacy fencing along a property line"
+    ),
+  },
+  {
+    slug: "ipe-hardwood-decking",
+    trade: "decks",
+    title: "Ipe Hardwood Decking",
+    metaTitle: "Ipe Hardwood Decking | TopLine Exteriors",
+    metaDescription:
+      "Photos from an ipe hardwood decking project completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Decks & Fencing",
+    hubHref: "/decks",
+    facts: [
+      { label: "Service", value: "Ipe Hardwood Decking" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.decks.aboutParagraphs,
+    photos: projectPhotos(
+      "/deck/6 deck",
+      4,
+      "webp",
+      "Finished ipe hardwood decking surface detail"
+    ),
+  },
+
+  // SIDING
+  {
+    slug: "james-hardie-fiber-cement-siding",
+    trade: "siding",
+    title: "James Hardie Fiber-Cement Siding",
+    metaTitle: "James Hardie Fiber-Cement Siding | TopLine Exteriors",
+    metaDescription:
+      "Photos from a James Hardie fiber-cement siding install completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Siding",
+    hubHref: "/siding",
+    facts: [
+      { label: "Service", value: "James Hardie Fiber-Cement Siding" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.siding.aboutParagraphs,
+    photos: projectPhotos(
+      "/siding/1 siding",
+      4,
+      "webp",
+      "Finished James Hardie fiber-cement siding install in Bucks County, PA"
+    ),
+  },
+  {
+    slug: "full-tear-off-siding-replacement",
+    trade: "siding",
+    title: "Full Tear-Off Siding Replacement",
+    metaTitle: "Full Tear-Off Siding Replacement | TopLine Exteriors",
+    metaDescription:
+      "Photos from a full tear-off siding replacement completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Siding",
+    hubHref: "/siding",
+    facts: [
+      { label: "Service", value: "Full Tear-Off Siding Replacement" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.siding.aboutParagraphs,
+    photos: projectPhotos(
+      "/siding/2 siding",
+      3,
+      "webp",
+      "Full tear-off siding replacement in progress on a residential home"
+    ),
+  },
+  {
+    slug: "insulated-siding-install",
+    trade: "siding",
+    title: "Insulated Siding Install",
+    metaTitle: "Insulated Siding Install | TopLine Exteriors",
+    metaDescription:
+      "Photos from an insulated siding installation completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Siding",
+    hubHref: "/siding",
+    facts: [
+      { label: "Service", value: "Insulated Siding Install" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.siding.aboutParagraphs,
+    photos: projectPhotos(
+      "/siding/4 siding",
+      2,
+      "webp",
+      "Close-up of insulated siding panel with rigid foam backing"
+    ),
+  },
+  {
+    slug: "cedar-shake-siding",
+    trade: "siding",
+    title: "Cedar Shake Siding",
+    metaTitle: "Cedar Shake Siding | TopLine Exteriors",
+    metaDescription:
+      "Photos from a cedar shake siding project completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Siding",
+    hubHref: "/siding",
+    facts: [
+      { label: "Service", value: "Cedar Shake Siding" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.siding.aboutParagraphs,
+    photos: projectPhotos(
+      "/siding/6 siding",
+      2,
+      "webp",
+      "Cedar shake siding installed in a historic-style finish"
+    ),
+  },
+  {
+    slug: "storm-damaged-siding-repair",
+    trade: "siding",
+    title: "Storm-Damaged Siding Repair",
+    metaTitle: "Storm-Damaged Siding Repair | TopLine Exteriors",
+    metaDescription:
+      "Photos from a storm-damaged siding repair completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Siding",
+    hubHref: "/siding",
+    facts: [
+      { label: "Service", value: "Storm-Damaged Siding Repair" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.siding.aboutParagraphs,
+    photos: projectPhotos(
+      "/siding/7 siding",
+      4,
+      "webp",
+      "Repair of storm-damaged siding panels on a home exterior"
+    ),
+  },
+  {
+    slug: "soffit-and-fascia-trim",
+    trade: "siding",
+    title: "Soffit & Fascia Trim Work",
+    metaTitle: "Soffit & Fascia Trim Work | TopLine Exteriors",
+    metaDescription:
+      "Photos from soffit and fascia trim work completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+    serviceLabel: "Siding",
+    hubHref: "/siding",
+    facts: [
+      { label: "Service", value: "Soffit & Fascia Trim Work" },
+      { label: "Location", value: "Bucks County, PA" },
+    ],
+    aboutParagraphs: TRADE_META.siding.aboutParagraphs,
+    photos: projectPhotos(
+      "/siding/10 siding",
+      2,
+      "webp",
+      "Newly installed soffit and fascia trim along a roofline"
+    ),
   },
 ];
 
@@ -867,6 +1170,7 @@ export type ServiceDetail = {
   heroDek: string;
   heroImgLabel: string;
   heroAlt: string;
+  heroImgSrc?: string;
   introParagraphs: string[];
   quickFacts: { label: string; value: string }[];
   signsList: string[];
@@ -882,21 +1186,21 @@ export const ROOF_REPLACEMENT_SERVICE: ServiceDetail = {
   title: "Roof Replacement",
   metaTitle: "Roof Replacement in Bucks County, PA | TopLine Exteriors",
   metaDescription:
-    "Full tear-off roof replacement with GAF & CertainTeed systems in Bucks County, PA & South Jersey. Lifetime workmanship warranty. Get a free estimate today.",
+    "Full tear-off roof replacement with GAF & CertainTeed systems in Bucks County, PA & South Jersey. Backed by a workmanship warranty. Get a free estimate today.",
   eyebrow: "ROOFING · ROOF REPLACEMENT",
   heroDek:
-    "A full tear-off and replacement, built for real Pennsylvania and New Jersey winters — installed by our own crews, backed by a lifetime workmanship warranty.",
+    "A full tear-off and replacement, built for real Pennsylvania and New Jersey winters — installed by our own crews, backed by a workmanship warranty.",
   heroImgLabel: "completed roof replacement — full tear-off",
   heroAlt: "Completed full tear-off roof replacement in Bucks County, PA",
+  heroImgSrc: "/roofing/1/1.jpg",
   introParagraphs: [
     "A roof replacement is a full tear-off of your existing roofing system down to the decking, followed by a new installation from the ground up — new underlayment, flashing, and shingles or metal panels, installed to current code and manufacturer specification.",
     "It's a different job from a repair. A repair fixes a specific leak or damaged section; a replacement addresses the whole roof at once, which makes sense once a roof is past its expected lifespan, has widespread wear across multiple slopes, or has been damaged badly enough that patchwork repairs would only buy a year or two.",
     "We install GAF and CertainTeed shingle systems as manufacturer-certified installers, which means the material warranty stays fully intact — something that isn't guaranteed if a roof is installed by a non-certified contractor. Every replacement is also backed by our own workmanship warranty on top of that manufacturer coverage.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–2 days" },
     { label: "Materials", value: "GAF & CertainTeed" },
-    { label: "Warranty", value: "Lifetime workmanship" },
+    { label: "Warranty", value: "Workmanship warranty" },
     { label: "Permits", value: "Pulled for you" },
   ],
   signsList: [
@@ -911,7 +1215,7 @@ export const ROOF_REPLACEMENT_SERVICE: ServiceDetail = {
     {
       num: "01",
       title: "Inspection & Estimate",
-      desc: "We inspect the full roof and decking, then provide a written, fixed-price quote — usually within 48 hours.",
+      desc: "We inspect the full roof and decking, then provide a written, fixed-price quote.",
     },
     {
       num: "02",
@@ -950,7 +1254,7 @@ export const ROOF_REPLACEMENT_SERVICE: ServiceDetail = {
     },
     {
       q: "How long does a roof replacement take?",
-      a: "Most single-family roof replacements are completed in one to three days, weather permitting, with full cleanup the same day work finishes.",
+      a: "Timeline depends on the size and complexity of the roof — we'll walk you through the schedule for your specific project during the inspection, and clean up the site fully once work is finished.",
     },
     {
       q: "Will you handle the permit?",
@@ -976,14 +1280,13 @@ export const ROOF_REPAIR_SERVICE: ServiceDetail = {
     "Leaks, flashing failures, and storm-damaged shingles fixed fast — with a clear written scope before we start, not a replacement pitch you didn't ask for.",
   heroImgLabel: "roof repair — flashing and shingle replacement",
   heroAlt: "Roof repair in progress, replacing damaged flashing and shingles",
+  heroImgSrc: "/43_roof.webp",
   introParagraphs: [
     "A roof repair targets a specific problem — a leak, a section of damaged shingles, failed flashing around a chimney or vent — without touching the rest of a roof that's still doing its job. It's the right call when the damage is contained and the roof still has years of life left in it.",
     "Most repair calls we get in Bucks County and South Jersey come down to a handful of causes: ice damming after a hard winter, wind-lifted shingles after a storm, or flashing that was never sealed correctly around a penetration. We diagnose the actual cause first, not just patch the symptom, so the same leak doesn't come back six months later.",
     "If an inspection turns up wear that goes beyond what a repair can reasonably fix, we'll tell you that directly and explain why — we don't pad repair jobs and we don't push replacements that aren't needed yet.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "Same day–1 day" },
-    { label: "Response time", value: "Often within 48 hrs" },
     { label: "Scope", value: "Written before work starts" },
     { label: "Warranty", value: "Workmanship guaranteed" },
   ],
@@ -1038,7 +1341,7 @@ export const ROOF_REPAIR_SERVICE: ServiceDetail = {
     },
     {
       q: "How fast can you get someone out for an active leak?",
-      a: "We prioritize active leaks and can usually get a crew out within 48 hours across Bucks County and South Jersey, sooner after major storms permitting.",
+      a: "We prioritize active leaks and work to get a crew out as quickly as possible across Bucks County and South Jersey, especially after major storms.",
     },
     {
       q: "Will the repaired area match the rest of my roof?",
@@ -1064,13 +1367,13 @@ export const ASPHALT_SHINGLE_ROOFING_SERVICE: ServiceDetail = {
     "GAF and CertainTeed shingle systems installed to manufacturer spec, in a range of styles and colors built to handle Pennsylvania and New Jersey weather.",
   heroImgLabel: "architectural asphalt shingle roof — finished install",
   heroAlt: "Finished architectural asphalt shingle roof installation",
+  heroImgSrc: "/43_roof.webp",
   introParagraphs: [
     "Asphalt shingles are the most common roofing material in the region for good reason — they're durable, cost-effective, and available in styles that suit almost any home, from a straightforward 3-tab shingle to dimensional architectural shingles that mimic the look of slate or wood shake.",
     "As GAF and CertainTeed certified installers, we install these systems exactly to manufacturer specification — correct nailing pattern, proper ventilation, and the underlayment each manufacturer requires to honor its warranty. That certification matters because a shingle warranty can be voided by incorrect installation, even if the shingles themselves are defect-free.",
     "We work with homeowners across Levittown, Newtown, Doylestown, and the wider Bucks County and South Jersey area to pick a shingle line and color that fits both the home's style and the budget, then install it as a full system — not just shingles nailed to whatever was underneath before.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–2 days" },
     { label: "Materials", value: "GAF & CertainTeed" },
     { label: "Lifespan", value: "20–30+ years" },
     { label: "Warranty", value: "Manufacturer + workmanship" },
@@ -1152,13 +1455,13 @@ export const METAL_ROOFING_SERVICE: ServiceDetail = {
     "Standing-seam and metal shingle systems built for decades of service — better snow shedding, fire resistance, and long-term durability than asphalt.",
   heroImgLabel: "standing-seam metal roof — finished install",
   heroAlt: "Finished standing-seam metal roof installation",
+  heroImgSrc: "/roofing/2/1.jpg",
   introParagraphs: [
     "Metal roofing covers a range of systems — standing-seam panels with concealed fasteners, and metal shingles designed to mimic the look of slate or shake — all sharing the same core advantages over asphalt: a much longer service life, better performance in heavy snow, and strong resistance to wind, fire, and impact damage.",
     "It costs more upfront than asphalt shingles, which is the main reason more homes in Bucks County and South Jersey don't have it, but the lifespan difference is significant — a properly installed metal roof commonly lasts 40 to 70 years against 20 to 30 for asphalt, and most homeowners never need a second reroof.",
     "Installation quality matters even more with metal than asphalt — panel alignment, fastener spacing, and expansion allowance all affect how the roof performs over decades, not just years. We install standing-seam and metal shingle systems to manufacturer spec with crews trained specifically on metal, not asphalt crews doing metal occasionally.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "2–4 days" },
     { label: "Lifespan", value: "40–70 years" },
     { label: "Snow performance", value: "Sheds heavy snow well" },
     { label: "Warranty", value: "Manufacturer + workmanship" },
@@ -1240,13 +1543,13 @@ export const FLAT_LOW_SLOPE_ROOFING_SERVICE: ServiceDetail = {
     "Membrane roofing systems built specifically for flat and low-slope sections — additions, porch roofs, and garages that standard shingles aren't designed for.",
   heroImgLabel: "flat roof membrane — finished install",
   heroAlt: "Finished flat roof membrane installation on a home addition",
+  heroImgSrc: "/43_roof.webp",
   introParagraphs: [
     "Flat and low-slope roofs — generally anything under a 3:12 pitch — need a different roofing system than a standard pitched roof. Asphalt shingles rely on gravity and slope to shed water; on a flat or nearly flat surface, water sits instead of running off, which shingles aren't built to handle over time.",
     "We install membrane systems designed for this: fully adhered or mechanically fastened membranes that create a continuous, seamless waterproof layer rather than overlapping shingles. These are common on home additions, porch roofs, garages, and sections of larger homes with a modern flat-roof design element.",
     "Getting a flat roof right depends heavily on proper drainage design and correct membrane seaming — the most common flat roof failures we see on other contractors' work come down to ponding water and seam separation, both of which we address directly in how we design and install the system.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–3 days" },
     { label: "Best for", value: "Additions, porches, garages" },
     { label: "Materials", value: "Membrane systems" },
     { label: "Warranty", value: "Manufacturer + workmanship" },
@@ -1329,13 +1632,13 @@ export const ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE: ServiceDetail = {
     "Full inspection reports and insurance-ready storm damage documentation — we work directly with your adjuster from inspection through final sign-off.",
   heroImgLabel: "roof inspection — hail damage documentation",
   heroAlt: "Roof inspector documenting hail damage on residential shingles",
+  heroImgSrc: "/43_roof.webp",
   introParagraphs: [
     "A roof inspection is a full assessment of your roof's condition — shingle wear, flashing integrity, ventilation, and any storm damage — documented with photos and a written report. It's the starting point for almost every roofing decision, whether that's a simple repair, an insurance claim, or planning ahead for a future replacement.",
     "After hail or high wind, insurance-related storm damage inspections are their own category. Adjusters need clear, specific documentation to approve a claim, and homeowners without that documentation often get lowball offers or outright denials. We inspect specifically for what an adjuster looks for — hail bruising, granule loss patterns, and wind-lifted or creased shingles — and document it accordingly.",
     "We work directly with your insurance adjuster throughout the claims process across Bucks County, Philadelphia, and South Jersey, from the initial inspection through the final scope agreement, so you're not navigating that process alone.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "Same day report" },
     { label: "Insurance claims", value: "We work with adjusters" },
     { label: "Documentation", value: "Photos + written report" },
     { label: "Cost", value: "Free inspection" },
@@ -1404,13 +1707,13 @@ export const GUTTERS_GUTTER_GUARDS_SERVICE: ServiceDetail = {
     "Seamless gutters and gutter guards installed alongside your roofing project — or on their own — to keep water moving away from your home's foundation.",
   heroImgLabel: "seamless gutters — freshly installed",
   heroAlt: "Freshly installed seamless aluminum gutters on a home",
+  heroImgSrc: "/43_roof.webp",
   introParagraphs: [
     "Gutters do one job — move roof water away from your siding, foundation, and landscaping — but a lot can go wrong when they're undersized, poorly pitched, or clogged constantly. Seamless gutters, formed on-site to the exact length needed, eliminate the seam joints that are the most common failure point on sectional gutters.",
     "Gutter guards reduce how often gutters need to be cleaned by keeping leaves and debris out while still letting water through, which matters a lot on properties with mature trees — a common feature across Bucks County and South Jersey neighborhoods.",
     "We install gutters as part of a full roofing project or as a standalone job on a home whose gutters are failing independent of the roof itself, in aluminum sizes and colors matched to your home's trim.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1 day" },
     { label: "Material", value: "Seamless aluminum" },
     { label: "Add-on", value: "Gutter guards available" },
     { label: "Warranty", value: "Workmanship guaranteed" },
@@ -1492,13 +1795,13 @@ export const CUSTOM_DECK_CONSTRUCTION_SERVICE: ServiceDetail = {
     "Design and build from the ground up — layout, framing, decking, and finishing handled by our own crew, with permits pulled for you.",
   heroImgLabel: "custom composite deck — finished build",
   heroAlt: "Finished custom composite deck build in Bucks County, PA",
+  heroImgSrc: "/deck/1 deck/1.webp",
   introParagraphs: [
     "Custom deck construction means the whole project — from initial layout and footing placement through framing, decking, and railings — is designed for your specific yard and how you actually plan to use the space, rather than a stock size and shape.",
     "We handle it as one project with one crew: footings and framing engineered to hold real load, decking material selected to fit your budget and maintenance preference, and railings that match the deck's style. We also pull the required township permit and schedule inspections, which is required in most Bucks County and South Jersey municipalities for any elevated deck.",
     "Whether it's a simple ground-level platform or a multi-level deck with built-in seating, lighting, and a pergola, we design and build it as a single coordinated project rather than handing pieces off to different subcontractors.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–3 weeks" },
     { label: "Materials", value: "Composite or wood" },
     { label: "Permits", value: "Pulled for you" },
     { label: "Warranty", value: "Workmanship guaranteed" },
@@ -1580,13 +1883,13 @@ export const DECK_RESTORATION_REFINISHING_SERVICE: ServiceDetail = {
     "Board replacement, joist sistering, sanding, staining, and sealing — bringing an aging deck back to life instead of tearing it out and starting over.",
   heroImgLabel: "wood deck restoration — before and after",
   heroAlt: "Wood deck mid-restoration, sanded and ready for staining",
+  heroImgSrc: "/deck/4 deck/1.webp",
   introParagraphs: [
     "A deck that's structurally sound but showing its age — graying wood, splintering boards, a worn or peeling finish — is usually a restoration candidate rather than a full rebuild. Restoration replaces damaged boards, sisters weakened joists for extra support, and refinishes the surface to look and perform like new.",
     "We start with a structural check, because refinishing over a deck with hidden rot or a failing ledger board just delays a bigger problem. Once we confirm the frame is sound, we replace individual boards as needed, sand the deck surface, and apply a stain and sealer rated for real outdoor exposure across our Pennsylvania and New Jersey seasons.",
     "Restoration is typically a fraction of the cost of a full rebuild and can add years of life to a deck that's fundamentally solid — it's the right call more often than homeowners expect, and we'll tell you directly if your deck actually needs a rebuild instead.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–3 days" },
     { label: "Cost vs. rebuild", value: "Usually a fraction" },
     { label: "Includes", value: "Board repair, stain & seal" },
     { label: "Warranty", value: "Workmanship guaranteed" },
@@ -1668,13 +1971,13 @@ export const COMPOSITE_DECKING_SERVICE: ServiceDetail = {
     "Trex, TimberTech, and other low-maintenance composite systems built for Pennsylvania and New Jersey weather — no annual staining or sealing required.",
   heroImgLabel: "composite decking — finished surface detail",
   heroAlt: "Close-up of finished composite decking surface",
+  heroImgSrc: "/deck/1 deck/1.webp",
   introParagraphs: [
     "Composite decking is built from a blend of wood fiber and recycled plastic, engineered specifically to resist the rot, splintering, and fading that wood decking is prone to over time. It costs more upfront than pressure-treated lumber, but requires no annual staining or sealing — a meaningful trade-off for homeowners who want a deck without the yearly maintenance cycle.",
     "We install Trex and TimberTech systems, two of the most established composite brands, in a range of colors and grain patterns designed to resemble natural wood without the upkeep. Both offer strong warranties against fading, staining, and structural defects.",
     "Composite decking's performance depends heavily on correct installation — proper spacing for expansion, hidden fastener systems for a clean surface, and framing built to the manufacturer's specifications to keep the warranty valid. We install to manufacturer spec on every job across Bucks County and South Jersey.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "3–7 days" },
     { label: "Maintenance", value: "No annual staining" },
     { label: "Materials", value: "Trex & TimberTech" },
     { label: "Warranty", value: "25+ year manufacturer" },
@@ -1756,13 +2059,13 @@ export const WOOD_DECKING_SERVICE: ServiceDetail = {
     "Cedar, pressure-treated pine, and exotic hardwoods like ipe — installed and finished to last, with the natural look composite can't fully replicate.",
   heroImgLabel: "cedar wood decking — finished install",
   heroAlt: "Finished cedar wood decking installation on a home",
+  heroImgSrc: "/43_deck.webp",
   introParagraphs: [
     "Wood decking remains a popular choice for homeowners who want the natural grain and warmth composite decking imitates but doesn't fully replace — and it costs less upfront than most composite systems, though it requires more ongoing maintenance.",
     "We install pressure-treated pine, the most common and budget-friendly option; cedar, which naturally resists rot and insects with a warmer tone; and exotic hardwoods like ipe, a dense, extremely durable Brazilian hardwood favored for high-end builds that can last 25+ years with proper care.",
     "Whichever species you choose, correct installation — proper board spacing for drainage and expansion, quality fasteners, and a finish applied at the right time after installation — determines how well the deck actually holds up through Pennsylvania and New Jersey winters and summers.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "3–7 days" },
     { label: "Species options", value: "PT pine, cedar, ipe" },
     { label: "Maintenance", value: "Annual stain & seal" },
     { label: "Warranty", value: "Workmanship guaranteed" },
@@ -1844,13 +2147,13 @@ export const RAILINGS_GUARDRAILS_SERVICE: ServiceDetail = {
     "Cable, composite, wood, and metal railing systems built to code and matched to your deck's style — installed as a new build or a standalone upgrade.",
   heroImgLabel: "cable railing system — install detail",
   heroAlt: "Close-up of a cable railing system installed on a deck",
+  heroImgSrc: "/deck/3 deck/1.webp",
   introParagraphs: [
     "Railings and guardrails serve a safety-code function first — most townships in Bucks County and South Jersey require guardrails on any deck elevated above 30 inches, with specific requirements for height, baluster spacing, and load rating — but they're also one of the biggest visual elements of a deck's overall look.",
     "We install cable railing systems for an open, modern sightline; composite railings that match low-maintenance decking; traditional wood railings for a classic look; and metal railings for a more industrial or contemporary style. Each system is built to current code requirements, not just aesthetic preference.",
     "This is a common standalone upgrade too — plenty of homeowners replace failing or outdated wood railings on an otherwise sound deck without touching the decking itself, and we handle that as its own project just as often as we do it alongside a full deck build.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–2 days" },
     { label: "Materials", value: "Cable, wood, composite, metal" },
     { label: "Code compliance", value: "Built to current spec" },
     { label: "Warranty", value: "Workmanship guaranteed" },
@@ -1932,13 +2235,13 @@ export const FENCING_SERVICE: ServiceDetail = {
     "Wood, vinyl, and decorative fencing for privacy, pets, pools, and property-line marking — installed by the same crew that handles your deck.",
   heroImgLabel: "privacy fencing — freshly installed",
   heroAlt: "Newly installed wood privacy fencing along a property line",
+  heroImgSrc: "/deck/5 deck/1.webp",
   introParagraphs: [
     "Fencing covers a range of needs — full privacy fencing along a property line, a shorter decorative fence around a garden bed, secure fencing for pets or a pool, or a boundary fence marking where your property ends. Each has different height, material, and code considerations.",
     "We install wood fencing for a classic, customizable look; vinyl fencing for a low-maintenance option that won't rot or need repainting; and decorative fencing for smaller accent applications like garden borders. Pool fencing has additional code requirements around height and self-closing gates that we build to exactly.",
     "We handle fence layout, including confirming property lines and any township setback requirements, before installation begins — getting this wrong is one of the most common (and expensive) fencing mistakes homeowners run into with other contractors.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–3 days" },
     { label: "Materials", value: "Wood, vinyl, decorative" },
     { label: "Layout", value: "Property line verified" },
     { label: "Warranty", value: "Workmanship guaranteed" },
@@ -2020,13 +2323,13 @@ export const DECK_REPAIR_STRUCTURAL_REINFORCEMENT_SERVICE: ServiceDetail = {
     "Rotted board and joist replacement, ledger reattachment, and footing repair — for decks with real structural issues, not just cosmetic wear.",
   heroImgLabel: "deck structural repair — joist replacement",
   heroAlt: "Deck joist replacement during a structural repair project",
+  heroImgSrc: "/deck/2 deck/1.webp",
   introParagraphs: [
     "Structural deck repair addresses problems below the surface — rotted or undersized joists, a ledger board pulling away from the house, failing or heaving footings — that a cosmetic refinish won't fix and that pose a real safety risk if left alone. These are the failures behind most of the deck collapse incidents reported nationally.",
     "The ledger board attachment, where the deck connects to the house, is the single most common point of catastrophic failure on older decks, especially those built before current code required specific flashing and fastener spacing. We inspect this connection closely on every structural repair call.",
     "We assess the full structure — joists, beams, posts, footings, and the ledger connection — before recommending repairs, and we're direct about when a deck's structural problems are extensive enough that a rebuild is the safer and more cost-effective choice.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–3 days" },
     { label: "Focus", value: "Structural, not cosmetic" },
     { label: "Common fix", value: "Ledger, joist, footings" },
     { label: "Warranty", value: "Workmanship guaranteed" },
@@ -2108,13 +2411,13 @@ export const SIDING_REPLACEMENT_SERVICE: ServiceDetail = {
     "A full tear-off replacement of old, worn, or storm-damaged siding down to the sheathing — with a full inspection of what's underneath before anything new goes up.",
   heroImgLabel: "full tear-off siding replacement — in progress",
   heroAlt: "Full tear-off siding replacement in progress on a residential home",
+  heroImgSrc: "/siding/2 siding/1.webp",
   introParagraphs: [
     "A siding replacement is a full tear-off of your home's existing siding down to the sheathing, followed by inspection and repair of anything found underneath, then installation of a new siding system — vinyl, fiber-cement, insulated, or wood, depending on what you choose.",
     "We do a complete tear-off on every replacement rather than installing new siding over old. This matters because siding failure often hides water damage or rot in the sheathing behind it, and installing over that problem just seals it in rather than fixing it. A tear-off is the only way to actually inspect and address what's there.",
     "We work across Bucks County, Philadelphia, and South Jersey helping homeowners choose the right siding system for their budget, home style, and maintenance preference, then install it as a complete system — not just panels nailed to whatever condition the sheathing happens to be in.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "3–7 days" },
     { label: "Includes", value: "Full sheathing inspection" },
     { label: "Materials", value: "Vinyl, Hardie, wood" },
     { label: "Warranty", value: "Manufacturer + workmanship" },
@@ -2131,7 +2434,7 @@ export const SIDING_REPLACEMENT_SERVICE: ServiceDetail = {
     {
       num: "01",
       title: "Inspection & Estimate",
-      desc: "We assess the current siding and give a written, fixed-price quote, usually within 48 hours.",
+      desc: "We assess the current siding and give a written, fixed-price quote.",
     },
     {
       num: "02",
@@ -2196,13 +2499,13 @@ export const VINYL_SIDING_SERVICE: ServiceDetail = {
     "Budget-friendly, low-maintenance vinyl siding in a wide range of colors and profiles — no painting, no rot, and a straightforward install.",
   heroImgLabel: "vinyl siding — finished install",
   heroAlt: "Finished vinyl siding installation on a residential home",
+  heroImgSrc: "/43_siding.webp",
   introParagraphs: [
     "Vinyl siding remains the most common siding material for good reason — it's the most budget-friendly option, requires essentially no maintenance beyond occasional washing, never needs painting, and won't rot or attract wood-boring insects the way natural wood siding can.",
     "Modern vinyl siding has come a long way from older, thinner profiles — today's products offer thicker panels, more realistic wood-grain texturing, and a wider range of colors, including deeper tones that resist fading better than older vinyl formulations.",
     "We do a full tear-off before installing vinyl, inspecting and repairing the sheathing underneath, and install with proper nailing technique that allows the panels to expand and contract with temperature changes — a detail that affects how well vinyl performs over Pennsylvania and New Jersey's seasonal temperature swings.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "3–5 days" },
     { label: "Maintenance", value: "Minimal — occasional wash" },
     { label: "Cost", value: "Most budget-friendly option" },
     { label: "Warranty", value: "Manufacturer + workmanship" },
@@ -2284,13 +2587,13 @@ export const JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE: ServiceDetail = {
     "Certified installs of James Hardie's fire-, rot-, and pest-resistant fiber-cement systems — siding built to outlast vinyl by decades.",
   heroImgLabel: "James Hardie fiber-cement siding — finished install",
   heroAlt: "Finished James Hardie fiber-cement siding install in Bucks County, PA",
+  heroImgSrc: "/siding/1 siding/1.webp",
   introParagraphs: [
     "James Hardie fiber-cement siding is made from cement, sand, and cellulose fiber, engineered to resist the fire, rot, pest, and impact damage that both wood and vinyl siding are more vulnerable to. It holds paint significantly longer than wood, and won't warp, crack, or melt the way vinyl can under extreme heat.",
     "As James Hardie certified installers, we install their ColorPlus finished products and primed products to exact manufacturer specification — correct fastener spacing, proper flashing at joints, and specific gapping requirements that keep the product warranty intact. Hardie's warranty can be reduced or voided by incorrect installation, so certification matters here.",
     "It costs more upfront than vinyl, but for homeowners across Bucks County and South Jersey planning to stay in their home long-term, the combination of durability, curb appeal, and reduced repainting frequency makes it one of the strongest long-term value siding options available.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "5–7 days" },
     { label: "Certification", value: "James Hardie certified" },
     { label: "Resistance", value: "Fire, rot, pests, impact" },
     { label: "Warranty", value: "30-year limited (ColorPlus)" },
@@ -2372,13 +2675,13 @@ export const INSULATED_SIDING_SERVICE: ServiceDetail = {
     "Siding with a continuous rigid foam backing for better energy efficiency and a quieter home — noticeable comfort gains through PA & NJ winters.",
   heroImgLabel: "insulated siding — panel and foam backing detail",
   heroAlt: "Close-up of insulated siding panel with rigid foam backing",
+  heroImgSrc: "/siding/4 siding/1.webp",
   introParagraphs: [
     "Insulated siding is a siding panel with a layer of rigid foam permanently laminated to its back, unlike standard siding which is installed with a separate air gap or no insulation at all. That continuous foam layer reduces thermal bridging — the heat loss that happens through wall studs even in a well-insulated home.",
     "For homeowners across Bucks County and South Jersey, this typically translates to a noticeable comfort difference in rooms with exterior walls, especially during winter, along with some reduction in heating and cooling costs. It also adds a modest amount of sound dampening, which matters on homes near busier roads.",
     "We install insulated vinyl and insulated composite systems as either a full replacement or as an upgrade during a standard siding replacement, sized and installed to maintain proper wall assembly moisture management alongside the added insulation value.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "3–5 days" },
     { label: "Benefit", value: "Reduced thermal bridging" },
     { label: "Bonus", value: "Some sound dampening" },
     { label: "Warranty", value: "Manufacturer + workmanship" },
@@ -2460,13 +2763,13 @@ export const WOOD_CEDAR_SHAKE_SIDING_SERVICE: ServiceDetail = {
     "Classic and historic-style wood and cedar shake siding, installed and finished to last outdoors — the look many older Bucks County homes were built with.",
   heroImgLabel: "cedar shake siding — historic-style finish",
   heroAlt: "Cedar shake siding installed in a historic-style finish",
+  heroImgSrc: "/siding/6 siding/1.webp",
   introParagraphs: [
     "Wood and cedar shake siding gives a home a natural, textured look that vinyl and fiber-cement products can approximate but not fully replicate — which matters a lot on historic homes in Bucks County and older neighborhoods where matching the original material is often a priority, sometimes a requirement.",
     "Cedar shake in particular is naturally resistant to rot and insects due to the wood's natural oils, and weathers to an attractive silver-gray patina if left unfinished, or holds a stain well if a specific color is preferred. Traditional lap wood siding offers a similar natural look in a more classic clapboard profile.",
     "Wood siding requires more ongoing maintenance than vinyl or fiber-cement — periodic staining or sealing, and closer attention to moisture at joints and corners — but for homeowners restoring a historic property or specifically wanting that natural material, it remains the right choice.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "5–7 days" },
     { label: "Best for", value: "Historic & classic-style homes" },
     { label: "Maintenance", value: "Periodic stain & seal" },
     { label: "Warranty", value: "Workmanship guaranteed" },
@@ -2548,14 +2851,13 @@ export const SIDING_REPAIR_SERVICE: ServiceDetail = {
     "Targeted repair of cracked, loose, or storm-damaged panels — without a full replacement, when the rest of your siding is still doing its job.",
   heroImgLabel: "storm-damaged siding repair — panel replacement",
   heroAlt: "Repair of storm-damaged siding panels on a home exterior",
+  heroImgSrc: "/siding/7 siding/1.webp",
   introParagraphs: [
     "Siding repair addresses specific damage — a section cracked by hail, panels loosened by wind, a spot damaged by a falling branch — without requiring a full replacement of siding that's otherwise still performing well.",
     "Most repair calls we get across Bucks County and South Jersey are storm-related: high wind loosening or tearing off panels, or hail cracking and denting vinyl and aluminum siding. We match replacement panels to your existing siding as closely as possible, though some color variation is normal on older siding due to sun fading.",
     "If a repair inspection reveals damage more extensive than what's visible — water intrusion behind the siding, widespread cracking across multiple elevations — we'll tell you directly and explain whether a full replacement makes more sense than continuing to patch sections.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "Same day–1 day" },
-    { label: "Response time", value: "Often within 48 hrs" },
     { label: "Scope", value: "Written before work starts" },
     { label: "Warranty", value: "Workmanship guaranteed" },
   ],
@@ -2618,7 +2920,7 @@ export const SIDING_REPAIR_SERVICE: ServiceDetail = {
     },
     {
       q: "How fast can you repair storm-damaged siding?",
-      a: "We prioritize storm damage and can usually get a crew out within 48 hours across Bucks County and South Jersey, sooner after major storm events permitting.",
+      a: "We prioritize storm damage and work to get a crew out as quickly as possible across Bucks County and South Jersey, especially after major storm events.",
     },
   ],
 };
@@ -2636,13 +2938,13 @@ export const SOFFIT_FASCIA_TRIM_SERVICE: ServiceDetail = {
     "Soffit and fascia replacement and trim work, usually completed alongside your siding project — the finishing details that keep water and pests out of the roofline.",
   heroImgLabel: "soffit and fascia — finished install",
   heroAlt: "Freshly installed soffit and fascia along a home's roofline",
+  heroImgSrc: "/siding/10 siding/1.webp",
   introParagraphs: [
     "Soffit and fascia are the finishing pieces at your roofline — soffit covers the underside of the roof overhang and provides attic ventilation, while fascia is the vertical trim board that gutters attach to and that caps the roof edge. Both take direct weather exposure and are common points of rot and pest entry when damaged.",
     "We replace soffit and fascia most often as part of a siding project, since they're visually and functionally connected to the rest of the exterior, but it's also a common standalone repair when damage or wear is isolated to the roofline rather than the wall siding itself.",
     "Proper soffit ventilation actually matters beyond curb appeal — it's part of how your attic breathes, which affects moisture control and can extend your roof's lifespan by preventing trapped heat and humidity. We install vented soffit designed to work with your home's existing attic ventilation system.",
   ],
   quickFacts: [
-    { label: "Typical timeline", value: "1–2 days" },
     { label: "Often paired with", value: "Siding or roofing projects" },
     { label: "Function", value: "Attic ventilation + trim" },
     { label: "Warranty", value: "Workmanship guaranteed" },

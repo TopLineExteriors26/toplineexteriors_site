@@ -89,6 +89,35 @@ body {
   background: var(--color-accent);
 }
 
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 60%
+  );
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-shine::after {
+    transition: transform 0.65s ease;
+  }
+  .btn-shine:hover::after {
+    transform: translateX(120%);
+  }
+}
+
 .section-heading-rule.is-centered {
   margin-left: auto;
   margin-right: auto;

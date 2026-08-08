@@ -24,10 +24,13 @@ export function EstimateForm({
   const [service, setService] = useState<string>("roofing");
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const name = String(formData.get("name") ?? "").trim();
     const phone = String(formData.get("phone") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
@@ -54,18 +57,32 @@ export function EstimateForm({
       message,
     };
 
-    // TODO: wire to lead backend
-    console.log("Estimate form submission:", payload);
+    setSubmitting(true);
+    setSubmitError(false);
 
-    setSubmitted(true);
-    e.currentTarget.reset();
+    try {
+      const res = await fetch("https://formspree.io/f/moeajpql", {
+        method: "POST",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Form submission failed");
+
+      setSubmitted(true);
+      form.reset();
+    } catch {
+      setSubmitError(true);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const inputClasses =
     "w-full rounded-input border border-line bg-paper px-4 py-3.5 font-body text-sm text-text placeholder:text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
 
   return (
-    <div className="rounded-card border border-line border-l-[3px] border-l-accent p-6 sm:p-10">
+    <div className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper p-6 sm:p-10">
       {showServiceChips && (
         <>
           <div className="mb-3 font-body text-[13px] font-semibold text-muted">
@@ -97,7 +114,7 @@ export function EstimateForm({
       )}
 
       <form onSubmit={handleSubmit} noValidate>
-        <div className="mb-[18px] grid grid-cols-1 gap-[18px] md:grid-cols-2">
+        <div className="mb-[18px] grid grid-cols-1 gap-[18px]">
           <div>
             <label htmlFor="name" className="sr-only">
               Full name
@@ -184,14 +201,15 @@ export function EstimateForm({
           name="message"
           placeholder={projectPlaceholder}
           rows={4}
-          className={cn(inputClasses, "mb-[22px] resize-y")}
+          className={cn(inputClasses, "mb-[22px] resize-none")}
         />
 
         <button
           type="submit"
-          className="w-full rounded-pill bg-accent px-4 py-[18px] font-body text-[15px] font-bold text-white transition-[filter] duration-150 ease-out hover:brightness-95"
+          disabled={submitting}
+          className="w-full rounded-pill bg-accent px-4 py-[18px] font-body text-[15px] font-bold text-white transition-[filter] duration-150 ease-out hover:brightness-95 disabled:opacity-60"
         >
-          {submitLabel}
+          {submitting ? "Sending…" : submitLabel}
         </button>
 
         <p className="mt-4 text-center font-body text-xs leading-[1.6] text-muted">
@@ -206,6 +224,11 @@ export function EstimateForm({
         {submitted && (
           <p role="status" className="mt-4 text-center font-body text-sm font-semibold text-accent">
             Thanks! We&rsquo;ll be in touch shortly to schedule your free estimate.
+          </p>
+        )}
+        {submitError && (
+          <p role="alert" className="mt-4 text-center font-body text-sm font-semibold text-red-600">
+            Something went wrong. Please try again or call us directly.
           </p>
         )}
       </form>

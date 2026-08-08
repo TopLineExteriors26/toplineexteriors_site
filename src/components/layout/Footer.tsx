@@ -7,7 +7,6 @@ import {
   EMAIL,
   FOOTER_CITIES,
   HIC_LICENSE,
-  NJ_HIC_LICENSE,
   PHONE_DIGITS,
   PHONE_DISPLAY,
   SERVICE_AREA_BLURB,
@@ -154,12 +153,15 @@ export function Footer({ variant = "home" }: FooterProps) {
       <div className="border-t border-graphite-700">
         <Container className="flex flex-col flex-wrap items-center justify-between gap-3 py-6 text-center font-body text-xs text-graphite-300 sm:flex-row sm:text-left">
           <span>
-            © {year} {BUSINESS_LEGAL_NAME}. All rights reserved. {HIC_LICENSE}{" "}
-            · {NJ_HIC_LICENSE}.
+            © {year} {BUSINESS_LEGAL_NAME}. All rights reserved. {HIC_LICENSE}.
           </span>
           <span className="flex items-center gap-4">
             <Link href="/privacy" className="text-graphite-300 no-underline hover:text-brand-400">
               Privacy Policy
+            </Link>
+            <span aria-hidden="true">·</span>
+            <Link href="/terms" className="text-graphite-300 no-underline hover:text-brand-400">
+              Terms of Service
             </Link>
             <span aria-hidden="true">·</span>
             <span>{BUSINESS_NAME}</span>

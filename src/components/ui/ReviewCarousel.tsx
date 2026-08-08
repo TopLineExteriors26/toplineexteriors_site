@@ -6,7 +6,7 @@ import { cn } from "@/lib/cn";
 
 type ReviewCarouselProps = {
   reviews: Review[];
-  /** "slide": one card at a time, continuous (Home). "paginate": groups of 3 per page (hub pages). */
+  /** "slide": one card at a time, continuous (Home). "paginate": groups of 3 per page on desktop, one per page on mobile (hub pages). */
   mode: "slide" | "paginate";
   autoAdvanceMs?: number;
   /** "lg" gives the card more padding and bigger stars — used where a page shows a single, unpaginated set of 3 (hub pages). Defaults to the original size. */
@@ -48,7 +48,8 @@ function ReviewCard({ review, size = "default" }: { review: Review; size?: "defa
   );
 }
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE_DESKTOP = 3;
+const PAGE_SIZE_MOBILE = 1;
 
 export function ReviewCarousel({
   reviews,
@@ -56,18 +57,57 @@ export function ReviewCarousel({
   autoAdvanceMs,
   cardSize = "default",
 }: ReviewCarouselProps) {
+  const [pageSize, setPageSize] = useState(PAGE_SIZE_DESKTOP);
+
+  useEffect(() => {
+    if (mode !== "paginate") return;
+    const query = window.matchMedia("(min-width: 640px)");
+    const update = () => setPageSize(query.matches ? PAGE_SIZE_DESKTOP : PAGE_SIZE_MOBILE);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, [mode]);
+
   const pages =
     mode === "paginate"
-      ? Array.from({ length: Math.ceil(reviews.length / PAGE_SIZE) }, (_, i) =>
-          reviews.slice(i * PAGE_SIZE, i * PAGE_SIZE + PAGE_SIZE)
+      ? Array.from({ length: Math.ceil(reviews.length / pageSize) }, (_, i) =>
+          reviews.slice(i * pageSize, i * pageSize + pageSize)
         )
       : reviews.map((r) => [r]);
   const pageCount = pages.length;
   const [index, setIndex] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  useEffect(() => {
+    setIndex(0);
+  }, [pageSize]);
+
   const goPrev = () => setIndex((i) => (i + pageCount - 1) % pageCount);
   const goNext = () => setIndex((i) => (i + 1) % pageCount);
+
+  const [dragOffset, setDragOffset] = useState(0);
+  const dragState = useRef<{ startX: number; pointerId: number } | null>(null);
+  const SWIPE_THRESHOLD_PX = 40;
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragState.current = { startX: e.clientX, pointerId: e.pointerId };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragState.current || dragState.current.pointerId !== e.pointerId) return;
+    setDragOffset(e.clientX - dragState.current.startX);
+  };
+
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragState.current || dragState.current.pointerId !== e.pointerId) return;
+    const delta = e.clientX - dragState.current.startX;
+    dragState.current = null;
+    setDragOffset(0);
+    if (delta <= -SWIPE_THRESHOLD_PX) goNext();
+    else if (delta >= SWIPE_THRESHOLD_PX) goPrev();
+  };
 
   useEffect(() => {
     if (!autoAdvanceMs) return;
@@ -82,20 +122,23 @@ export function ReviewCarousel({
   return (
     <div>
       <div className="relative">
-        <div className="overflow-hidden">
+        <div
+          className="touch-pan-y overflow-hidden"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+        >
           <div
-            className={cn(
-              "flex",
-              mode === "slide" &&
-                "-mx-3.5 [--review-slide-width:100%] sm:[--review-slide-width:50%] xl:[--review-slide-width:33.333%]"
-            )}
+            className="-mx-3.5 flex"
             style={{
               transform:
                 mode === "slide"
-                  ? `translateX(calc(-${index} * var(--review-slide-width)))`
-                  : `translateX(-${index * 100}%)`,
-              transition:
-                mode === "paginate"
+                  ? `translateX(calc(-${index} * var(--review-slide-width) + ${dragOffset}px))`
+                  : `translateX(calc(-${index * 100}% + ${dragOffset}px))`,
+              transition: dragState.current
+                ? "none"
+                : mode === "paginate"
                   ? "transform .5s cubic-bezier(.65,0,.35,1)"
                   : "transform .4s ease",
             }}
@@ -104,20 +147,19 @@ export function ReviewCarousel({
               ? reviews.map((review) => (
                   <div
                     key={review.name + review.meta}
-                    className="box-border flex-none px-3.5"
+                    className="box-border flex-none px-3.5 [--review-slide-width:100%] sm:[--review-slide-width:50%] xl:[--review-slide-width:33.333%]"
                     style={{ width: "var(--review-slide-width)" }}
                   >
                     <ReviewCard review={review} size={cardSize} />
                   </div>
                 ))
               : pages.map((page, pageIdx) => (
-                  <div
-                    key={pageIdx}
-                    className="grid w-full flex-none grid-cols-1 gap-6 box-border sm:grid-cols-3"
-                  >
-                    {page.map((review) => (
-                      <ReviewCard key={review.name + review.meta} review={review} size={cardSize} />
-                    ))}
+                  <div key={pageIdx} className="box-border w-full flex-none px-3.5">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                      {page.map((review) => (
+                        <ReviewCard key={review.name + review.meta} review={review} size={cardSize} />
+                      ))}
+                    </div>
                   </div>
                 ))}
           </div>

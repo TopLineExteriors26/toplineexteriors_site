@@ -79,6 +79,7 @@ export type HubPageConfig = {
     body: string;
     primaryCtaLabel: string;
     secondaryCtaLabel: string;
+    heroImgSrc: string;
     heroImgLabel: string;
     heroAlt: string;
   };
@@ -98,8 +99,12 @@ export type HubPageConfig = {
   };
 
   gallery: {
+    eyebrow?: string;
     heading: React.ReactNode;
     images: GalleryImage[];
+    /** "grid" (default): 3x2 grid of up to 6 photos. "featured": a small
+     * curated set (1-2 photos) shown large instead of padded with placeholders. */
+    layout?: "grid" | "featured";
   };
 
   stats: Stat[];
@@ -128,16 +133,17 @@ export const ROOFING_HUB_CONFIG: HubPageConfig = {
   metadata: {
     title: "Roof Replacement & Repair in Bucks County, PA | TopLine Exteriors",
     description:
-      "GAF & CertainTeed certified roof replacement, repair, and storm damage claims in Bucks County, PA & South Jersey. Lifetime workmanship warranty. Get a free estimate.",
+      "GAF & CertainTeed certified roof replacement, repair, and storm damage claims in Bucks County, PA & South Jersey. Backed by a workmanship warranty. Get a free estimate.",
   },
   hero: {
     eyebrow: "ROOFING",
     heading: (
       <>Roofs built to outlast the seasons in Bucks County &amp; South Jersey.</>
     ),
-    body: "GAF and CertainTeed certified replacement, repair, and storm response — installed by our own crews, backed by a lifetime workmanship warranty.",
+    body: "GAF and CertainTeed certified replacement, repair, and storm response — installed by our own crews, backed by a workmanship warranty.",
     primaryCtaLabel: "Get a Free Roof Estimate",
     secondaryCtaLabel: "See Roofing Services",
+    heroImgSrc: "/43_roof.webp",
     heroImgLabel: "hero photo — finished roof replacement",
     heroAlt: "Finished roof replacement in Bucks County, PA",
   },
@@ -154,14 +160,16 @@ export const ROOFING_HUB_CONFIG: HubPageConfig = {
     hrefFor: (sub) => `/roofing/${ROOFING_SERVICE_SLUGS[sub.num]}`,
   },
   gallery: {
+    eyebrow: "FEATURED WORK",
     heading: (
-      <>Roofing projects from around Bucks County &amp; South Jersey.</>
+      <>Standout roofing projects from around Bucks County &amp; South Jersey.</>
     ),
     images: ROOFING_GALLERY,
+    layout: "featured",
   },
   stats: ROOFING_STATS,
   reviews: {
-    heading: "Roofing reviews — placeholder, swap before launch.",
+    heading: "Real feedback from roofing customers across the region.",
     items: ROOFING_REVIEWS,
   },
   faqs: {
@@ -189,9 +197,10 @@ export const SIDING_HUB_CONFIG: HubPageConfig = {
     heading: (
       <>Siding that locks out the weather in Bucks County &amp; South Jersey.</>
     ),
-    body: "Vinyl, insulated, James Hardie fiber-cement, and wood siding — full tear-off installs by our own crews, backed by a workmanship warranty.",
+    body: "Vinyl, insulated, James Hardie fiber-cement, and wood siding. Full tear-off installs by our own crews, backed by a workmanship warranty.",
     primaryCtaLabel: "Get a Free Siding Estimate",
     secondaryCtaLabel: "See Siding Services",
+    heroImgSrc: "/43_siding.webp",
     heroImgLabel: "hero photo — finished fiber-cement siding install",
     heroAlt: "Finished fiber-cement siding install in Bucks County, PA",
   },
@@ -213,7 +222,7 @@ export const SIDING_HUB_CONFIG: HubPageConfig = {
   },
   stats: SIDING_STATS,
   reviews: {
-    heading: "Siding reviews — placeholder, swap before launch.",
+    heading: "Real feedback from siding customers across the region.",
     items: SIDING_REVIEWS,
   },
   faqs: {
@@ -248,6 +257,7 @@ export const DECKS_HUB_CONFIG: HubPageConfig = {
     body: "Composite and wood decks, railings, and fencing designed and built by our own crews — permits handled, no subcontractors, backed by our workmanship warranty.",
     primaryCtaLabel: "Get a Free Deck Estimate",
     secondaryCtaLabel: "See Deck Services",
+    heroImgSrc: "/43_deck.webp",
     heroImgLabel: "hero photo — finished composite deck build",
     heroAlt: "Finished composite deck build in Bucks County, PA",
   },
@@ -274,7 +284,7 @@ export const DECKS_HUB_CONFIG: HubPageConfig = {
   },
   stats: DECKS_STATS,
   reviews: {
-    heading: "Deck & fence reviews — placeholder, swap before launch.",
+    heading: "Real feedback from deck & fence customers across the region.",
     items: DECKS_REVIEWS,
   },
   faqs: {

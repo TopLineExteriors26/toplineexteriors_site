@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -47,7 +48,7 @@ export function ServiceDetailPage({
               <p className="mb-[18px] font-body text-[13px] font-bold tracking-[.14em] text-accent">
                 {service.eyebrow}
               </p>
-              <h1 className="mb-5 font-head text-[32px] font-bold leading-[1.08] tracking-[.01em] text-text sm:text-[40px] md:text-[52px]">
+              <h1 className="mb-5 font-head text-[32px] font-bold leading-[1.08] tracking-[.01em] text-text sm:text-[40px] 2xl:text-[52px]">
                 {service.title} in Bucks County &amp; South Jersey
               </h1>
               <p className="mb-[30px] max-w-[500px] font-body text-[17px] leading-[1.6] text-muted">
@@ -59,7 +60,7 @@ export function ServiceDetailPage({
                 </Button>
                 <a
                   href={`tel:${PHONE_DIGITS}`}
-                  className="inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-pill border border-line bg-transparent px-7 py-4 font-body text-[15px] font-bold text-text no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="btn-shine inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-pill border border-line bg-transparent px-7 py-4 font-body text-[15px] font-bold text-text no-underline transition-[filter] duration-200 ease-out motion-safe:hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none">
                     <path
@@ -72,20 +73,33 @@ export function ServiceDetailPage({
                 </a>
               </div>
             </div>
-            <PlaceholderImage
-              label={service.heroImgLabel}
-              alt={service.heroAlt}
-            />
+            {service.heroImgSrc ? (
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-card border border-line">
+                <Image
+                  src={service.heroImgSrc}
+                  alt={service.heroAlt}
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 45vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <PlaceholderImage
+                label={service.heroImgLabel}
+                alt={service.heroAlt}
+              />
+            )}
           </Container>
         </section>
 
         {/* INTRO */}
         <section className="bg-paper" aria-labelledby="intro-heading">
-          <Container className="grid grid-cols-1 gap-12 pb-24 lg:grid-cols-[1fr_280px]">
+          <Container className="grid grid-cols-1 gap-12 pb-14 2xl:pb-24 lg:grid-cols-[1fr_280px]">
             <Reveal>
             <h2
               id="intro-heading"
-              className="font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[21px] font-bold uppercase leading-[1.12] text-text 2xl:text-[32px]"
             >
               What is {service.title.toLowerCase()}?
             </h2>
@@ -109,7 +123,7 @@ export function ServiceDetailPage({
               {service.quickFacts.map((fact) => (
                 <li
                   key={fact.label}
-                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper-2 px-5 py-4"
+                  className="rounded-card border border-line border-l-[3px] border-l-accent bg-paper px-5 py-4"
                 >
                   <p className="mb-1 font-body text-xs font-bold tracking-[.06em] text-muted">
                     {fact.label.toUpperCase()}
@@ -126,11 +140,11 @@ export function ServiceDetailPage({
         {/* SIGNS YOU NEED THIS */}
         <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="signs-heading">
           <div className="bg-alt rounded-[28px]">
-          <Container className="py-[88px]">
+          <Container className="py-12 2xl:py-[88px]">
             <Reveal>
             <h2
               id="signs-heading"
-              className="font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
+              className="font-head text-[21px] font-bold uppercase leading-[1.12] text-text bg-alt-heading 2xl:text-[32px]"
             >
               Signs you may need {service.title.toLowerCase()}
             </h2>
@@ -173,14 +187,14 @@ export function ServiceDetailPage({
 
         {/* PROCESS */}
         <section className="bg-paper" aria-labelledby="process-heading">
-          <Container className="py-24">
+          <Container className="py-14 2xl:py-24">
             <Reveal>
             <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
               HOW IT WORKS
             </p>
             <h2
               id="process-heading"
-              className="font-head text-[32px] font-bold uppercase text-text"
+              className="font-head text-[21px] font-bold uppercase leading-[1.12] text-text 2xl:text-[32px]"
             >
               Our {service.title.toLowerCase()} process.
             </h2>
@@ -211,14 +225,14 @@ export function ServiceDetailPage({
         {hasMaterials && (
           <section className="bg-paper px-4 py-4 sm:px-6" aria-labelledby="materials-heading">
             <div className="bg-alt rounded-[28px]">
-            <Container className="py-[88px]">
+            <Container className="py-12 2xl:py-[88px]">
               <Reveal>
               <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
                 MATERIALS WE INSTALL
               </p>
               <h2
                 id="materials-heading"
-                className="font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
+                className="font-head text-[21px] font-bold uppercase leading-[1.12] text-text bg-alt-heading 2xl:text-[32px]"
               >
                 Manufacturer-certified systems, not generic materials.
               </h2>
@@ -251,14 +265,14 @@ export function ServiceDetailPage({
 
         {/* FAQ */}
         <section id="faq" className="scroll-mt-20 bg-paper" aria-labelledby="faq-heading">
-          <Container narrow className="py-24">
+          <Container narrow className="py-14 2xl:py-24">
             <Reveal>
             <p className="mb-3 text-center font-body text-xs font-bold tracking-[.14em] text-accent">
               FAQ
             </p>
             <h2
               id="faq-heading"
-              className="text-center font-head text-[32px] font-bold uppercase text-text"
+              className="text-center font-head text-[21px] font-bold uppercase leading-[1.12] text-text 2xl:text-[32px]"
             >
               {service.title} questions.
             </h2>
@@ -274,7 +288,7 @@ export function ServiceDetailPage({
           aria-labelledby="related-heading"
         >
           <div className={hasMaterials ? undefined : "bg-alt rounded-[28px]"}>
-          <Container className="py-[88px]">
+          <Container className="py-12 2xl:py-[88px]">
             <Reveal>
             <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
               RELATED SERVICES
@@ -283,8 +297,8 @@ export function ServiceDetailPage({
               id="related-heading"
               className={
                 hasMaterials
-                  ? "font-head text-[32px] font-bold uppercase text-text"
-                  : "font-head text-[32px] font-bold uppercase text-text bg-alt-heading"
+                  ? "font-head text-[21px] font-bold uppercase leading-[1.12] text-text 2xl:text-[32px]"
+                  : "font-head text-[21px] font-bold uppercase leading-[1.12] text-text bg-alt-heading 2xl:text-[32px]"
               }
             >
               Other {service.hubLabel.toLowerCase()} services you may need.
@@ -319,20 +333,20 @@ export function ServiceDetailPage({
 
         {/* FINAL CTA */}
         <section className="bg-ink" aria-labelledby="cta-heading">
-          <Container className="py-24 text-center" maxWidthPx={700}>
+          <Container className="py-14 2xl:py-24 text-center" maxWidthPx={700}>
             <Reveal>
             <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
               GET STARTED
             </p>
             <h2
               id="cta-heading"
-              className="mb-4 font-head text-[32px] font-bold uppercase text-white"
+              className="mb-4 font-head text-[21px] font-bold uppercase leading-[1.12] text-white 2xl:text-[32px]"
             >
               Ready for your free {service.title.toLowerCase()} estimate?
             </h2>
             <p className="mb-8 font-body text-[17px] leading-[1.6] text-white/70">
               Tell us about your project on our {service.hubLabel.toLowerCase()} page and
-              we&rsquo;ll get back to you with a written quote — usually within 48 hours.
+              we&rsquo;ll get back to you with a written quote.
             </p>
             <Button href={`${service.hubHref}#estimate`} variant="primary">
               Get My Free Estimate

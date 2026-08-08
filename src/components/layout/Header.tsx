@@ -145,15 +145,18 @@ export function Header({ variant = "home" }: HeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 bg-white transition-[padding,background-color] duration-300 ease-out",
+        "top-0 z-40 w-full transition-[padding,background-color] duration-300 ease-out",
+        variant === "home" ? "fixed bg-transparent" : "sticky bg-white",
         isScrolledDesktop ? "xl:bg-transparent xl:px-4 xl:pt-3" : ""
       )}
     >
       <div
         className={cn(
-          "mx-auto flex w-full items-center justify-between gap-4 border border-transparent bg-white transition-[max-width,padding,border-radius,box-shadow] duration-300 ease-out",
-          "max-w-[1440px] rounded-full border-sand-200 px-6 py-2 shadow-nav sm:px-8 lg:px-10",
-          isScrolledDesktop && "xl:max-w-[1080px] xl:rounded-full xl:border-sand-200 xl:px-6 xl:py-1.5 xl:shadow-nav"
+          "mx-auto flex w-full items-center justify-between gap-4 border-b border-sand-200 bg-white px-5 py-3 shadow-nav transition-[max-width,padding,border-radius,border-color,box-shadow] duration-300 ease-out",
+          "sm:px-8 xl:rounded-full xl:border xl:border-sand-200 lg:px-10",
+          isScrolledDesktop
+            ? "xl:max-w-[1080px] xl:px-6 xl:py-1.5"
+            : "xl:max-w-[1440px] xl:px-6 xl:py-2"
         )}
       >
         <Logo />
@@ -196,16 +199,32 @@ export function Header({ variant = "home" }: HeaderProps) {
           })}
         </nav>
 
-        <div className="hidden flex-none items-center gap-4 xl:flex">
+        <div className="hidden flex-none items-center gap-6 xl:flex">
           <a
             href={`tel:${PHONE_DIGITS}`}
-            className="whitespace-nowrap text-[17px] font-bold text-graphite-900 no-underline"
+            className="group inline-flex items-center gap-2 whitespace-nowrap text-[17px] font-bold leading-none text-graphite-900 no-underline transition-colors duration-150 ease-out hover:text-brand-500"
           >
-            {PHONE_DISPLAY}
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+              className="block flex-none transition-transform duration-150 ease-out group-hover:rotate-12"
+            >
+              <path
+                d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.9 21 3 14.1 3 5.5c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1l-2.1 1.7Z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>{PHONE_DISPLAY}</span>
           </a>
           <Link
             href={ESTIMATE_HREF_BY_VARIANT[variant]}
-            className="whitespace-nowrap rounded-full bg-brand-500 px-6 py-3.5 text-[15px] font-bold text-white no-underline transition-colors duration-150 ease-out hover:bg-brand-600"
+            className="btn-shine whitespace-nowrap rounded-full bg-brand-500 px-6 py-3.5 text-[15px] font-bold text-white no-underline transition-colors duration-150 ease-out hover:bg-brand-600"
           >
             Free Estimate
           </Link>

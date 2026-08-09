@@ -19,7 +19,6 @@ export function ProjectPhotoCarousel({ photos }: ProjectPhotoCarouselProps) {
   const goNext = () => setIndex((i) => (i + 1) % count);
   const goPrev = () => setIndex((i) => (i + count - 1) % count);
 
-  const current = photos[index];
   const next = photos[(index + 1) % count];
   const showSecond = count > 1;
 
@@ -33,14 +32,20 @@ export function ProjectPhotoCarousel({ photos }: ProjectPhotoCarouselProps) {
         }
       >
         <div className="relative aspect-[4/3] overflow-hidden rounded-card border border-line">
-          <Image
-            src={current.src}
-            alt={current.alt}
-            fill
-            priority
-            sizes="(min-width: 640px) 55vw, 100vw"
-            className="object-cover"
-          />
+          {photos.map((photo, i) => (
+            <Image
+              key={photo.src}
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              priority={i === 0}
+              loading={i === 0 ? undefined : "eager"}
+              sizes="(min-width: 640px) 55vw, 100vw"
+              className={`object-cover transition-opacity duration-300 ease-out ${
+                i === index ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            />
+          ))}
         </div>
 
         {showSecond && (
@@ -50,7 +55,7 @@ export function ProjectPhotoCarousel({ photos }: ProjectPhotoCarouselProps) {
               alt={next.alt}
               fill
               sizes="35vw"
-              className="object-cover"
+              className="object-cover transition-opacity duration-300 ease-out"
             />
           </div>
         )}

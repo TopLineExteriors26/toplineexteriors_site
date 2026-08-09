@@ -350,8 +350,8 @@ export function HubPage({ config }: { config: HubPageConfig }) {
         {/* SERVICE AREA */}
         <section className="bg-paper" aria-labelledby="service-area-heading">
           <Container className="py-14 2xl:py-24">
-            <Reveal className="grid grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-14">
-            <div className="order-1 md:col-start-1 md:row-start-1">
+            <Reveal className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-center md:gap-14">
+            <div>
               <p className="mb-3 font-body text-xs font-bold tracking-[.14em] text-accent">
                 SERVICE AREA
               </p>
@@ -362,14 +362,22 @@ export function HubPage({ config }: { config: HubPageConfig }) {
                 Proudly serving Bucks County &amp; the greater region.
               </h2>
               <span className="section-heading-rule mb-5" aria-hidden="true" />
-              <p className="mb-6 max-w-[440px] font-body text-[15px] leading-[1.7] text-muted">
+              <p className="max-w-[440px] font-body text-[15px] leading-[1.7] text-muted">
                 From Levittown out through Bucks County, into Philadelphia,
                 and across the river into South Jersey — if it&rsquo;s on
                 this list, we&rsquo;re already working nearby.
               </p>
-            </div>
-            <div className="order-3 md:col-start-1 md:row-start-2">
-              <ul className="mb-8 flex flex-wrap gap-2.5 p-0">
+
+              <div className="relative mt-6 aspect-[4/3] overflow-hidden rounded-card border border-line md:hidden">
+                <iframe
+                  src="https://www.google.com/maps/d/embed?mid=1hn3phBKJz6D3u_o7lwTPpIFiSK75L30&ehbc=2E312F&z=9"
+                  title="TopLine Exteriors service area map"
+                  loading="lazy"
+                  className="pointer-events-none absolute left-1/2 top-1/2 h-[150%] w-[150%] -translate-x-1/2 -translate-y-1/2 border-0"
+                />
+              </div>
+
+              <ul className="mb-8 mt-6 flex flex-wrap gap-2.5 p-0">
                 {CITIES.map((city) => (
                   <li
                     key={city}
@@ -383,18 +391,12 @@ export function HubPage({ config }: { config: HubPageConfig }) {
                 Check If We Serve Your Area
               </Button>
             </div>
-            <div className="relative order-2 aspect-[4/3] overflow-hidden rounded-card border border-line md:order-none md:col-start-2 md:row-span-2 md:row-start-1 md:aspect-auto md:h-[600px]">
-              <iframe
-                src="https://www.google.com/maps/d/embed?mid=1hn3phBKJz6D3u_o7lwTPpIFiSK75L30&ehbc=2E312F&z=9"
-                title="TopLine Exteriors service area map"
-                loading="lazy"
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[150%] w-[150%] -translate-x-1/2 -translate-y-1/2 border-0 md:hidden"
-              />
+            <div className="relative hidden aspect-[4/3] overflow-hidden rounded-card border border-line md:block md:aspect-auto md:h-[600px]">
               <iframe
                 src="https://www.google.com/maps/d/embed?mid=1hn3phBKJz6D3u_o7lwTPpIFiSK75L30&ehbc=2E312F"
                 title="TopLine Exteriors service area map"
                 loading="lazy"
-                className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[150%] w-[150%] -translate-x-1/2 -translate-y-1/2 border-0 md:block"
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[150%] w-[150%] -translate-x-1/2 -translate-y-1/2 border-0"
               />
             </div>
             </Reveal>

@@ -47,4 +47,6 @@ next-env.d.ts
 /.worktrees
 *.md
 docs/*
-.claude/*
+
+.claude/
+*.md

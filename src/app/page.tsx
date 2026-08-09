@@ -93,7 +93,7 @@ export default function Home() {
                   <span className="font-head text-lg font-bold text-brand-400">
                     4.9★
                   </span>
-                  Rated on Google
+                  Average Rating
                 </div>
               </div>
             </div>

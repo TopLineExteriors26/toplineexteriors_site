@@ -104,9 +104,9 @@ export function HubPage({ config }: { config: HubPageConfig }) {
                   4.9★
                 </div>
                 <div className="font-body text-[13px] font-medium leading-[1.3] text-muted">
-                  Rated on
+                  Average
                   <br />
-                  Google
+                  Rating
                 </div>
               </div>
             </div>

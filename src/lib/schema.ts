@@ -24,8 +24,15 @@ export function localBusinessSchema(pageUrl: string) {
     areaServed,
     address: {
       "@type": "PostalAddress",
+      addressLocality: "Levittown",
       addressRegion: "PA",
+      postalCode: "19055",
       addressCountry: "US",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 40.1548,
+      longitude: -74.8288,
     },
   };
 }

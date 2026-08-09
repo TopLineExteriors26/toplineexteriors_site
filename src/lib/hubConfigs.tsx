@@ -131,7 +131,7 @@ export const ROOFING_HUB_CONFIG: HubPageConfig = {
   breadcrumbLabel: "Roofing",
   pageUrl: `${SITE_URL}/roofing`,
   metadata: {
-    title: "Roof Replacement & Repair in Bucks County, PA | TopLine Exteriors",
+    title: "Roof Replacement & Repair, Bucks County",
     description:
       "GAF & CertainTeed certified roof replacement, repair, and storm damage claims in Bucks County, PA & South Jersey. Backed by a workmanship warranty. Get a free estimate.",
   },
@@ -188,7 +188,7 @@ export const SIDING_HUB_CONFIG: HubPageConfig = {
   breadcrumbLabel: "Siding",
   pageUrl: `${SITE_URL}/siding`,
   metadata: {
-    title: "Siding Replacement & Repair in Bucks County, PA | TopLine Exteriors",
+    title: "Siding Replacement, Bucks County, PA",
     description:
       "Vinyl, James Hardie fiber-cement, insulated, and wood siding installed in Bucks County, PA & South Jersey. Full tear-off, storm repair. Get a free estimate.",
   },
@@ -241,8 +241,7 @@ export const DECKS_HUB_CONFIG: HubPageConfig = {
   breadcrumbLabel: "Decks",
   pageUrl: `${SITE_URL}/decks`,
   metadata: {
-    title:
-      "Custom Deck Building & Fencing in Bucks County, PA | TopLine Exteriors",
+    title: "Deck Building & Fencing, Bucks County",
     description:
       "Custom deck construction, restoration, composite & wood decking, railings, and fencing in Bucks County, PA & South Jersey. Licensed & insured. Get a free estimate.",
   },

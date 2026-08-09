@@ -139,7 +139,7 @@ export const SERVICES: ServiceCard[] = [
     title: "Roofing",
     href: "/roofing",
     imgLabel: "roof replacement — in progress",
-    imgSrc: "/roofing/2/1.jpg",
+    imgSrc: "/roofing/2/1.webp",
     desc: "Roof replacement, repair, and inspections built around real Pennsylvania winters.",
     bullets: [
       "GAF & CertainTeed certified systems",
@@ -248,7 +248,7 @@ export const PROJECTS: Project[] = [
   {
     label: "Full tear-off roof replacement",
     alt: "Full tear-off roof replacement in progress in Bucks County, PA",
-    src: "/roofing/1/1.jpg",
+    src: "/roofing/1/1.webp",
     href: "/projects/full-tear-off-roof-replacement",
     featured: true,
   },
@@ -456,12 +456,12 @@ export const ROOFING_GALLERY: GalleryImage[] = [
   {
     label: "full tear-off roof replacement",
     alt: "Full tear-off roof replacement in progress in Bucks County, PA",
-    src: "/roofing/1/1.jpg",
+    src: "/roofing/1/1.webp",
   },
   {
     label: "standing-seam metal roof install",
     alt: "Standing-seam metal roofing panels installed on a residential home",
-    src: "/roofing/2/1.jpg",
+    src: "/roofing/2/1.webp",
   },
 ];
 
@@ -859,20 +859,20 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "full-tear-off-roof-replacement",
     trade: "roofing",
     title: "Full Tear-Off Roof Replacement",
-    metaTitle: "Full Tear-Off Roof Replacement | TopLine Exteriors",
+    metaTitle: "Full Tear-Off Roof Replacement in Levittown, PA",
     metaDescription:
-      "Photos from a full tear-off roof replacement completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a full tear-off roof replacement completed by TopLine Exteriors in Levittown, PA — full project gallery and details.",
     serviceLabel: "Roofing",
     hubHref: "/roofing",
     facts: [
       { label: "Service", value: "Full Tear-Off Roof Replacement" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Levittown, PA" },
     ],
     aboutParagraphs: TRADE_META.roofing.aboutParagraphs,
     photos: projectPhotos(
       "/roofing/1",
       7,
-      "jpg",
+      "webp",
       "Full tear-off roof replacement in progress in Bucks County, PA"
     ),
   },
@@ -880,20 +880,20 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "standing-seam-metal-roof-install",
     trade: "roofing",
     title: "Standing-Seam Metal Roof Install",
-    metaTitle: "Standing-Seam Metal Roof Install | TopLine Exteriors",
+    metaTitle: "Standing-Seam Metal Roof Install in Doylestown, PA",
     metaDescription:
-      "Photos from a standing-seam metal roof installation completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a standing-seam metal roof installation completed by TopLine Exteriors in Doylestown, PA — full project gallery and details.",
     serviceLabel: "Roofing",
     hubHref: "/roofing",
     facts: [
       { label: "Service", value: "Standing-Seam Metal Roof Install" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Doylestown, PA" },
     ],
     aboutParagraphs: TRADE_META.roofing.aboutParagraphs,
     photos: projectPhotos(
       "/roofing/2",
       9,
-      "jpg",
+      "webp",
       "Standing-seam metal roofing panels installed on a residential home"
     ),
   },
@@ -903,14 +903,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "custom-composite-deck-build",
     trade: "decks",
     title: "Custom Composite Deck Build",
-    metaTitle: "Custom Composite Deck Build | TopLine Exteriors",
+    metaTitle: "Custom Composite Deck Build in Newtown, PA",
     metaDescription:
-      "Photos from a custom composite deck build completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a custom composite deck build completed by TopLine Exteriors in Newtown, PA — full project gallery and details.",
     serviceLabel: "Decks & Fencing",
     hubHref: "/decks",
     facts: [
       { label: "Service", value: "Composite Deck Build" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Newtown, PA" },
     ],
     aboutParagraphs: TRADE_META.decks.aboutParagraphs,
     photos: projectPhotos(
@@ -924,14 +924,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "deck-framing-structural-build",
     trade: "decks",
     title: "Deck Framing & Structural Build",
-    metaTitle: "Deck Framing & Structural Build | TopLine Exteriors",
+    metaTitle: "Deck Framing & Structural Build in Yardley, PA",
     metaDescription:
-      "Photos from a deck framing and structural build completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a deck framing and structural build completed by TopLine Exteriors in Yardley, PA — full project gallery and details.",
     serviceLabel: "Decks & Fencing",
     hubHref: "/decks",
     facts: [
       { label: "Service", value: "Deck Framing & Structural Build" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Yardley, PA" },
     ],
     aboutParagraphs: TRADE_META.decks.aboutParagraphs,
     photos: projectPhotos(
@@ -945,14 +945,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "cable-railing-system-install",
     trade: "decks",
     title: "Cable Railing System Install",
-    metaTitle: "Cable Railing System Install | TopLine Exteriors",
+    metaTitle: "Cable Railing System Install in Langhorne, PA",
     metaDescription:
-      "Photos from a cable railing system installation completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a cable railing system installation completed by TopLine Exteriors in Langhorne, PA — full project gallery and details.",
     serviceLabel: "Decks & Fencing",
     hubHref: "/decks",
     facts: [
       { label: "Service", value: "Cable Railing System Install" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Langhorne, PA" },
     ],
     aboutParagraphs: TRADE_META.decks.aboutParagraphs,
     photos: projectPhotos(
@@ -966,14 +966,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "wood-deck-restoration",
     trade: "decks",
     title: "Wood Deck Restoration",
-    metaTitle: "Wood Deck Restoration | TopLine Exteriors",
+    metaTitle: "Wood Deck Restoration in Bristol, PA",
     metaDescription:
-      "Photos from a wood deck restoration completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a wood deck restoration completed by TopLine Exteriors in Bristol, PA — full project gallery and details.",
     serviceLabel: "Decks & Fencing",
     hubHref: "/decks",
     facts: [
       { label: "Service", value: "Wood Deck Restoration" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Bristol, PA" },
     ],
     aboutParagraphs: TRADE_META.decks.aboutParagraphs,
     photos: projectPhotos(
@@ -987,14 +987,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "privacy-fencing-install",
     trade: "decks",
     title: "Privacy Fencing Install",
-    metaTitle: "Privacy Fencing Install | TopLine Exteriors",
+    metaTitle: "Privacy Fencing Install in Philadelphia, PA",
     metaDescription:
-      "Photos from a privacy fencing installation completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a privacy fencing installation completed by TopLine Exteriors in Philadelphia, PA — full project gallery and details.",
     serviceLabel: "Decks & Fencing",
     hubHref: "/decks",
     facts: [
       { label: "Service", value: "Privacy Fencing Install" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Philadelphia, PA" },
     ],
     aboutParagraphs: TRADE_META.decks.aboutParagraphs,
     photos: projectPhotos(
@@ -1008,14 +1008,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "ipe-hardwood-decking",
     trade: "decks",
     title: "Ipe Hardwood Decking",
-    metaTitle: "Ipe Hardwood Decking | TopLine Exteriors",
+    metaTitle: "Ipe Hardwood Decking in Cherry Hill, NJ",
     metaDescription:
-      "Photos from an ipe hardwood decking project completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from an ipe hardwood decking project completed by TopLine Exteriors in Cherry Hill, NJ — full project gallery and details.",
     serviceLabel: "Decks & Fencing",
     hubHref: "/decks",
     facts: [
       { label: "Service", value: "Ipe Hardwood Decking" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Cherry Hill, NJ" },
     ],
     aboutParagraphs: TRADE_META.decks.aboutParagraphs,
     photos: projectPhotos(
@@ -1031,14 +1031,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "james-hardie-fiber-cement-siding",
     trade: "siding",
     title: "James Hardie Fiber-Cement Siding",
-    metaTitle: "James Hardie Fiber-Cement Siding | TopLine Exteriors",
+    metaTitle: "James Hardie Fiber-Cement Siding in Doylestown, PA",
     metaDescription:
-      "Photos from a James Hardie fiber-cement siding install completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a James Hardie fiber-cement siding install completed by TopLine Exteriors in Doylestown, PA — full project gallery and details.",
     serviceLabel: "Siding",
     hubHref: "/siding",
     facts: [
       { label: "Service", value: "James Hardie Fiber-Cement Siding" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Doylestown, PA" },
     ],
     aboutParagraphs: TRADE_META.siding.aboutParagraphs,
     photos: projectPhotos(
@@ -1052,14 +1052,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "full-tear-off-siding-replacement",
     trade: "siding",
     title: "Full Tear-Off Siding Replacement",
-    metaTitle: "Full Tear-Off Siding Replacement | TopLine Exteriors",
+    metaTitle: "Full Tear-Off Siding Replacement in Levittown, PA",
     metaDescription:
-      "Photos from a full tear-off siding replacement completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a full tear-off siding replacement completed by TopLine Exteriors in Levittown, PA — full project gallery and details.",
     serviceLabel: "Siding",
     hubHref: "/siding",
     facts: [
       { label: "Service", value: "Full Tear-Off Siding Replacement" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Levittown, PA" },
     ],
     aboutParagraphs: TRADE_META.siding.aboutParagraphs,
     photos: projectPhotos(
@@ -1073,14 +1073,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "insulated-siding-install",
     trade: "siding",
     title: "Insulated Siding Install",
-    metaTitle: "Insulated Siding Install | TopLine Exteriors",
+    metaTitle: "Insulated Siding Install in Newtown, PA",
     metaDescription:
-      "Photos from an insulated siding installation completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from an insulated siding installation completed by TopLine Exteriors in Newtown, PA — full project gallery and details.",
     serviceLabel: "Siding",
     hubHref: "/siding",
     facts: [
       { label: "Service", value: "Insulated Siding Install" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Newtown, PA" },
     ],
     aboutParagraphs: TRADE_META.siding.aboutParagraphs,
     photos: projectPhotos(
@@ -1094,14 +1094,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "cedar-shake-siding",
     trade: "siding",
     title: "Cedar Shake Siding",
-    metaTitle: "Cedar Shake Siding | TopLine Exteriors",
+    metaTitle: "Cedar Shake Siding in Doylestown, PA",
     metaDescription:
-      "Photos from a cedar shake siding project completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a cedar shake siding project completed by TopLine Exteriors in Doylestown, PA — full project gallery and details.",
     serviceLabel: "Siding",
     hubHref: "/siding",
     facts: [
       { label: "Service", value: "Cedar Shake Siding" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Doylestown, PA" },
     ],
     aboutParagraphs: TRADE_META.siding.aboutParagraphs,
     photos: projectPhotos(
@@ -1115,14 +1115,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "storm-damaged-siding-repair",
     trade: "siding",
     title: "Storm-Damaged Siding Repair",
-    metaTitle: "Storm-Damaged Siding Repair | TopLine Exteriors",
+    metaTitle: "Storm-Damaged Siding Repair in Bristol, PA",
     metaDescription:
-      "Photos from a storm-damaged siding repair completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from a storm-damaged siding repair completed by TopLine Exteriors in Bristol, PA — full project gallery and details.",
     serviceLabel: "Siding",
     hubHref: "/siding",
     facts: [
       { label: "Service", value: "Storm-Damaged Siding Repair" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Bristol, PA" },
     ],
     aboutParagraphs: TRADE_META.siding.aboutParagraphs,
     photos: projectPhotos(
@@ -1136,14 +1136,14 @@ export const PROJECT_CASE_STUDIES: ProjectCaseStudy[] = [
     slug: "soffit-and-fascia-trim",
     trade: "siding",
     title: "Soffit & Fascia Trim Work",
-    metaTitle: "Soffit & Fascia Trim Work | TopLine Exteriors",
+    metaTitle: "Soffit & Fascia Trim Work in Trenton, NJ",
     metaDescription:
-      "Photos from soffit and fascia trim work completed by TopLine Exteriors in Bucks County, PA — full project gallery and details.",
+      "Photos from soffit and fascia trim work completed by TopLine Exteriors in Trenton, NJ — full project gallery and details.",
     serviceLabel: "Siding",
     hubHref: "/siding",
     facts: [
       { label: "Service", value: "Soffit & Fascia Trim Work" },
-      { label: "Location", value: "Bucks County, PA" },
+      { label: "Location", value: "Trenton, NJ" },
     ],
     aboutParagraphs: TRADE_META.siding.aboutParagraphs,
     photos: projectPhotos(
@@ -1184,7 +1184,7 @@ export const ROOF_REPLACEMENT_SERVICE: ServiceDetail = {
   hubHref: "/roofing",
   hubLabel: "Roofing",
   title: "Roof Replacement",
-  metaTitle: "Roof Replacement in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Roof Replacement in Bucks County, PA",
   metaDescription:
     "Full tear-off roof replacement with GAF & CertainTeed systems in Bucks County, PA & South Jersey. Backed by a workmanship warranty. Get a free estimate today.",
   eyebrow: "ROOFING · ROOF REPLACEMENT",
@@ -1192,7 +1192,7 @@ export const ROOF_REPLACEMENT_SERVICE: ServiceDetail = {
     "A full tear-off and replacement, built for real Pennsylvania and New Jersey winters — installed by our own crews, backed by a workmanship warranty.",
   heroImgLabel: "completed roof replacement — full tear-off",
   heroAlt: "Completed full tear-off roof replacement in Bucks County, PA",
-  heroImgSrc: "/roofing/1/1.jpg",
+  heroImgSrc: "/roofing/1/1.webp",
   introParagraphs: [
     "A roof replacement is a full tear-off of your existing roofing system down to the decking, followed by a new installation from the ground up — new underlayment, flashing, and shingles or metal panels, installed to current code and manufacturer specification.",
     "It's a different job from a repair. A repair fixes a specific leak or damaged section; a replacement addresses the whole roof at once, which makes sense once a roof is past its expected lifespan, has widespread wear across multiple slopes, or has been damaged badly enough that patchwork repairs would only buy a year or two.",
@@ -1272,7 +1272,7 @@ export const ROOF_REPAIR_SERVICE: ServiceDetail = {
   hubHref: "/roofing",
   hubLabel: "Roofing",
   title: "Roof Repair",
-  metaTitle: "Roof Repair in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Roof Repair in Bucks County, PA",
   metaDescription:
     "Fast, honest roof leak and shingle repair in Bucks County, PA & South Jersey. Written scope before we start, no unnecessary upsells. Get a free estimate today.",
   eyebrow: "ROOFING · ROOF REPAIR",
@@ -1359,7 +1359,7 @@ export const ASPHALT_SHINGLE_ROOFING_SERVICE: ServiceDetail = {
   hubHref: "/roofing",
   hubLabel: "Roofing",
   title: "Asphalt Shingle Roofing",
-  metaTitle: "Asphalt Shingle Roofing in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Asphalt Shingle Roofing in Bucks County, PA",
   metaDescription:
     "GAF & CertainTeed certified asphalt shingle roofing installation in Bucks County, PA & South Jersey. Architectural & 3-tab options. Get a free estimate today.",
   eyebrow: "ROOFING · ASPHALT SHINGLE ROOFING",
@@ -1447,7 +1447,7 @@ export const METAL_ROOFING_SERVICE: ServiceDetail = {
   hubHref: "/roofing",
   hubLabel: "Roofing",
   title: "Metal Roofing",
-  metaTitle: "Metal Roofing in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Metal Roofing in Bucks County, PA",
   metaDescription:
     "Standing-seam & metal shingle roofing installation in Bucks County, PA & South Jersey. Built for long-term durability and snow shedding. Get a free estimate.",
   eyebrow: "ROOFING · METAL ROOFING",
@@ -1455,7 +1455,7 @@ export const METAL_ROOFING_SERVICE: ServiceDetail = {
     "Standing-seam and metal shingle systems built for decades of service — better snow shedding, fire resistance, and long-term durability than asphalt.",
   heroImgLabel: "standing-seam metal roof — finished install",
   heroAlt: "Finished standing-seam metal roof installation",
-  heroImgSrc: "/roofing/2/1.jpg",
+  heroImgSrc: "/roofing/2/1.webp",
   introParagraphs: [
     "Metal roofing covers a range of systems — standing-seam panels with concealed fasteners, and metal shingles designed to mimic the look of slate or shake — all sharing the same core advantages over asphalt: a much longer service life, better performance in heavy snow, and strong resistance to wind, fire, and impact damage.",
     "It costs more upfront than asphalt shingles, which is the main reason more homes in Bucks County and South Jersey don't have it, but the lifespan difference is significant — a properly installed metal roof commonly lasts 40 to 70 years against 20 to 30 for asphalt, and most homeowners never need a second reroof.",
@@ -1535,7 +1535,7 @@ export const FLAT_LOW_SLOPE_ROOFING_SERVICE: ServiceDetail = {
   hubHref: "/roofing",
   hubLabel: "Roofing",
   title: "Flat / Low-Slope Roofing",
-  metaTitle: "Flat & Low-Slope Roofing in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Flat & Low-Slope Roofing in Bucks County, PA",
   metaDescription:
     "Membrane roofing systems for flat and low-slope roofs in Bucks County, PA & South Jersey — additions, porches, garages. Get a free estimate today.",
   eyebrow: "ROOFING · FLAT / LOW-SLOPE ROOFING",
@@ -1624,7 +1624,7 @@ export const ROOF_INSPECTIONS_STORM_DAMAGE_SERVICE: ServiceDetail = {
   hubLabel: "Roofing",
   title: "Roof Inspections & Storm Damage",
   metaTitle:
-    "Roof Inspections & Storm Damage Claims in Bucks County, PA | TopLine Exteriors",
+    "Roof Inspections & Storm Damage Claims in Bucks County, PA",
   metaDescription:
     "Full roof inspections and insurance-ready storm damage documentation in Bucks County, PA & South Jersey. We work directly with your adjuster. Free estimate.",
   eyebrow: "ROOFING · INSPECTIONS & STORM DAMAGE",
@@ -1699,7 +1699,7 @@ export const GUTTERS_GUTTER_GUARDS_SERVICE: ServiceDetail = {
   hubHref: "/roofing",
   hubLabel: "Roofing",
   title: "Gutters & Gutter Guards",
-  metaTitle: "Gutter Installation & Guards in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Gutter Installation & Guards in Bucks County, PA",
   metaDescription:
     "Seamless gutter and gutter guard installation in Bucks County, PA & South Jersey, alongside your roofing project or as a standalone job. Free estimate.",
   eyebrow: "ROOFING · GUTTERS & GUTTER GUARDS",
@@ -1787,7 +1787,7 @@ export const CUSTOM_DECK_CONSTRUCTION_SERVICE: ServiceDetail = {
   hubHref: "/decks",
   hubLabel: "Decks",
   title: "Custom Deck Construction",
-  metaTitle: "Custom Deck Building in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Custom Deck Building in Bucks County, PA",
   metaDescription:
     "Custom deck design and construction in Bucks County, PA & South Jersey — layout, framing, decking, and railings by one crew. Get a free estimate today.",
   eyebrow: "DECKS · CUSTOM DECK CONSTRUCTION",
@@ -1875,7 +1875,7 @@ export const DECK_RESTORATION_REFINISHING_SERVICE: ServiceDetail = {
   hubHref: "/decks",
   hubLabel: "Decks",
   title: "Deck Restoration & Refinishing",
-  metaTitle: "Deck Restoration & Refinishing in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Deck Restoration & Refinishing in Bucks County, PA",
   metaDescription:
     "Deck restoration, board replacement, sanding, staining, and sealing in Bucks County, PA & South Jersey. Bring an aging deck back to life. Free estimate.",
   eyebrow: "DECKS · DECK RESTORATION & REFINISHING",
@@ -1963,7 +1963,7 @@ export const COMPOSITE_DECKING_SERVICE: ServiceDetail = {
   hubHref: "/decks",
   hubLabel: "Decks",
   title: "Composite Decking",
-  metaTitle: "Composite Decking Installation in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Composite Decking Installation in Bucks County, PA",
   metaDescription:
     "Trex & TimberTech composite decking installation in Bucks County, PA & South Jersey. Low-maintenance, built for real weather. Get a free estimate today.",
   eyebrow: "DECKS · COMPOSITE DECKING",
@@ -2051,7 +2051,7 @@ export const WOOD_DECKING_SERVICE: ServiceDetail = {
   hubHref: "/decks",
   hubLabel: "Decks",
   title: "Wood Decking",
-  metaTitle: "Wood Decking Installation in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Wood Decking Installation in Bucks County, PA",
   metaDescription:
     "Cedar, pressure-treated, and hardwood decking installation in Bucks County, PA & South Jersey. Installed and finished to last. Get a free estimate today.",
   eyebrow: "DECKS · WOOD DECKING",
@@ -2139,7 +2139,7 @@ export const RAILINGS_GUARDRAILS_SERVICE: ServiceDetail = {
   hubHref: "/decks",
   hubLabel: "Decks",
   title: "Railings & Guardrails",
-  metaTitle: "Deck Railings & Guardrails in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Deck Railings & Guardrails in Bucks County, PA",
   metaDescription:
     "Cable, composite, wood & metal deck railing installation in Bucks County, PA & South Jersey, built to code. Get a free estimate today.",
   eyebrow: "DECKS · RAILINGS & GUARDRAILS",
@@ -2227,7 +2227,7 @@ export const FENCING_SERVICE: ServiceDetail = {
   hubHref: "/decks",
   hubLabel: "Decks",
   title: "Fencing",
-  metaTitle: "Fence Installation in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Fence Installation in Bucks County, PA",
   metaDescription:
     "Wood, vinyl & decorative fence installation in Bucks County, PA & South Jersey — privacy, pet, pool & property-line fencing. Get a free estimate today.",
   eyebrow: "DECKS · FENCING",
@@ -2315,7 +2315,7 @@ export const DECK_REPAIR_STRUCTURAL_REINFORCEMENT_SERVICE: ServiceDetail = {
   hubHref: "/decks",
   hubLabel: "Decks",
   title: "Deck Repair & Structural Reinforcement",
-  metaTitle: "Deck Repair & Structural Reinforcement in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Deck Repair & Structural Reinforcement in Bucks County, PA",
   metaDescription:
     "Rotted board, joist, ledger & footing repair in Bucks County, PA & South Jersey. Real structural deck repairs, not just cosmetic fixes. Free estimate.",
   eyebrow: "DECKS · DECK REPAIR & STRUCTURAL REINFORCEMENT",
@@ -2403,7 +2403,7 @@ export const SIDING_REPLACEMENT_SERVICE: ServiceDetail = {
   hubHref: "/siding",
   hubLabel: "Siding",
   title: "Siding Replacement",
-  metaTitle: "Siding Replacement in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Siding Replacement in Bucks County, PA",
   metaDescription:
     "Full tear-off siding replacement in Bucks County, PA & South Jersey. Vinyl, fiber-cement, and wood options. Full sheathing inspection included. Free estimate.",
   eyebrow: "SIDING · SIDING REPLACEMENT",
@@ -2491,7 +2491,7 @@ export const VINYL_SIDING_SERVICE: ServiceDetail = {
   hubHref: "/siding",
   hubLabel: "Siding",
   title: "Vinyl Siding",
-  metaTitle: "Vinyl Siding Installation in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Vinyl Siding Installation in Bucks County, PA",
   metaDescription:
     "Budget-friendly, low-maintenance vinyl siding installation in Bucks County, PA & South Jersey. Wide range of colors and profiles. Free estimate today.",
   eyebrow: "SIDING · VINYL SIDING",
@@ -2579,7 +2579,7 @@ export const JAMES_HARDIE_FIBER_CEMENT_SIDING_SERVICE: ServiceDetail = {
   hubHref: "/siding",
   hubLabel: "Siding",
   title: "James Hardie Fiber-Cement Siding",
-  metaTitle: "James Hardie Fiber-Cement Siding in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "James Hardie Fiber-Cement Siding in Bucks County, PA",
   metaDescription:
     "Certified James Hardie fiber-cement siding installation in Bucks County, PA & South Jersey. Fire-, rot- & pest-resistant. Get a free estimate today.",
   eyebrow: "SIDING · JAMES HARDIE FIBER-CEMENT SIDING",
@@ -2667,7 +2667,7 @@ export const INSULATED_SIDING_SERVICE: ServiceDetail = {
   hubHref: "/siding",
   hubLabel: "Siding",
   title: "Insulated Siding",
-  metaTitle: "Insulated Siding Installation in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Insulated Siding Installation in Bucks County, PA",
   metaDescription:
     "Insulated siding with rigid foam backing installed in Bucks County, PA & South Jersey. Better energy efficiency, quieter home. Get a free estimate today.",
   eyebrow: "SIDING · INSULATED SIDING",
@@ -2755,7 +2755,7 @@ export const WOOD_CEDAR_SHAKE_SIDING_SERVICE: ServiceDetail = {
   hubHref: "/siding",
   hubLabel: "Siding",
   title: "Wood & Cedar Shake Siding",
-  metaTitle: "Wood & Cedar Shake Siding in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Wood & Cedar Shake Siding in Bucks County, PA",
   metaDescription:
     "Classic wood & cedar shake siding installation in Bucks County, PA & South Jersey. Historic-style finishes, installed to last. Get a free estimate today.",
   eyebrow: "SIDING · WOOD & CEDAR SHAKE SIDING",
@@ -2843,7 +2843,7 @@ export const SIDING_REPAIR_SERVICE: ServiceDetail = {
   hubHref: "/siding",
   hubLabel: "Siding",
   title: "Siding Repair",
-  metaTitle: "Siding Repair in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Siding Repair in Bucks County, PA",
   metaDescription:
     "Fast siding repair for cracked, loose & storm-damaged panels in Bucks County, PA & South Jersey. No full replacement needed. Get a free estimate today.",
   eyebrow: "SIDING · SIDING REPAIR",
@@ -2930,7 +2930,7 @@ export const SOFFIT_FASCIA_TRIM_SERVICE: ServiceDetail = {
   hubHref: "/siding",
   hubLabel: "Siding",
   title: "Soffit, Fascia & Trim",
-  metaTitle: "Soffit, Fascia & Trim Installation in Bucks County, PA | TopLine Exteriors",
+  metaTitle: "Soffit, Fascia & Trim Installation in Bucks County, PA",
   metaDescription:
     "Soffit, fascia & trim replacement in Bucks County, PA & South Jersey, alongside your siding project or as a standalone job. Get a free estimate today.",
   eyebrow: "SIDING · SOFFIT, FASCIA & TRIM",
